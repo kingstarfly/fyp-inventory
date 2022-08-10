@@ -14,11 +14,62 @@ generator client {
 model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
-  name  String?
+  passwordHash String
+  salt String
+  resetToken String?
+  resetTokenExpireAt DateTime?
+  firstName  String?
+  lastName String?
+  createdAt DateTime @default(now())
+
+  loans Loan[]
 }
 
 model Item {
   id    Int     @id @default(autoincrement())
-  name  String  @unique
-  price Int     @default(0)
+  name  String
+  category String // Either "Inventory" or "Asset".
+  description String?
+  storageLocation StorageLocation?
+}
+
+model ItemStatus {
+  id   Int     @id @default(autoincrement())
+  status String //  “Available for loan”, “On loan”, “In-use”, “Under repair” or “Deprecated”.
+  loan Loan?
+}
+
+model Loan {
+  id    Int     @id @default(autoincrement())
+  loanedAt DateTime @default(now())
+  expectedReturnAt DateTime
+  returnedAt DateTime?
+  remarks String?
+
+  user User @relation(fields: [userId], references: [id])
+  userId Int @unique
+
+  loanHistory LoanHistory @relation(fields: [loanHistoryId], references: [id])
+  loanHistoryId Int @unique
+
+  itemStatus ItemStatus @relation(fields: [itemStatusId], references: [id])
+  itemStatusId Int @unique
+}
+
+model LoanHistory {
+  id   Int     @id @default(autoincrement())
+
+  loans Loan[]
+  loanId Int @unique
+}
+
+model StorageLocation {
+  id   Int     @id @default(autoincrement())
+  block String
+  floorSection String?
+  room String?
+  subIndex String?
+
+  item Item @relation(fields: [itemId], references: [id])
+  itemId Int @unique
 }
