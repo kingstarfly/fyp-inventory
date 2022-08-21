@@ -13,15 +13,26 @@
     ]
   },
   "dependencies": {
+    "@emotion/react": "^11.10.0",
+    "@mantine/core": "^5.2.0",
+    "@mantine/dates": "^5.2.0",
+    "@mantine/form": "^5.2.0",
+    "@mantine/hooks": "^5.2.0",
+    "@mantine/modals": "^5.2.0",
+    "@mantine/notifications": "^5.2.0",
     "@redwoodjs/auth": "2.2.0",
     "@redwoodjs/forms": "2.2.0",
     "@redwoodjs/router": "2.2.0",
     "@redwoodjs/web": "2.2.0",
+    "@tanstack/react-table": "^8.5.11",
+    "dayjs": "^1.11.5",
     "prop-types": "15.8.1",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-virtual": "^2.10.4"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.4.0",
     "autoprefixer": "^10.4.8",
     "postcss": "^8.4.16",
     "postcss-loader": "^7.0.1",
