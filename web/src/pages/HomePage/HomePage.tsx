@@ -34,6 +34,7 @@ const HomePage = () => {
         {
           id: 'item',
           cell: (details) => (
+            // <p>Item</p>
             <InventoryRowItemDetails {...details.getValue()} />
           ),
           header: () => <span>Item</span>,
@@ -42,6 +43,7 @@ const HomePage = () => {
       columnHelper.accessor('quantity', {
         cell: (info) => info.getValue(),
         header: () => <span>Quantity</span>,
+        size: 30,
       }),
     ],
     []
@@ -81,9 +83,9 @@ const HomePage = () => {
     <>
       <MetaTags title="Home" description="Home page" />
 
-      <div className="p-6">
-        <div ref={tableContainerRef} className="h-64 overflow-auto">
-          <table className="w-full border-collapse table-fixed border-spacing-0">
+      <div className="flex flex-col p-6">
+        <div ref={tableContainerRef} className="h-[60vh] overflow-auto">
+          <table className="relative w-full border-collapse border-none table-fixed">
             <thead className="border-b-2 border-gray-100">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
@@ -93,7 +95,7 @@ const HomePage = () => {
                         key={header.id}
                         colSpan={header.colSpan}
                         style={{ width: header.getSize() }}
-                        className="sticky top-0 text-left bg-white"
+                        className="pb-4 text-left "
                       >
                         {header.isPlaceholder ? null : (
                           <div

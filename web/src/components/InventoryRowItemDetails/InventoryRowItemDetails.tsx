@@ -1,3 +1,4 @@
+import { Image } from '@mantine/core'
 import { InventoryItemRow } from 'src/pages/HomePage/HomePage'
 
 // Pick name, storagelocationstring, category from InventoryItemRow
@@ -14,21 +15,28 @@ const InventoryRowItemDetails = ({
   category,
 }: InventoryRowItemDetailsProps) => {
   return (
-    <div className="flex flex-row my-2">
-      <div className="flex flex-row items-stretch mr-4">
+    <div className="flex flex-row py-2">
+      <div className="flex flex-row items-stretch h-12 mr-4">
         <div
           className={`${
             status === 'available' ? 'bg-green-400' : 'bg-red-400'
           } mr-2 rounded-lg p-0.5`}
         />
-        <img src={thumbnail} width={50} height={50} />
+        <div className="z-0 w-12 h-12 my-auto">
+          <Image
+            src={thumbnail}
+            radius="md"
+            withPlaceholder
+            style={{ zIndex: 0 }}
+          />
+        </div>
       </div>
 
       <div className="flex flex-col">
-        <div>{name}</div>
-        <div>
+        <h3 className="align-text-top text-md">{name}</h3>
+        <p className="text-sm">
           {storageLocationString} . {category}
-        </div>
+        </p>
       </div>
     </div>
   )
