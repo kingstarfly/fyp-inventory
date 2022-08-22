@@ -20,7 +20,7 @@ const InventoryRowItemDetails = ({
         <div
           className={`${
             status === 'available' ? 'bg-green-400' : 'bg-red-400'
-          } mr-2 rounded-lg p-0.5`}
+          } my-1 mr-2 rounded-xl pl-0.5`}
         />
         <div className="z-0 w-12 h-12 my-auto">
           <Image

@@ -13,8 +13,8 @@ import {
 } from '@tanstack/react-table'
 import { useVirtual } from 'react-virtual'
 import InventoryRowItemDetails from 'src/components/InventoryRowItemDetails/InventoryRowItemDetails'
-import { ActionIcon, TextInput } from '@mantine/core'
-import { AiOutlineScan } from 'react-icons/ai'
+import { ActionIcon, Text, TextInput } from '@mantine/core'
+import { RiAddBoxFill, RiFilter2Fill, RiQrScanLine } from 'react-icons/ri'
 
 const HomePage = () => {
   const [searchValue, setSearchValue] = React.useState('')
@@ -80,40 +80,43 @@ const HomePage = () => {
   return (
     <>
       <MetaTags title="Home" description="Home page" />
-      <h1>Inventory</h1>
-      <div className="flex flex-row items-center justify-between w-full ">
+      <Text size="md" weight="bold">
+        Inventory
+      </Text>
+      <div className="flex flex-row items-center justify-between w-full my-4">
         <TextInput
-          size="sm"
+          size="xs"
           placeholder="Search name, barcode, category..."
           value={searchValue}
           onChange={(event) => setSearchValue(event.currentTarget.value)}
           aria-label="search"
+          variant="filled"
           className="flex-1"
         />
-        <div className="flex flex-row items-center justify-end ">
-          <ActionIcon className="mx-2">
+        <div className="flex flex-row items-center justify-end">
+          <ActionIcon className="mx-2 text-slate-800">
             <div className="flex flex-col items-center justify-center ">
-              <AiOutlineScan />
-              <label>Scan</label>
+              <RiQrScanLine />
+              <label className="text-xs cursor-pointer">Scan</label>
             </div>
           </ActionIcon>
 
-          <ActionIcon className="mx-2">
+          <ActionIcon className="mx-2 text-slate-800">
             <div className="flex flex-col items-center justify-center">
-              <AiOutlineScan />
-              <label>Scan</label>
+              <RiFilter2Fill />
+              <label className="text-xs cursor-pointer">Filter</label>
             </div>
           </ActionIcon>
 
-          <ActionIcon className="mx-2">
+          <ActionIcon className="ml-2 text-slate-800">
             <div className="flex flex-col items-center justify-center">
-              <AiOutlineScan />
-              <label>Scan</label>
+              <RiAddBoxFill />
+              <label className="text-xs cursor-pointer">New</label>
             </div>
           </ActionIcon>
         </div>
       </div>
-      <div className="flex flex-col p-6">
+      <div className="flex flex-col">
         <div ref={tableContainerRef} className="h-[60vh] overflow-auto">
           <table className="relative w-full border-collapse border-none table-fixed">
             <thead className="border-b-2 border-gray-100">
