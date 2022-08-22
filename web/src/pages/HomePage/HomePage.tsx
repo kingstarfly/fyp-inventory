@@ -13,14 +13,13 @@ import {
 } from '@tanstack/react-table'
 import { useVirtual } from 'react-virtual'
 import InventoryRowItemDetails from 'src/components/InventoryRowItemDetails/InventoryRowItemDetails'
+import { ActionIcon, TextInput } from '@mantine/core'
+import { AiOutlineScan } from 'react-icons/ai'
 
 const HomePage = () => {
-  const rerender = React.useReducer(() => ({}), {})[1]
-
+  const [searchValue, setSearchValue] = React.useState('')
   const [sorting, setSorting] = React.useState<SortingState>([])
-
   const columnHelper = createColumnHelper<InventoryItemRow>()
-
   const columns = React.useMemo<ColumnDef<InventoryItemRow>[]>(
     () => [
       columnHelper.accessor(
@@ -42,8 +41,8 @@ const HomePage = () => {
       ),
       columnHelper.accessor('quantity', {
         cell: (info) => info.getValue(),
-        header: () => <span>Quantity</span>,
-        size: 30,
+        header: () => <span>Qty</span>,
+        size: 50,
       }),
     ],
     []
@@ -52,6 +51,7 @@ const HomePage = () => {
   const [data, setData] = React.useState(() => makeData(200))
   const refreshData = () => setData(() => makeData(200))
 
+  /* For Table */
   const table = useReactTable({
     data,
     columns,
@@ -63,9 +63,7 @@ const HomePage = () => {
     getSortedRowModel: getSortedRowModel(),
     debugTable: true,
   })
-
   const tableContainerRef = React.useRef<HTMLDivElement>(null)
-
   const { rows } = table.getRowModel()
   const rowVirtualizer = useVirtual({
     parentRef: tableContainerRef,
@@ -73,16 +71,48 @@ const HomePage = () => {
     overscan: 10,
   })
   const { virtualItems: virtualRows, totalSize } = rowVirtualizer
-
   const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0
   const paddingBottom =
     virtualRows.length > 0
       ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0)
       : 0
+
   return (
     <>
       <MetaTags title="Home" description="Home page" />
+      <h1>Inventory</h1>
+      <div className="flex flex-row items-center justify-between w-full ">
+        <TextInput
+          size="sm"
+          placeholder="Search name, barcode, category..."
+          value={searchValue}
+          onChange={(event) => setSearchValue(event.currentTarget.value)}
+          aria-label="search"
+          className="flex-1"
+        />
+        <div className="flex flex-row items-center justify-end ">
+          <ActionIcon className="mx-2">
+            <div className="flex flex-col items-center justify-center ">
+              <AiOutlineScan />
+              <label>Scan</label>
+            </div>
+          </ActionIcon>
 
+          <ActionIcon className="mx-2">
+            <div className="flex flex-col items-center justify-center">
+              <AiOutlineScan />
+              <label>Scan</label>
+            </div>
+          </ActionIcon>
+
+          <ActionIcon className="mx-2">
+            <div className="flex flex-col items-center justify-center">
+              <AiOutlineScan />
+              <label>Scan</label>
+            </div>
+          </ActionIcon>
+        </div>
+      </div>
       <div className="flex flex-col p-6">
         <div ref={tableContainerRef} className="h-[60vh] overflow-auto">
           <table className="relative w-full border-collapse border-none table-fixed">
@@ -154,9 +184,6 @@ const HomePage = () => {
           </table>
         </div>
         <div>{table.getRowModel().rows.length} Rows</div>
-        <div>
-          <button onClick={() => rerender()}>Force Rerender</button>
-        </div>
         <div>
           <button onClick={() => refreshData()}>Refresh Data</button>
         </div>
