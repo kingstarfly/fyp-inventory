@@ -22,20 +22,21 @@ describe('items', () => {
 
   scenario('creates a item', async () => {
     const result = await createItem({
-      input: { name: 'String7319330' },
+      input: { name: 'String', category: 'String' },
     })
 
-    expect(result.name).toEqual('String7319330')
+    expect(result.name).toEqual('String')
+    expect(result.category).toEqual('String')
   })
 
   scenario('updates a item', async (scenario: StandardScenario) => {
     const original = await item({ id: scenario.item.one.id })
     const result = await updateItem({
       id: original.id,
-      input: { name: 'String95062792' },
+      input: { name: 'String2' },
     })
 
-    expect(result.name).toEqual('String95062792')
+    expect(result.name).toEqual('String2')
   })
 
   scenario('deletes a item', async (scenario: StandardScenario) => {

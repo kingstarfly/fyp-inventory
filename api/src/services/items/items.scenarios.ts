@@ -2,8 +2,8 @@ import type { Prisma } from '@prisma/client'
 
 export const standard = defineScenario<Prisma.ItemCreateArgs>({
   item: {
-    one: { data: { name: 'String2980621' } },
-    two: { data: { name: 'String5285761' } },
+    one: { data: { name: 'String', category: 'String' } },
+    two: { data: { name: 'String', category: 'String' } },
   },
 })
 

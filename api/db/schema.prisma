@@ -31,12 +31,17 @@ model Item {
   category String // Either "Inventory" or "Asset".
   description String?
   storageLocation StorageLocation?
+  itemStatus ItemStatus?
+  thumbnailUrl String?
 }
 
 model ItemStatus {
   id   Int     @id @default(autoincrement())
   status String //  “Available for loan”, “On loan”, “In-use”, “Under repair” or “Deprecated”.
   loan Loan?
+
+  item Item @relation(fields: [itemId], references: [id])
+  itemId Int @unique
 }
 
 model Loan {

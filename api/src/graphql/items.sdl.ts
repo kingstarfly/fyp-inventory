@@ -2,7 +2,11 @@ export const schema = gql`
   type Item {
     id: Int!
     name: String!
-    price: Int!
+    category: String!
+    description: String
+    storageLocation: StorageLocation
+    itemStatus: ItemStatus
+    thumbnailUrl: String
   }
 
   type Query {
@@ -12,12 +16,16 @@ export const schema = gql`
 
   input CreateItemInput {
     name: String!
-    price: Int!
+    category: String!
+    description: String
+    thumbnailUrl: String
   }
 
   input UpdateItemInput {
     name: String
-    price: Int
+    category: String
+    description: String
+    thumbnailUrl: String
   }
 
   type Mutation {

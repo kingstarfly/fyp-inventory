@@ -15,6 +15,7 @@ import { useVirtual } from 'react-virtual'
 import InventoryRowItemDetails from 'src/components/InventoryRowItemDetails/InventoryRowItemDetails'
 import { ActionIcon, Text, TextInput } from '@mantine/core'
 import { RiAddBoxFill, RiFilter2Fill, RiQrScanLine } from 'react-icons/ri'
+import ItemsCell from 'src/components/Item/ItemsCell'
 
 const HomePage = () => {
   const [searchValue, setSearchValue] = React.useState('')
@@ -118,6 +119,7 @@ const HomePage = () => {
       </div>
       <div className="flex flex-col">
         <div ref={tableContainerRef} className="h-[60vh] overflow-auto">
+          <ItemsCell />
           <table className="relative w-full border-collapse border-none table-fixed">
             <thead className="border-b-2 border-gray-100">
               {table.getHeaderGroups().map((headerGroup) => (

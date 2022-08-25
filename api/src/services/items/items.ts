@@ -1,4 +1,8 @@
-import type { QueryResolvers, MutationResolvers } from 'types/graphql'
+import type {
+  QueryResolvers,
+  MutationResolvers,
+  ItemResolvers,
+} from 'types/graphql'
 
 import { db } from 'src/lib/db'
 
@@ -29,4 +33,11 @@ export const deleteItem: MutationResolvers['deleteItem'] = ({ id }) => {
   return db.item.delete({
     where: { id },
   })
+}
+
+export const Item: ItemResolvers = {
+  storageLocation: (_obj, { root }) =>
+    db.item.findUnique({ where: { id: root.id } }).storageLocation(),
+  itemStatus: (_obj, { root }) =>
+    db.item.findUnique({ where: { id: root.id } }).itemStatus(),
 }
