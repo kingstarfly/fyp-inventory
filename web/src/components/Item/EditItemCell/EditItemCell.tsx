@@ -14,6 +14,7 @@ export const QUERY = gql`
       name
       category
       description
+      thumbnailUrl
     }
   }
 `

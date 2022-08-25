@@ -89,6 +89,10 @@ const Item = ({ item }: { item: ItemType }) => {
               <th>Description</th>
               <td>{item.description}</td>
             </tr>
+            <tr>
+              <th>ThumbnailUrl</th>
+              <td>{item.thumbnailUrl}</td>
+            </tr>
           </tbody>
         </table>
       </div>

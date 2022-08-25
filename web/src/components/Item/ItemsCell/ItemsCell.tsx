@@ -12,6 +12,16 @@ export const QUERY = gql`
       name
       category
       description
+      thumbnailUrl
+      itemStatus {
+        status
+      }
+      storageLocation {
+        block
+        floorSection
+        room
+        subIndex
+      }
     }
   }
 `

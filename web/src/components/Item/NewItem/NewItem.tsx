@@ -3,6 +3,7 @@ import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import ItemForm from 'src/components/Item/ItemForm'
+import { Item } from 'types/graphql'
 
 const CREATE_ITEM_MUTATION = gql`
   mutation CreateItemMutation($input: CreateItemInput!) {
@@ -24,7 +25,13 @@ const NewItem = () => {
   })
 
   const onSave = (input) => {
-    createItem({ variables: { input } })
+    // Convert image to base64 string
+    const reader = new FileReader()
+    reader.readAsDataURL(input.image[0])
+    reader.onload = function () {
+      const base64data = reader.result
+      createItem({ variables: { input: { ...input, image: base64data } } })
+    }
   }
 
   return (

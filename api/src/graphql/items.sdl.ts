@@ -18,14 +18,14 @@ export const schema = gql`
     name: String!
     category: String!
     description: String
-    thumbnailUrl: String
+    image: String
   }
 
   input UpdateItemInput {
     name: String
     category: String
     description: String
-    thumbnailUrl: String
+    image: String
   }
 
   type Mutation {

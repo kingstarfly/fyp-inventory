@@ -4,6 +4,8 @@ import type {
   ItemResolvers,
 } from 'types/graphql'
 
+import sharp from 'sharp'
+
 import { db } from 'src/lib/db'
 
 export const items: QueryResolvers['items'] = () => {
@@ -16,9 +18,21 @@ export const item: QueryResolvers['item'] = ({ id }) => {
   })
 }
 
-export const createItem: MutationResolvers['createItem'] = ({ input }) => {
+export const createItem: MutationResolvers['createItem'] = async ({
+  input,
+}) => {
+  const { image, ...restOfInput } = input
+  const uri = image.split(';base64,').pop()
+  const buffer = Buffer.from(uri, 'base64')
+  const resizedImageBuf = await sharp(buffer).resize(150, null).toBuffer()
+
   return db.item.create({
-    data: input,
+    data: {
+      ...restOfInput,
+      thumbnailUrl: `data:image/png;base64,${resizedImageBuf.toString(
+        'base64'
+      )}`,
+    },
   })
 }
 

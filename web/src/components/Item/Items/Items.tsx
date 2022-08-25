@@ -5,6 +5,7 @@ import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import { QUERY } from 'src/components/Item/ItemsCell'
+import { Image } from '@mantine/core'
 
 const DELETE_ITEM_MUTATION = gql`
   mutation DeleteItemMutation($id: Int!) {
@@ -79,7 +80,7 @@ const ItemsList = ({ items }) => {
       <table className="rw-table">
         <thead>
           <tr>
-            <th>Id</th>
+            <th>Image</th>
             <th>Name</th>
             <th>Category</th>
             <th>Description</th>
@@ -98,7 +99,7 @@ const ItemsList = ({ items }) => {
                   />
                   <div className="z-0 w-12 h-12 my-auto">
                     <Image
-                      src={thumbnail}
+                      src={item.thumbnailUrl}
                       radius="md"
                       withPlaceholder
                       style={{ zIndex: 0 }}
