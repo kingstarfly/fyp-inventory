@@ -16,6 +16,7 @@ import InventoryRowItemDetails from 'src/components/InventoryRowItemDetails/Inve
 import { ActionIcon, Text, TextInput } from '@mantine/core'
 import { RiAddBoxFill, RiFilter2Fill, RiQrScanLine } from 'react-icons/ri'
 import ItemsCell from 'src/components/Item/ItemsCell'
+import { InventoryItemRow, makeData } from 'src/components/Item/Items'
 
 const HomePage = () => {
   const [searchValue, setSearchValue] = React.useState('')
@@ -118,8 +119,9 @@ const HomePage = () => {
         </div>
       </div>
       <div className="flex flex-col">
-        <div ref={tableContainerRef} className="h-[60vh] overflow-auto">
-          <ItemsCell />
+        <ItemsCell />
+        {/* <div ref={tableContainerRef} className="h-[60vh] overflow-auto">
+
           <table className="relative w-full border-collapse border-none table-fixed">
             <thead className="border-b-2 border-gray-100">
               {table.getHeaderGroups().map((headerGroup) => (
@@ -187,7 +189,7 @@ const HomePage = () => {
               )}
             </tbody>
           </table>
-        </div>
+        </div> */}
         <div>{table.getRowModel().rows.length} Rows</div>
         <div>
           <button onClick={() => refreshData()}>Refresh Data</button>
@@ -208,16 +210,6 @@ export type Person = {
   progress: number
   status: 'relationship' | 'complicated' | 'single'
   createdAt: Date
-}
-
-export type InventoryItemRow = {
-  id: number
-  status: 'available' | 'on loan' | 'in use' | 'under repair' | 'deprecated'
-  thumbnail: string
-  name: string
-  category: 'Inventory' | 'Asset'
-  storageLocationString: string
-  quantity: number
 }
 
 const range = (len: number) => {
@@ -253,15 +245,3 @@ const newInventoryItemRow = (index: number): InventoryItemRow => {
   }
 }
 
-export function makeData(...lens: number[]) {
-  const makeDataLevel = (depth = 0): InventoryItemRow[] => {
-    const len = lens[depth]!
-    return range(len).map((d): InventoryItemRow => {
-      return {
-        ...newInventoryItemRow(d),
-      }
-    })
-  }
-
-  return makeDataLevel()
-}

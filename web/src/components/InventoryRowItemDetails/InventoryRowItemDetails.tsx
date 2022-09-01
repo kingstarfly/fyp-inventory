@@ -1,13 +1,15 @@
 import { Image } from '@mantine/core'
-import { InventoryItemRow } from 'src/pages/HomePage/HomePage'
+import { Link, routes } from '@redwoodjs/router'
+import { InventoryItemRow } from '../Item/Items'
 
 // Pick name, storagelocationstring, category from InventoryItemRow
 export type InventoryRowItemDetailsProps = Pick<
   InventoryItemRow,
-  'status' | 'thumbnail' | 'name' | 'storageLocationString' | 'category'
+  'id' | 'status' | 'thumbnail' | 'name' | 'storageLocationString' | 'category'
 >
 
 const InventoryRowItemDetails = ({
+  id,
   status,
   thumbnail,
   name,
@@ -15,7 +17,11 @@ const InventoryRowItemDetails = ({
   category,
 }: InventoryRowItemDetailsProps) => {
   return (
-    <div className="flex flex-row py-2">
+    <Link
+      to={routes.item({ id: id })}
+      title={'Show item ' + id + ' detail'}
+      className="flex flex-row py-2"
+    >
       <div className="flex flex-row items-stretch h-12 mr-4">
         <div
           className={`${
@@ -38,7 +44,7 @@ const InventoryRowItemDetails = ({
           {storageLocationString} . {category}
         </p>
       </div>
-    </div>
+    </Link>
   )
 }
 
