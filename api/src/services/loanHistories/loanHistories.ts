@@ -45,4 +45,6 @@ export const deleteLoanHistory: MutationResolvers['deleteLoanHistory'] = ({
 export const LoanHistory: LoanHistoryResolvers = {
   loans: (_obj, { root }) =>
     db.loanHistory.findUnique({ where: { id: root.id } }).loans(),
+  item: (_obj, { root }) =>
+    db.loanHistory.findUnique({ where: { id: root.id } }).item(),
 }

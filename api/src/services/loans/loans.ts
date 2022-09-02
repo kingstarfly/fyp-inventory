@@ -40,6 +40,6 @@ export const Loan: LoanResolvers = {
     db.loan.findUnique({ where: { id: root.id } }).user(),
   loanHistory: (_obj, { root }) =>
     db.loan.findUnique({ where: { id: root.id } }).loanHistory(),
-  itemStatus: (_obj, { root }) =>
-    db.loan.findUnique({ where: { id: root.id } }).itemStatus(),
+  item: (_obj, { root }) =>
+    db.loan.findUnique({ where: { id: root.id } }).item(),
 }

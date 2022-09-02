@@ -23,27 +23,27 @@ describe('loans', () => {
   scenario('creates a loan', async (scenario: StandardScenario) => {
     const result = await createLoan({
       input: {
-        expectedReturnAt: '2022-08-25T07:37:20Z',
+        expectedReturnAt: '2022-09-02T15:07:58Z',
         userId: scenario.loan.two.userId,
         loanHistoryId: scenario.loan.two.loanHistoryId,
-        itemStatusId: scenario.loan.two.itemStatusId,
+        itemId: scenario.loan.two.itemId,
       },
     })
 
-    expect(result.expectedReturnAt).toEqual('2022-08-25T07:37:20Z')
+    expect(result.expectedReturnAt).toEqual('2022-09-02T15:07:58Z')
     expect(result.userId).toEqual(scenario.loan.two.userId)
     expect(result.loanHistoryId).toEqual(scenario.loan.two.loanHistoryId)
-    expect(result.itemStatusId).toEqual(scenario.loan.two.itemStatusId)
+    expect(result.itemId).toEqual(scenario.loan.two.itemId)
   })
 
   scenario('updates a loan', async (scenario: StandardScenario) => {
     const original = await loan({ id: scenario.loan.one.id })
     const result = await updateLoan({
       id: original.id,
-      input: { expectedReturnAt: '2022-08-26T07:37:20Z' },
+      input: { expectedReturnAt: '2022-09-03T15:07:58Z' },
     })
 
-    expect(result.expectedReturnAt).toEqual('2022-08-26T07:37:20Z')
+    expect(result.expectedReturnAt).toEqual('2022-09-03T15:07:58Z')
   })
 
   scenario('deletes a loan', async (scenario: StandardScenario) => {

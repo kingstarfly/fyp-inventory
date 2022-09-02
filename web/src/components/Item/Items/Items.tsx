@@ -1,6 +1,6 @@
 import humanize from 'humanize-string'
 import { Link, routes } from '@redwoodjs/router'
-import { useMutation } from '@redwoodjs/web'
+import { CellSuccessProps, useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 import { QUERY } from 'src/components/Item/ItemsCell'
 import {
@@ -19,6 +19,7 @@ import { ActionIcon, Text, TextInput } from '@mantine/core'
 import { RiAddBoxFill, RiFilter2Fill, RiQrScanLine } from 'react-icons/ri'
 import ItemsCell from 'src/components/Item/ItemsCell'
 import { faker } from '@faker-js/faker'
+import { FindItems } from 'types/graphql'
 
 const DELETE_ITEM_MUTATION = gql`
   mutation DeleteItemMutation($id: Int!) {
@@ -67,33 +68,36 @@ const checkboxInputTag = (checked) => {
   return <input type="checkbox" checked={checked} disabled />
 }
 
-export type InventoryItemRow = {
-  id: number
-  status: 'available' | 'on loan' | 'in use' | 'under repair' | 'deprecated'
-  thumbnail: string
-  name: string
-  category: 'Inventory' | 'Asset'
-  storageLocationString: string
-  quantity: number
-}
-
 const ItemsList = ({ items }) => {
   const [searchValue, setSearchValue] = React.useState('')
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [data, setData] = React.useState(() => makeData(200))
   const refreshData = () => setData(() => makeData(200))
 
-  const columnHelper = createColumnHelper<InventoryItemRow>()
-  const columns = React.useMemo<ColumnDef<InventoryItemRow>[]>(
+  const columnHelper = createColumnHelper<CellSuccessProps<FindItems>>()
+  const columns = React.useMemo<ColumnDef<CellSuccessProps<FindItems>>[]>(
     () => [
       columnHelper.accessor(
-        ({ id, status, thumbnail, name, storageLocationString, category }) => ({
+        ({
           id,
-          status,
-          thumbnail,
-          name,
-          storageLocationString,
-          category,
+          itemStatus,
+          thumbnailUrl,
+          block,
+          floorSection,
+          room,
+          subIndex,
+          loan,
+          loanHistory,
+        }) => ({
+          id,
+          itemStatus,
+          thumbnailUrl,
+          block,
+          floorSection,
+          room,
+          subIndex,
+          loan,
+          loanHistory,
         }),
         {
           id: 'item',

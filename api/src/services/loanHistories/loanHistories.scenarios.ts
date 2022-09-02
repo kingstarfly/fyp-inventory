@@ -2,8 +2,20 @@ import type { Prisma } from '@prisma/client'
 
 export const standard = defineScenario<Prisma.LoanHistoryCreateArgs>({
   loanHistory: {
-    one: { data: { loanId: 8637359 } },
-    two: { data: { loanId: 7583962 } },
+    one: {
+      data: {
+        item: {
+          create: { name: 'String', itemStatus: 'String', block: 'String' },
+        },
+      },
+    },
+    two: {
+      data: {
+        item: {
+          create: { name: 'String', itemStatus: 'String', block: 'String' },
+        },
+      },
+    },
   },
 })
 

@@ -2,7 +2,8 @@ export const schema = gql`
   type LoanHistory {
     id: Int!
     loans: [Loan]!
-    loanId: Int!
+    item: Item!
+    itemId: Int!
   }
 
   type Query {
@@ -11,11 +12,11 @@ export const schema = gql`
   }
 
   input CreateLoanHistoryInput {
-    loanId: Int!
+    itemId: Int!
   }
 
   input UpdateLoanHistoryInput {
-    loanId: Int
+    itemId: Int
   }
 
   type Mutation {

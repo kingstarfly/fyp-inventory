@@ -1,22 +1,9 @@
 import { Link, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
-import { faker } from '@faker-js/faker'
-import {
-  ColumnDef,
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  Row,
-  SortingState,
-  useReactTable,
-} from '@tanstack/react-table'
-import { useVirtual } from 'react-virtual'
-import InventoryRowItemDetails from 'src/components/InventoryRowItemDetails/InventoryRowItemDetails'
+
 import { ActionIcon, Text, TextInput } from '@mantine/core'
 import { RiAddBoxFill, RiFilter2Fill, RiQrScanLine } from 'react-icons/ri'
-import ItemsCell from 'src/components/Item/ItemsCell'
-import { InventoryItemRow, makeData } from 'src/components/Item/Items'
+import ItemGroupsCell from 'src/components/ItemGroup/ItemGroupsCell'
 
 const HomePage = () => {
   const [searchValue, setSearchValue] = React.useState('')
@@ -61,7 +48,7 @@ const HomePage = () => {
         </div>
       </div>
       <div className="flex flex-col">
-        <ItemsCell />
+        <ItemGroupsCell />
       </div>
     </>
   )

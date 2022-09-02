@@ -9,17 +9,19 @@ export const QUERY = gql`
     item: item(id: $id) {
       id
       name
-      category
-      description
+      itemStatus
+
+      block
+      floorSection
+      room
+      subIndex
+
       thumbnailUrl
-      itemStatus {
-        status
+      loan {
+        id
       }
-      storageLocation {
-        block
-        floorSection
-        room
-        subIndex
+      loanHistory {
+        id
       }
     }
   }

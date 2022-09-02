@@ -29,22 +29,22 @@ describe('loanHistories', () => {
     }
   )
 
-  scenario('creates a loanHistory', async () => {
+  scenario('creates a loanHistory', async (scenario: StandardScenario) => {
     const result = await createLoanHistory({
-      input: { loanId: 5333521 },
+      input: { itemId: scenario.loanHistory.two.itemId },
     })
 
-    expect(result.loanId).toEqual(5333521)
+    expect(result.itemId).toEqual(scenario.loanHistory.two.itemId)
   })
 
   scenario('updates a loanHistory', async (scenario: StandardScenario) => {
     const original = await loanHistory({ id: scenario.loanHistory.one.id })
     const result = await updateLoanHistory({
       id: original.id,
-      input: { loanId: 2106217 },
+      input: { itemId: scenario.loanHistory.two.itemId },
     })
 
-    expect(result.loanId).toEqual(2106217)
+    expect(result.itemId).toEqual(scenario.loanHistory.two.itemId)
   })
 
   scenario('deletes a loanHistory', async (scenario: StandardScenario) => {

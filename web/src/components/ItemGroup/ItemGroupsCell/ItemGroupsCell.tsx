@@ -1,23 +1,18 @@
-import type { FindItems } from 'types/graphql'
+import type { FindItemGroups } from 'types/graphql'
 
 import { Link, routes } from '@redwoodjs/router'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
-import Items from 'src/components/Item/Items'
+import ItemGroups from 'src/components/ItemGroup/ItemGroups'
 
 export const QUERY = gql`
-  query FindItems {
-    items {
+  query FindItemGroups {
+    itemGroups {
       id
       name
-      itemStatus
-
-      block
-      floorSection
-      room
-      subIndex
-
-      thumbnailUrl
+      description
+      category
+      quantity
     }
   }
 `
@@ -27,9 +22,9 @@ export const Loading = () => <div>Loading...</div>
 export const Empty = () => {
   return (
     <div className="rw-text-center">
-      {'No items yet. '}
+      {'No itemGroups yet. '}
       <Link
-        to={routes.newItem()}
+        to={routes.newItemGroup()}
         className="rw-link"
       >
         {'Create one?'}
@@ -42,6 +37,6 @@ export const Failure = ({ error }: CellFailureProps) => (
   <div className="rw-cell-error">{error.message}</div>
 )
 
-export const Success = ({ items }: CellSuccessProps<FindItems>) => {
-  return <Items items={items} />
+export const Success = ({ itemGroups }: CellSuccessProps<FindItemGroups>) => {
+  return <ItemGroups itemGroups={itemGroups} />
 }

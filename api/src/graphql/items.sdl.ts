@@ -2,11 +2,14 @@ export const schema = gql`
   type Item {
     id: Int!
     name: String!
-    category: String!
-    description: String
-    storageLocation: StorageLocation
-    itemStatus: ItemStatus
+    itemStatus: String!
+    block: String!
+    floorSection: String
+    room: String
+    subIndex: String
     thumbnailUrl: String
+    loan: Loan
+    loanHistory: LoanHistory
   }
 
   type Query {
@@ -16,16 +19,22 @@ export const schema = gql`
 
   input CreateItemInput {
     name: String!
-    category: String!
-    description: String
-    image: String
+    itemStatus: String!
+    block: String!
+    floorSection: String
+    room: String
+    subIndex: String
+    thumbnailUrl: String
   }
 
   input UpdateItemInput {
     name: String
-    category: String
-    description: String
-    image: String
+    itemStatus: String
+    block: String
+    floorSection: String
+    room: String
+    subIndex: String
+    thumbnailUrl: String
   }
 
   type Mutation {

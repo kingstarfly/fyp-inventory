@@ -4,39 +4,45 @@ export const standard = defineScenario<Prisma.LoanCreateArgs>({
   loan: {
     one: {
       data: {
-        expectedReturnAt: '2022-08-25T07:37:20Z',
+        expectedReturnAt: '2022-09-02T15:07:58Z',
         user: {
           create: {
-            email: 'String8374996',
+            email: 'String4787894',
             passwordHash: 'String',
             salt: 'String',
           },
         },
-        loanHistory: { create: { loanId: 1305429 } },
-        itemStatus: {
+        loanHistory: {
           create: {
-            status: 'String',
-            item: { create: { name: 'String', category: 'String' } },
+            item: {
+              create: { name: 'String', itemStatus: 'String', block: 'String' },
+            },
           },
+        },
+        item: {
+          create: { name: 'String', itemStatus: 'String', block: 'String' },
         },
       },
     },
     two: {
       data: {
-        expectedReturnAt: '2022-08-25T07:37:20Z',
+        expectedReturnAt: '2022-09-02T15:07:58Z',
         user: {
           create: {
-            email: 'String7270410',
+            email: 'String3891442',
             passwordHash: 'String',
             salt: 'String',
           },
         },
-        loanHistory: { create: { loanId: 9337663 } },
-        itemStatus: {
+        loanHistory: {
           create: {
-            status: 'String',
-            item: { create: { name: 'String', category: 'String' } },
+            item: {
+              create: { name: 'String', itemStatus: 'String', block: 'String' },
+            },
           },
+        },
+        item: {
+          create: { name: 'String', itemStatus: 'String', block: 'String' },
         },
       },
     },
