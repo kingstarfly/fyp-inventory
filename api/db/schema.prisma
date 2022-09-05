@@ -23,19 +23,11 @@ model User {
 
   loans Loan[]
 }
-
-// This model is for home page to display. So we do not have to query whole database of all items to get the quantity.
-model ItemGroup {
-  id Int @id @default(autoincrement())
-  name String
-  description String
-  category String // Either "inventory" or "asset".
-  quantity Int
-}
 model Item {
   id    Int     @id @default(autoincrement())
   name  String
   itemStatus String
+  category String // Either "inventory" or "asset".
 
   // Storage Location
   block String
@@ -43,6 +35,7 @@ model Item {
   room String?
   subIndex String?
 
+  description String?
   thumbnailUrl String?
   loan Loan?
   loanHistory LoanHistory?

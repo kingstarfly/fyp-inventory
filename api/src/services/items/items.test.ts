@@ -22,11 +22,17 @@ describe('items', () => {
 
   scenario('creates a item', async () => {
     const result = await createItem({
-      input: { name: 'String', itemStatus: 'String', block: 'String' },
+      input: {
+        name: 'String',
+        itemStatus: 'String',
+        category: 'String',
+        block: 'String',
+      },
     })
 
     expect(result.name).toEqual('String')
     expect(result.itemStatus).toEqual('String')
+    expect(result.category).toEqual('String')
     expect(result.block).toEqual('String')
   })
 
