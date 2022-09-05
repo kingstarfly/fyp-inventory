@@ -8,6 +8,7 @@ export const standard = defineScenario<Prisma.ItemCreateArgs>({
         itemStatus: 'String',
         category: 'String',
         block: 'String',
+        floor: 'String',
       },
     },
     two: {
@@ -16,6 +17,7 @@ export const standard = defineScenario<Prisma.ItemCreateArgs>({
         itemStatus: 'String',
         category: 'String',
         block: 'String',
+        floor: 'String',
       },
     },
   },

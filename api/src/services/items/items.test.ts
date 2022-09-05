@@ -27,6 +27,7 @@ describe('items', () => {
         itemStatus: 'String',
         category: 'String',
         block: 'String',
+        floor: 'String',
       },
     })
 
@@ -34,6 +35,7 @@ describe('items', () => {
     expect(result.itemStatus).toEqual('String')
     expect(result.category).toEqual('String')
     expect(result.block).toEqual('String')
+    expect(result.floor).toEqual('String')
   })
 
   scenario('updates a item', async (scenario: StandardScenario) => {

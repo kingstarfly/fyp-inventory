@@ -31,6 +31,7 @@ model Item {
 
   // Storage Location
   block String
+  floor String
   floorSection String?
   room String?
   subIndex String?

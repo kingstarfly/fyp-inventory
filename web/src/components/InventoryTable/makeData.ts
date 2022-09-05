@@ -1,14 +1,5 @@
 import { faker } from '@faker-js/faker'
-
-export type Person = {
-  firstName: string
-  lastName: string
-  age: number
-  visits: number
-  progress: number
-  status: 'relationship' | 'complicated' | 'single'
-  subRows?: Person[]
-}
+import { ItemRow } from '../Item/ItemsCell'
 
 const range = (len: number) => {
   const arr = []
@@ -18,30 +9,26 @@ const range = (len: number) => {
   return arr
 }
 
-const newPerson = (): Person => {
+const newItemRow = (): ItemRow => {
   return {
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    age: faker.datatype.number(40),
-    visits: faker.datatype.number(1000),
-    progress: faker.datatype.number(100),
-    status: faker.helpers.shuffle<Person['status']>([
-      'relationship',
-      'complicated',
-      'single',
-    ])[0]!,
+    id: faker.datatype.number({ min: 100000, max: 51231322 }),
+    name: faker.commerce.productName(),
+    itemStatus: faker.helpers.arrayElement(['available', 'on_loan']),
+    block: faker.helpers.arrayElement('N1,N2,N3,N4,S1,S2,S3,S4'.split(',')),
+    floor: faker.helpers.arrayElement('1,2,3,4,5,6'.split(',')),
+    floorSection: faker.helpers.arrayElement(',A,B,C,D'.split(',')),
+    room: faker.datatype
+      .number({ min: 1, max: 25 })
+      .toString()
+      .padStart(2, '0'),
+    subIndex: faker.helpers.arrayElement(',A,B,C,D'.split(',')),
   }
 }
 
 export function makeData(...lens: number[]) {
-  const makeDataLevel = (depth = 0): Person[] => {
+  const makeDataLevel = (depth = 0): ItemRow[] => {
     const len = lens[depth]!
-    return range(len).map((d): Person => {
-      return {
-        ...newPerson(),
-        subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
-      }
-    })
+    return range(len).map((d): ItemRow => newItemRow())
   }
 
   return makeDataLevel()

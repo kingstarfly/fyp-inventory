@@ -5,6 +5,7 @@ export const schema = gql`
     itemStatus: String!
     category: String!
     block: String!
+    floor: String!
     floorSection: String
     room: String
     subIndex: String
@@ -24,6 +25,7 @@ export const schema = gql`
     itemStatus: String!
     category: String!
     block: String!
+    floor: String!
     floorSection: String
     room: String
     subIndex: String
@@ -36,6 +38,7 @@ export const schema = gql`
     itemStatus: String
     category: String
     block: String
+    floor: String
     floorSection: String
     room: String
     subIndex: String

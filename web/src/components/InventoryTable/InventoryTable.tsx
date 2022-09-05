@@ -25,7 +25,11 @@ import {
   compareItems,
 } from '@tanstack/match-sorter-utils'
 
-import { makeData, Person } from './makeData'
+import { makeData } from './makeData'
+import { CellSuccessProps } from '@redwoodjs/web'
+import { FindItems } from 'types/graphql'
+import { getLocationString } from './helper'
+import { ItemRow } from '../Item/ItemsCell'
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -64,7 +68,7 @@ const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir
 }
 
-const InventoryTable = () => {
+const InventoryTable = ({ items }: CellSuccessProps<FindItems>) => {
   const rerender = React.useReducer(() => ({}), {})[1]
 
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -72,71 +76,39 @@ const InventoryTable = () => {
   )
   const [globalFilter, setGlobalFilter] = React.useState('')
 
-  const columns = React.useMemo<ColumnDef<Person, any>[]>(
+  const columns = React.useMemo<ColumnDef<ItemRow, any>[]>(
     () => [
       {
-        header: 'Name',
-        footer: (props) => props.column.id,
-        columns: [
-          {
-            accessorKey: 'firstName',
-            cell: (info) => info.getValue(),
-            footer: (props) => props.column.id,
-          },
-          {
-            accessorFn: (row) => row.lastName,
-            id: 'lastName',
-            cell: (info) => info.getValue(),
-            header: () => <span>Last Name</span>,
-            footer: (props) => props.column.id,
-          },
-          {
-            accessorFn: (row) => `${row.firstName} ${row.lastName}`,
-            id: 'fullName',
-            header: 'Full Name',
-            cell: (info) => info.getValue(),
-            footer: (props) => props.column.id,
-            filterFn: 'fuzzy',
-            sortingFn: fuzzySort,
-          },
-        ],
+        accessorFn: (row) => row.name,
+        id: 'name',
+        cell: (info) => info.getValue(),
+        header: () => <span>Name</span>,
+        filterFn: 'fuzzy',
+        sortingFn: fuzzySort,
       },
       {
-        header: 'Info',
+        accessorFn: (row) => row.id,
+        id: 'id',
+        header: () => 'ID',
+      },
+
+      {
+        accessorFn: (row) => getLocationString(row),
+        id: 'location',
+        header: 'Location',
         footer: (props) => props.column.id,
-        columns: [
-          {
-            accessorKey: 'age',
-            header: () => 'Age',
-            footer: (props) => props.column.id,
-          },
-          {
-            header: 'More Info',
-            columns: [
-              {
-                accessorKey: 'visits',
-                header: () => <span>Visits</span>,
-                footer: (props) => props.column.id,
-              },
-              {
-                accessorKey: 'status',
-                header: 'Status',
-                footer: (props) => props.column.id,
-              },
-              {
-                accessorKey: 'progress',
-                header: 'Profile Progress',
-                footer: (props) => props.column.id,
-              },
-            ],
-          },
-        ],
+      },
+      {
+        accessorFn: (row) => row.itemStatus,
+        id: 'status',
+        header: 'Status',
       },
     ],
+
     []
   )
 
-  const [data, setData] = React.useState<Person[]>(() => makeData(50000))
+  const [data, setData] = React.useState<ItemRow[]>(() => makeData(50000))
   const refreshData = () => setData((old) => makeData(50000))
 
   const table = useReactTable({
