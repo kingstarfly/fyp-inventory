@@ -9,20 +9,12 @@
 
 import { Router, Route, Set, Private } from '@redwoodjs/router'
 
-import ItemGroupsLayout from 'src/layouts/ItemGroupsLayout'
-
 import ItemsLayout from 'src/layouts/ItemsLayout'
 import NavLayout from './layouts/NavLayout/NavLayout'
 
 const Routes = () => {
   return (
     <Router>
-      <Set wrap={ItemGroupsLayout}>
-        <Route path="/item-groups/new" page={ItemGroupNewItemGroupPage} name="newItemGroup" />
-        <Route path="/item-groups/{id:Int}/edit" page={ItemGroupEditItemGroupPage} name="editItemGroup" />
-        <Route path="/item-groups/{id:Int}" page={ItemGroupItemGroupPage} name="itemGroup" />
-        <Route path="/item-groups" page={ItemGroupItemGroupsPage} name="itemGroups" />
-      </Set>
       <Set wrap={ItemsLayout}>
         <Route path="/items/new" page={ItemNewItemPage} name="newItem" />
         <Route path="/items/{id:Int}/edit" page={ItemEditItemPage} name="editItem" />
@@ -33,7 +25,7 @@ const Routes = () => {
       <Route path="/signup" page={SignupPage} name="signup" />
       <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
       <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />
-      
+
       <Private unauthenticated="login">
         <Set wrap={NavLayout}>
           <Route path="/" page={HomePage} name="home" />

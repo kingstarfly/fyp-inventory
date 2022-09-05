@@ -4,6 +4,7 @@ import { MetaTags } from '@redwoodjs/web'
 import { ActionIcon, Text, TextInput } from '@mantine/core'
 import { RiAddBoxFill, RiFilter2Fill, RiQrScanLine } from 'react-icons/ri'
 import ItemGroupsCell from 'src/components/ItemGroup/ItemGroupsCell'
+import InventoryTable from 'src/components/InventoryTable/InventoryTable'
 
 const HomePage = () => {
   const [searchValue, setSearchValue] = React.useState('')
@@ -48,7 +49,7 @@ const HomePage = () => {
         </div>
       </div>
       <div className="flex flex-col">
-        <ItemGroupsCell />
+        <InventoryTable />
       </div>
     </>
   )

@@ -5858,22 +5858,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-table@npm:^8.5.11":
-  version: 8.5.11
-  resolution: "@tanstack/react-table@npm:8.5.11"
+"@tanstack/match-sorter-utils@npm:^8.1.1":
+  version: 8.1.1
+  resolution: "@tanstack/match-sorter-utils@npm:8.1.1"
   dependencies:
-    "@tanstack/table-core": 8.5.11
-  peerDependencies:
-    react: ">=16"
-    react-dom: ">=16"
-  checksum: 5db7a1ae48b1dd0a8f987baae90e7c792587884b49066c240806e71ba4500b880c9b25084c9b84aebc544037ba10d501bae26243d43efb56129fd427eaf0fbaa
+    remove-accents: 0.4.2
+  checksum: 3f47eb299e1fb371b449c1a3266f0a230f37f88d8344ede1d4602d4bfe80f4e293c708fab44b52608f66af5ef6dc134d9f4903ced5f784eb9309380e73c23df0
   languageName: node
   linkType: hard
 
-"@tanstack/table-core@npm:8.5.11":
-  version: 8.5.11
-  resolution: "@tanstack/table-core@npm:8.5.11"
-  checksum: db8e1c82e1f890f1b2d2954e369c06dc364cbfb7c6c4afe911bd54bcf6da96c5875df4a06a73739838f5e59a4d66fa65ba1b82b64e42fec789cc008e37fc4139
+"@tanstack/react-table@npm:^8.5.13":
+  version: 8.5.13
+  resolution: "@tanstack/react-table@npm:8.5.13"
+  dependencies:
+    "@tanstack/table-core": 8.5.13
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: fa67301d24c86ee5343b9f3e852cfca26dab873752d20c71a3fcfed49f4bb0f2b7f19c813ca3b195679a7a75705a9a32fa732d410d27d4853c93a1b9f4cc30d1
+  languageName: node
+  linkType: hard
+
+"@tanstack/table-core@npm:8.5.13":
+  version: 8.5.13
+  resolution: "@tanstack/table-core@npm:8.5.13"
+  checksum: 51fd45d5776370990e98aca303c0f132c6fb65dae913c44fe49b1f8e4ce23443a6eae7c8c3403198f979d37feda3a65fd681cabc62ca6b65026afcbc20fd0029
   languageName: node
   linkType: hard
 
@@ -21235,6 +21244,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"remove-accents@npm:0.4.2":
+  version: 0.4.2
+  resolution: "remove-accents@npm:0.4.2"
+  checksum: 5cbc00efa52df29ce947a0c572ff975b011f5f197ebe7b4f6e527de26aba534cba12d502e3040b72e46ad01de3d4f2d5ef57a6593c964965e43ddb60438da0f8
+  languageName: node
+  linkType: hard
+
 "remove-trailing-separator@npm:^1.0.1":
   version: 1.1.0
   resolution: "remove-trailing-separator@npm:1.1.0"
@@ -24731,7 +24747,8 @@ __metadata:
     "@redwoodjs/forms": 2.2.0
     "@redwoodjs/router": 2.2.0
     "@redwoodjs/web": 2.2.0
-    "@tanstack/react-table": ^8.5.11
+    "@tanstack/match-sorter-utils": ^8.1.1
+    "@tanstack/react-table": ^8.5.13
     autoprefixer: ^10.4.8
     dayjs: ^1.11.5
     postcss: ^8.4.16
