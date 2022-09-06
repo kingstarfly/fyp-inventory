@@ -31,9 +31,9 @@ import { FindItems } from 'types/graphql'
 import { getLocationString } from './helper'
 import { ItemRow } from '../Item/ItemsCell'
 import { navigate, routes } from '@redwoodjs/router'
+import IndeterminateCheckbox from './IndeterminateCheckbox'
+import { Button, clsx } from '@mantine/core'
 
-// TODO: Add onclick to each row to navigate to Item page.
-// TODO: Add "manage" button to toggle checkboxes.
 declare module '@tanstack/table-core' {
   interface FilterFns {
     fuzzy: FilterFn<unknown>
@@ -81,6 +81,32 @@ const InventoryTable = ({ items }: CellSuccessProps<FindItems>) => {
 
   const columns = React.useMemo<ColumnDef<ItemRow, any>[]>(
     () => [
+      {
+        id: 'select',
+        enableHiding: true,
+        header: ({ table }) => (
+          <div className="flex justify-left">
+            <IndeterminateCheckbox
+              {...{
+                checked: table.getIsAllRowsSelected(),
+                indeterminate: table.getIsSomeRowsSelected(),
+                onChange: table.getToggleAllRowsSelectedHandler(),
+              }}
+            />
+          </div>
+        ),
+        cell: ({ row }) => (
+          <div className="flex justify-left">
+            <IndeterminateCheckbox
+              {...{
+                checked: row.getIsSelected(),
+                indeterminate: row.getIsSomeSelected(),
+                onChange: row.getToggleSelectedHandler(),
+              }}
+            />
+          </div>
+        ),
+      },
       {
         accessorFn: (row) => row.name,
         id: 'name',
@@ -157,13 +183,17 @@ const InventoryTable = ({ items }: CellSuccessProps<FindItems>) => {
         />
       </div>
       <div className="h-2" />
-      <table>
+      <table className="w-full">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <th key={header.id} colSpan={header.colSpan}>
+                  <th
+                    key={header.id}
+                    colSpan={header.colSpan}
+                    className="px-2 text-left"
+                  >
                     {header.isPlaceholder ? null : (
                       <>
                         <div
@@ -198,15 +228,20 @@ const InventoryTable = ({ items }: CellSuccessProps<FindItems>) => {
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row) => {
+            const isManaging = table.getColumn('select').getIsVisible()
             return (
               <tr
                 key={row.id}
-                onClick={() => navigate(routes.item({ id: row.original.id }))}
-                className="cursor-pointer"
+                onClick={() => {
+                  if (!isManaging) {
+                    navigate(routes.item({ id: row.original.id }))
+                  }
+                }}
+                className={clsx(!isManaging && 'cursor-pointer')}
               >
                 {row.getVisibleCells().map((cell) => {
                   return (
-                    <td key={cell.id}>
+                    <td key={cell.id} className="px-2">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -220,67 +255,79 @@ const InventoryTable = ({ items }: CellSuccessProps<FindItems>) => {
         </tbody>
       </table>
       <div className="h-2" />
-      <div className="flex items-center gap-2">
-        <button
-          className="p-1 border rounded"
-          onClick={() => table.setPageIndex(0)}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {'<<'}
-        </button>
-        <button
-          className="p-1 border rounded"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {'<'}
-        </button>
-        <button
-          className="p-1 border rounded"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          {'>'}
-        </button>
-        <button
-          className="p-1 border rounded"
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          disabled={!table.getCanNextPage()}
-        >
-          {'>>'}
-        </button>
-        <span className="flex items-center gap-1">
-          <div>Page</div>
-          <strong>
-            {table.getState().pagination.pageIndex + 1} of{' '}
-            {table.getPageCount()}
-          </strong>
-        </span>
-        <span className="flex items-center gap-1">
-          | Go to page:
-          <input
-            type="number"
-            defaultValue={table.getState().pagination.pageIndex + 1}
+
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <button
+            className="p-1 border rounded"
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
+          >
+            {'<<'}
+          </button>
+          <button
+            className="p-1 border rounded"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            {'<'}
+          </button>
+          <button
+            className="p-1 border rounded"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            {'>'}
+          </button>
+          <button
+            className="p-1 border rounded"
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+          >
+            {'>>'}
+          </button>
+          <span className="flex items-center gap-1">
+            <div>Page</div>
+            <strong>
+              {table.getState().pagination.pageIndex + 1} of{' '}
+              {table.getPageCount()}
+            </strong>
+          </span>
+          <span className="flex items-center gap-1">
+            | Go to page:
+            <input
+              type="number"
+              defaultValue={table.getState().pagination.pageIndex + 1}
+              onChange={(e) => {
+                const page = e.target.value ? Number(e.target.value) - 1 : 0
+                table.setPageIndex(page)
+              }}
+              className="w-16 p-1 border rounded"
+            />
+          </span>
+          <select
+            value={table.getState().pagination.pageSize}
             onChange={(e) => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0
-              table.setPageIndex(page)
+              table.setPageSize(Number(e.target.value))
             }}
-            className="w-16 p-1 border rounded"
-          />
-        </span>
-        <select
-          value={table.getState().pagination.pageSize}
-          onChange={(e) => {
-            table.setPageSize(Number(e.target.value))
+          >
+            {[10, 20, 30, 40, 50].map((pageSize) => (
+              <option key={pageSize} value={pageSize}>
+                Show {pageSize}
+              </option>
+            ))}
+          </select>
+        </div>
+        <button
+          onClick={() => {
+            table.getColumn('select').toggleVisibility()
           }}
+          className="px-4 py-2 bg-gray-900 rounded-md text-slate-100 "
         >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
+          Manage
+        </button>
       </div>
+
       <div>{table.getPrePaginationRowModel().rows.length} Rows</div>
       <div>
         <button onClick={() => rerender()}>Force Rerender</button>
