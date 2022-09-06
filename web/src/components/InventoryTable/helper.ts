@@ -5,9 +5,9 @@ import { FindItems } from 'types/graphql'
 export function getLocationString(
   row: ArrayElement<CellSuccessProps<FindItems>['items']>
 ) {
-  const { block, floor, floorSection, room, subIndex } = row
+  const { block, floor, room, subIndex } = row
   // join above variables into a string with - as a separator
-  const locationString = [block, floor + floorSection, room, subIndex]
+  const locationString = [block, floor, room, subIndex]
     .filter((v) => v) // To remove undefined/empty values
     .join('-')
   return locationString

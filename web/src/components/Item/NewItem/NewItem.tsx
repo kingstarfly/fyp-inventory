@@ -26,11 +26,23 @@ const NewItem = () => {
 
   const onSave = (input) => {
     // Convert image to base64 string
-    const reader = new FileReader()
-    reader.readAsDataURL(input.image[0])
-    reader.onload = function () {
-      const base64data = reader.result
-      createItem({ variables: { input: { ...input, image: base64data } } })
+    console.log(input)
+    // Remove "image" field from input
+    const { image, ...inputWithoutImage } = input
+
+    if (!image || image.length == 0) {
+      createItem({ variables: { input: inputWithoutImage } })
+    } else {
+      const reader = new FileReader()
+      reader.readAsDataURL(image[0])
+      reader.onload = function () {
+        const base64data = reader.result
+        createItem({
+          variables: {
+            input: { ...inputWithoutImage, imageBlobBase64: base64data },
+          },
+        })
+      }
     }
   }
 

@@ -32,12 +32,11 @@ model Item {
   // Storage Location
   block String
   floor String
-  floorSection String?
-  room String?
+  room String
   subIndex String?
 
   description String?
-  thumbnailUrl String?
+  imageBlobBase64 String?
   loan Loan?
   loanHistory LoanHistory?
 }

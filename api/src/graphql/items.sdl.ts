@@ -6,11 +6,10 @@ export const schema = gql`
     category: String!
     block: String!
     floor: String!
-    floorSection: String
-    room: String
+    room: String!
     subIndex: String
     description: String
-    thumbnailUrl: String
+    imageBlobBase64: String
     loan: Loan
     loanHistory: LoanHistory
   }
@@ -26,11 +25,10 @@ export const schema = gql`
     category: String!
     block: String!
     floor: String!
-    floorSection: String
-    room: String
+    room: String!
     subIndex: String
     description: String
-    thumbnailUrl: String
+    imageBlobBase64: String
   }
 
   input UpdateItemInput {
@@ -39,11 +37,10 @@ export const schema = gql`
     category: String
     block: String
     floor: String
-    floorSection: String
     room: String
     subIndex: String
     description: String
-    thumbnailUrl: String
+    imageBlobBase64: String
   }
 
   type Mutation {

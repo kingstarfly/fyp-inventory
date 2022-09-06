@@ -16,7 +16,6 @@ export const QUERY = gql`
       name
       block
       floor
-      floorSection
       room
       subIndex
       itemStatus

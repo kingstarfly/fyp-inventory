@@ -28,6 +28,7 @@ describe('items', () => {
         category: 'String',
         block: 'String',
         floor: 'String',
+        room: 'String',
       },
     })
 
@@ -36,6 +37,7 @@ describe('items', () => {
     expect(result.category).toEqual('String')
     expect(result.block).toEqual('String')
     expect(result.floor).toEqual('String')
+    expect(result.room).toEqual('String')
   })
 
   scenario('updates a item', async (scenario: StandardScenario) => {

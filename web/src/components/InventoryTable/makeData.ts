@@ -16,7 +16,6 @@ const newItemRow = (): ItemRow => {
     itemStatus: faker.helpers.arrayElement(['available', 'on_loan']),
     block: faker.helpers.arrayElement('N1,N2,N3,N4,S1,S2,S3,S4'.split(',')),
     floor: faker.helpers.arrayElement('1,2,3,4,5,6'.split(',')),
-    floorSection: faker.helpers.arrayElement(',A,B,C,D'.split(',')),
     room: faker.datatype
       .number({ min: 1, max: 25 })
       .toString()

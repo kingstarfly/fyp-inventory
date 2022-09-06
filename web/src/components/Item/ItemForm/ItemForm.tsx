@@ -75,7 +75,73 @@ const ItemForm = (props) => {
           errorClassName="rw-input rw-input-error"
         />
 
-        <FieldError name="description" className="rw-field-error" />
+        <Label
+          name="itemStatus"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Item Status
+        </Label>
+
+        <TextField
+          name="itemStatus"
+          defaultValue={props.item?.itemStatus}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+        />
+
+        <FieldError name="itemStatus" className="rw-field-error" />
+
+        <Label
+          name="block"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          block
+        </Label>
+
+        <TextField
+          name="block"
+          defaultValue={props.item?.block}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+        />
+
+        <FieldError name="block" className="rw-field-error" />
+
+        <Label
+          name="floor"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          floor
+        </Label>
+
+        <TextField
+          name="floor"
+          defaultValue={props.item?.floor}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+        />
+
+        <FieldError name="floor" className="rw-field-error" />
+
+        <Label
+          name="room"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          room
+        </Label>
+
+        <TextField
+          name="room"
+          defaultValue={props.item?.room}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+        />
+
+        <FieldError name="room" className="rw-field-error" />
 
         {props.item?.thumbnailUrl ? (
           <Image src={props.item?.thumbnailUrl} width={150} />
