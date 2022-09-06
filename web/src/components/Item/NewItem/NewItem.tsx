@@ -25,9 +25,6 @@ const NewItem = () => {
   })
 
   const onSave = (input) => {
-    // Convert image to base64 string
-    console.log(input)
-    // Remove "image" field from input
     const { image, ...inputWithoutImage } = input
 
     if (!image || image.length == 0) {

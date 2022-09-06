@@ -9,14 +9,107 @@ export default async () => {
     //
     // Update "const data = []" to match your data model and seeding needs
     //
-    const data: Prisma.UserExampleCreateArgs['data'][] = [
-      // To try this example data with the UserExample model in schema.prisma,
-      // uncomment the lines below and run 'yarn rw prisma migrate dev'
-      //
-      // { name: 'alice', email: 'alice@example.com' },
-      // { name: 'mark', email: 'mark@example.com' },
-      // { name: 'jackie', email: 'jackie@example.com' },
-      // { name: 'bob', email: 'bob@example.com' },
+    const items: Prisma.ItemCreateArgs['data'][] = [
+      {
+        id: 33551394,
+        name: 'Bespoke Bronze Chicken',
+        itemStatus: 'available',
+        category: 'asset',
+        block: 'S2',
+        floor: '4',
+        room: '04',
+        subIndex: 'D',
+      },
+      {
+        id: 24847440,
+        name: 'Ergonomic Bronze Cheese',
+        itemStatus: 'on_loan',
+        category: 'inventory',
+        block: 'S2',
+        floor: '2',
+        room: '01',
+        subIndex: '',
+      },
+      {
+        id: 21502425,
+        name: 'Small Concrete Fish',
+        itemStatus: 'on_loan',
+        category: 'inventory',
+        block: 'N3',
+        floor: '3',
+        room: '08',
+        subIndex: 'B',
+      },
+      {
+        id: 44811605,
+        name: 'Tasty Soft Fish',
+        itemStatus: 'available',
+        category: 'asset',
+        block: 'N3',
+        floor: '2',
+        room: '18',
+        subIndex: 'B',
+      },
+      {
+        id: 22595937,
+        name: 'Modern Bronze Car',
+        itemStatus: 'available',
+        category: 'inventory',
+        block: 'N1',
+        floor: '6',
+        room: '06',
+        subIndex: 'D',
+      },
+      {
+        id: 36162503,
+        name: 'Luxurious Fresh Hat',
+        itemStatus: 'on_loan',
+        category: 'asset',
+        block: 'S1',
+        floor: '5',
+        room: '22',
+        subIndex: 'B',
+      },
+      {
+        id: 31549270,
+        name: 'Awesome Metal Bike',
+        itemStatus: 'available',
+        category: 'inventory',
+        block: 'N4',
+        floor: '5',
+        room: '20',
+        subIndex: 'A',
+      },
+      {
+        id: 34474045,
+        name: 'Sleek Cotton Chips',
+        itemStatus: 'available',
+        category: 'inventory',
+        block: 'N3',
+        floor: '6',
+        room: '18',
+        subIndex: '',
+      },
+      {
+        id: 1058322,
+        name: 'Sleek Bronze Bacon',
+        itemStatus: 'available',
+        category: 'inventory',
+        block: 'N2',
+        floor: '6',
+        room: '23',
+        subIndex: 'A',
+      },
+      {
+        id: 47639752,
+        name: 'Gorgeous Granite Shirt',
+        itemStatus: 'on_loan',
+        category: 'inventory',
+        block: 'S3',
+        floor: '1',
+        room: '14',
+        subIndex: 'C',
+      },
     ]
     console.log(
       "\nUsing the default './scripts/seed.{js,ts}' template\nEdit the file to add seed data\n"
@@ -28,8 +121,8 @@ export default async () => {
       //
       // Change to match your data model and seeding needs
       //
-      data.map(async (data: Prisma.UserExampleCreateArgs['data']) => {
-        const record = await db.userExample.create({ data })
+      items.map(async (item) => {
+        const record = await db.item.create({ data: item })
         console.log(record)
       })
     )

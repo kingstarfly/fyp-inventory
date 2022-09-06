@@ -12,19 +12,39 @@ export const QUERY = gql`
     item: item(id: $id) {
       id
       name
+      itemStatus
       category
+
+      block
+      floor
+      room
+      subIndex
+
       description
-      thumbnailUrl
+      imageBlobBase64
+      loan {
+        id
+      }
+      loanHistory {
+        id
+      }
     }
   }
 `
 const UPDATE_ITEM_MUTATION = gql`
   mutation UpdateItemMutation($id: Int!, $input: UpdateItemInput!) {
     updateItem(id: $id, input: $input) {
-      id
       name
+      itemStatus
       category
+
+      block
+      floor
+      room
+      subIndex
+
       description
+      imageBlobBase64
     }
   }
 `
@@ -47,7 +67,23 @@ export const Success = ({ item }: CellSuccessProps<EditItemById>) => {
   })
 
   const onSave = (input, id) => {
-    updateItem({ variables: { id, input } })
+    const { image, ...inputWithoutImage } = input
+
+    if (!image || image.length == 0) {
+      updateItem({ variables: { id, input: inputWithoutImage } })
+    } else {
+      const reader = new FileReader()
+      reader.readAsDataURL(image[0])
+      reader.onload = function () {
+        const base64data = reader.result
+        updateItem({
+          variables: {
+            id,
+            input: { ...inputWithoutImage, imageBlobBase64: base64data },
+          },
+        })
+      }
+    }
   }
 
   return (

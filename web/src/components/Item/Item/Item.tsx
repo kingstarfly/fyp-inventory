@@ -4,6 +4,13 @@ import { Link, routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 import { Item as ItemType } from 'types/graphql'
+import { getLocationString } from 'src/components/InventoryTable/helper'
+import { Image } from '@mantine/core'
+import { useMemo } from 'react'
+
+// TODO: Modify this file to adhere to new prisma schema.
+// TODO: Edit functionality
+// TODO: Delete functionality
 
 const DELETE_ITEM_MUTATION = gql`
   mutation DeleteItemMutation($id: Int!) {
@@ -63,6 +70,8 @@ const Item = ({ item }: { item: ItemType }) => {
     }
   }
 
+  // Decode base64 string from item.imageBlobBase64 and return as a data URL
+
   return (
     <>
       <div className="rw-segment">
@@ -74,7 +83,7 @@ const Item = ({ item }: { item: ItemType }) => {
         <table className="rw-table">
           <tbody>
             <tr>
-              <th>Id</th>
+              <th>ID</th>
               <td>{item.id}</td>
             </tr>
             <tr>
@@ -82,16 +91,34 @@ const Item = ({ item }: { item: ItemType }) => {
               <td>{item.name}</td>
             </tr>
             <tr>
+              <th>Item Status</th>
+              <td>{item.itemStatus}</td>
+            </tr>
+            <tr>
               <th>Category</th>
               <td>{item.category}</td>
             </tr>
             <tr>
-              <th>Description</th>
-              <td>{item.description}</td>
+              <th>Location</th>
+              <td>{getLocationString(item)}</td>
             </tr>
             <tr>
-              <th>ThumbnailUrl</th>
-              <td>{item.thumbnailUrl}</td>
+              <th>Description</th>
+              <td>{item.description || 'N.A'}</td>
+            </tr>
+            <tr>
+              <th>Image</th>
+              <td>
+                {item.imageBlobBase64 ? (
+                  <Image
+                    width="20vw"
+                    src={item.imageBlobBase64}
+                    alt={item.name}
+                  />
+                ) : (
+                  'N.A'
+                )}
+              </td>
             </tr>
           </tbody>
         </table>

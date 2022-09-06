@@ -30,7 +30,10 @@ import { CellSuccessProps } from '@redwoodjs/web'
 import { FindItems } from 'types/graphql'
 import { getLocationString } from './helper'
 import { ItemRow } from '../Item/ItemsCell'
+import { navigate, routes } from '@redwoodjs/router'
 
+// TODO: Add onclick to each row to navigate to Item page.
+// TODO: Add "manage" button to toggle checkboxes.
 declare module '@tanstack/table-core' {
   interface FilterFns {
     fuzzy: FilterFn<unknown>
@@ -108,11 +111,10 @@ const InventoryTable = ({ items }: CellSuccessProps<FindItems>) => {
     []
   )
 
-  const [data, setData] = React.useState<ItemRow[]>(() => makeData(50000))
-  const refreshData = () => setData((old) => makeData(50000))
+  // const [data, setData] = React.useState<ItemRow[]>(() => makeData(50000))
 
-  const table = useReactTable({
-    data,
+  const table = useReactTable<ItemRow>({
+    data: items,
     columns,
     filterFns: {
       fuzzy: fuzzyFilter,
@@ -197,7 +199,11 @@ const InventoryTable = ({ items }: CellSuccessProps<FindItems>) => {
         <tbody>
           {table.getRowModel().rows.map((row) => {
             return (
-              <tr key={row.id}>
+              <tr
+                key={row.id}
+                onClick={() => navigate(routes.item({ id: row.original.id }))}
+                className="cursor-pointer"
+              >
                 {row.getVisibleCells().map((cell) => {
                   return (
                     <td key={cell.id}>
@@ -278,9 +284,6 @@ const InventoryTable = ({ items }: CellSuccessProps<FindItems>) => {
       <div>{table.getPrePaginationRowModel().rows.length} Rows</div>
       <div>
         <button onClick={() => rerender()}>Force Rerender</button>
-      </div>
-      <div>
-        <button onClick={() => refreshData()}>Refresh Data</button>
       </div>
       <pre>{JSON.stringify(table.getState(), null, 2)}</pre>
     </div>

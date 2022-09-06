@@ -10,12 +10,15 @@ export const QUERY = gql`
       id
       name
       itemStatus
+      category
 
       block
+      floor
       room
       subIndex
 
-      thumbnailUrl
+      description
+      imageBlobBase64
       loan {
         id
       }

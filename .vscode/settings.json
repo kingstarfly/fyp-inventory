@@ -8,5 +8,6 @@
   "[prisma]": {
     "editor.formatOnSave": true
   },
-  "editor.formatOnSaveMode": "modifications"
+  "editor.formatOnSaveMode": "modifications",
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }
