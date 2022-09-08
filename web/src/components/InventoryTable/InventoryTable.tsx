@@ -32,7 +32,9 @@ import { getLocationString } from './helper'
 import { ItemRow } from '../Item/ItemsCell'
 import { navigate, routes } from '@redwoodjs/router'
 import IndeterminateCheckbox from './IndeterminateCheckbox'
-import { Button, clsx } from '@mantine/core'
+import { ActionIcon, Button, clsx, TextInput } from '@mantine/core'
+import { RiAddBoxFill, RiQrScanLine } from 'react-icons/ri'
+import QrScanModal from '../QrScanModal/QrScanModal'
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -72,7 +74,7 @@ const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
 }
 
 const InventoryTable = ({ items }: CellSuccessProps<FindItems>) => {
-  const rerender = React.useReducer(() => ({}), {})[1]
+  const [modalOpened, setModalOpened] = React.useState(false)
 
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -174,13 +176,32 @@ const InventoryTable = ({ items }: CellSuccessProps<FindItems>) => {
 
   return (
     <div className="p-2">
-      <div>
+      <QrScanModal opened={modalOpened} onClose={() => setModalOpened(false)} />
+      <div className="flex flex-row items-center justify-between w-full my-4">
         <DebouncedInput
           value={globalFilter ?? ''}
           onChange={(value) => setGlobalFilter(String(value))}
           className="p-2 border shadow font-lg border-block"
           placeholder="Search all columns..."
         />
+        <div className="flex flex-row items-center justify-end">
+          <ActionIcon
+            className="mx-2 text-slate-800"
+            onClick={() => setModalOpened(true)}
+          >
+            <div className="flex flex-col items-center justify-center ">
+              <RiQrScanLine />
+              <label className="text-xs cursor-pointer">Scan</label>
+            </div>
+          </ActionIcon>
+
+          <ActionIcon className="ml-2 text-slate-800">
+            <div className="flex flex-col items-center justify-center">
+              <RiAddBoxFill />
+              <label className="text-xs cursor-pointer">New</label>
+            </div>
+          </ActionIcon>
+        </div>
       </div>
       <div className="h-2" />
       <table className="w-full">
@@ -329,9 +350,7 @@ const InventoryTable = ({ items }: CellSuccessProps<FindItems>) => {
       </div>
 
       <div>{table.getPrePaginationRowModel().rows.length} Rows</div>
-      <div>
-        <button onClick={() => rerender()}>Force Rerender</button>
-      </div>
+
       <pre>{JSON.stringify(table.getState(), null, 2)}</pre>
     </div>
   )
@@ -408,7 +427,7 @@ function Filter({
         value={(columnFilterValue ?? '') as string}
         onChange={(value) => column.setFilterValue(value)}
         placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-        className="border rounded shadow w-36"
+        className="border rounded shadow  w-36"
         list={column.id + 'list'}
       />
       <div className="h-1" />
@@ -442,10 +461,14 @@ function DebouncedInput({
   }, [value])
 
   return (
-    <input
+    <TextInput
       {...props}
+      size="xs"
       value={value}
-      onChange={(e) => setValue(e.target.value)}
+      onChange={(event) => setValue(event.target.value)}
+      aria-label="search"
+      variant="filled"
+      className="flex-1"
     />
   )
 }
