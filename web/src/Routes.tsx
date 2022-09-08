@@ -15,12 +15,6 @@ import NavLayout from './layouts/NavLayout/NavLayout'
 const Routes = () => {
   return (
     <Router>
-      <Set wrap={ItemsLayout}>
-        <Route path="/items/new" page={ItemNewItemPage} name="newItem" />
-        <Route path="/items/{id:Int}/edit" page={ItemEditItemPage} name="editItem" />
-        <Route path="/items/{id:Int}" page={ItemItemPage} name="item" />
-        <Route path="/items" page={ItemItemsPage} name="items" />
-      </Set>
       <Route path="/login" page={LoginPage} name="login" />
       <Route path="/signup" page={SignupPage} name="signup" />
       <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
@@ -30,6 +24,11 @@ const Routes = () => {
         <Set wrap={NavLayout}>
           <Route path="/" page={HomePage} name="home" />
           <Route notfound page={NotFoundPage} />
+
+          <Route path="/items/new" page={ItemNewItemPage} name="newItem" />
+          <Route path="/items/{id:Int}/edit" page={ItemEditItemPage} name="editItem" />
+          <Route path="/items/{id:Int}" page={ItemItemPage} name="item" />
+          <Route path="/items" page={HomePage} name="items" />
         </Set>
       </Private>
     </Router>

@@ -1,6 +1,7 @@
 import { Button, Text } from '@mantine/core'
 import { useAuth } from '@redwoodjs/auth'
 import { Link, routes } from '@redwoodjs/router'
+import { Toaster } from '@redwoodjs/web/toast'
 type NavLayoutProps = {
   children?: React.ReactNode
 }
@@ -9,10 +10,13 @@ const NavLayout = ({ children }: NavLayoutProps) => {
   const { isAuthenticated, currentUser, logOut } = useAuth()
   return (
     <>
+      <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
       <header className="px-4 border-b-2">
         <div className="flex items-center justify-between">
-          {' '}
-          <h1>IMS</h1>
+          <h1 className="m-0 font-semibold">
+            <Link to={routes.home()}>IMS</Link>
+          </h1>
+
           {isAuthenticated ? (
             <div className="flex flex-row items-center text-xs">
               <Text size="xs">{currentUser.email}</Text>{' '}

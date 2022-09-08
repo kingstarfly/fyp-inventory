@@ -151,6 +151,13 @@ const InventoryTable = ({ items }: CellSuccessProps<FindItems>) => {
       columnFilters,
       globalFilter,
     },
+
+    // Select column is initially hidden
+    initialState: {
+      columnVisibility: {
+        select: false,
+      },
+    },
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: fuzzyFilter,
@@ -165,14 +172,6 @@ const InventoryTable = ({ items }: CellSuccessProps<FindItems>) => {
     debugHeaders: true,
     debugColumns: false,
   })
-
-  React.useEffect(() => {
-    if (table.getState().columnFilters[0]?.id === 'fullName') {
-      if (table.getState().sorting[0]?.id !== 'fullName') {
-        table.setSorting([{ id: 'fullName', desc: false }])
-      }
-    }
-  }, [table.getState().columnFilters[0]?.id])
 
   return (
     <div className="p-2">
@@ -427,7 +426,7 @@ function Filter({
         value={(columnFilterValue ?? '') as string}
         onChange={(value) => column.setFilterValue(value)}
         placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-        className="border rounded shadow  w-36"
+        className="border rounded shadow w-36"
         list={column.id + 'list'}
       />
       <div className="h-1" />

@@ -6,13 +6,7 @@ const HomePage = () => {
   return (
     <>
       <MetaTags title="Home" description="Home page" />
-      <Text size="md" weight="bold">
-        Inventory
-      </Text>
-
-      <div className="flex flex-col">
-        <ItemsCell />
-      </div>
+      <ItemsCell />
     </>
   )
 }
