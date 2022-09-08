@@ -8,10 +8,6 @@ import { getLocationString } from 'src/components/InventoryTable/helper'
 import { Image } from '@mantine/core'
 import { useMemo } from 'react'
 
-// TODO: Modify this file to adhere to new prisma schema.
-// TODO: Edit functionality
-// TODO: Delete functionality
-
 const DELETE_ITEM_MUTATION = gql`
   mutation DeleteItemMutation($id: Int!) {
     deleteItem(id: $id) {
@@ -69,8 +65,6 @@ const Item = ({ item }: { item: ItemType }) => {
       deleteItem({ variables: { id } })
     }
   }
-
-  // Decode base64 string from item.imageBlobBase64 and return as a data URL
 
   return (
     <>

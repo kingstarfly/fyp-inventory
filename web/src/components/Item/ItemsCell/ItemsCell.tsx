@@ -40,7 +40,6 @@ export const Failure = ({ error }: CellFailureProps) => (
   <div className="rw-cell-error">{error.message}</div>
 )
 
-// TODO: Add server side pagination for when number of items get too large and initial download is too slow.
 export const Success = ({ items }: CellSuccessProps<FindItems>) => {
   // return <Items items={items} />
   return <InventoryTable items={items} />

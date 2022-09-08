@@ -45,6 +45,10 @@ declare module '@tanstack/table-core' {
   }
 }
 
+// TODO: Add functionality to "New" button.
+// TODO: Manage button should change to "Done" when editing.
+// TODO: Add a "Delete" button when more than one item is selected in edit mode.
+
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)
