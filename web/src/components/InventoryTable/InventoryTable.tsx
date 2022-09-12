@@ -46,7 +46,6 @@ declare module '@tanstack/table-core' {
 }
 
 // TODO: Add functionality to "New" button.
-// TODO: Manage button should change to "Done" when editing.
 // TODO: Add a "Delete" button when more than one item is selected in edit mode.
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
@@ -342,18 +341,18 @@ const InventoryTable = ({ items }: CellSuccessProps<FindItems>) => {
             ))}
           </select>
         </div>
-        <button
-          onClick={() => {
-            table.getColumn('select').toggleVisibility()
-          }}
-          className="px-4 py-2 bg-gray-900 rounded-md text-slate-100 "
-        >
-          Manage
-        </button>
       </div>
+      <button
+        onClick={() => {
+          table.getColumn('select').toggleVisibility()
+        }}
+        className="px-4 py-2 bg-gray-900 rounded-md text-slate-100 "
+      >
+        {table.getColumn('select').getIsVisible() ? 'Done' : 'Manage'}
+      </button>
 
+      {/* To remove outside of debugging */}
       <div>{table.getPrePaginationRowModel().rows.length} Rows</div>
-
       <pre>{JSON.stringify(table.getState(), null, 2)}</pre>
     </div>
   )
