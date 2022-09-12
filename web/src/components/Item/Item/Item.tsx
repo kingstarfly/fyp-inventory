@@ -7,6 +7,7 @@ import { Item as ItemType } from 'types/graphql'
 import { getLocationString } from 'src/components/InventoryTable/helper'
 import { Image } from '@mantine/core'
 import { useMemo } from 'react'
+import { QUERY } from '../ItemsCell'
 
 const DELETE_ITEM_MUTATION = gql`
   mutation DeleteItemMutation($id: Int!) {
@@ -55,6 +56,7 @@ const Item = ({ item }: { item: ItemType }) => {
       toast.success('Item deleted')
       navigate(routes.items())
     },
+    refetchQueries: [QUERY],
     onError: (error) => {
       toast.error(error.message)
     },

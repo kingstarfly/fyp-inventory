@@ -47,5 +47,6 @@ export const schema = gql`
     createItem(input: CreateItemInput!): Item! @requireAuth
     updateItem(id: Int!, input: UpdateItemInput!): Item! @requireAuth
     deleteItem(id: Int!): Item! @requireAuth
+    deleteItems(ids: [Int!]!): [Int!]! @requireAuth
   }
 `

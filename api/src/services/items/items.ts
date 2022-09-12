@@ -35,6 +35,22 @@ export const deleteItem: MutationResolvers['deleteItem'] = ({ id }) => {
   })
 }
 
+export const deleteItems: MutationResolvers['deleteItems'] = ({ ids }) => {
+  return db.item
+    .deleteMany({
+      where: { id: { in: ids } },
+    })
+    .then(
+      () => {
+        return ids
+      },
+      (error) => {
+        console.error(error)
+        return []
+      }
+    )
+}
+
 export const Item: ItemResolvers = {
   loan: (_obj, { root }) =>
     db.item.findUnique({ where: { id: root.id } }).loan(),

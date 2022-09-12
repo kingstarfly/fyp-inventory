@@ -40,7 +40,7 @@ export const Failure = ({ error }: CellFailureProps) => (
   <div className="rw-cell-error">{error.message}</div>
 )
 
-export const Success = ({ items }: CellSuccessProps<FindItems>) => {
+export const Success = ({ items, refetch }: CellSuccessProps<FindItems>) => {
   // return <Items items={items} />
-  return <InventoryTable items={items} />
+  return <InventoryTable items={items} refetch={refetch} />
 }

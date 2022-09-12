@@ -25,8 +25,7 @@ import {
   compareItems,
 } from '@tanstack/match-sorter-utils'
 
-import { makeData } from './makeData'
-import { CellSuccessProps } from '@redwoodjs/web'
+import { CellSuccessProps, useMutation } from '@redwoodjs/web'
 import { FindItems } from 'types/graphql'
 import { getLocationString } from './helper'
 import { ItemRow } from '../Item/ItemsCell'
@@ -35,6 +34,7 @@ import IndeterminateCheckbox from './IndeterminateCheckbox'
 import { ActionIcon, Button, clsx, TextInput } from '@mantine/core'
 import { RiAddBoxFill, RiQrScanLine } from 'react-icons/ri'
 import QrScanModal from '../QrScanModal/QrScanModal'
+import { toast } from '@redwoodjs/web/toast'
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -44,6 +44,12 @@ declare module '@tanstack/table-core' {
     itemRank: RankingInfo
   }
 }
+
+const DELETE_ITEMS_MUTATION = gql`
+  mutation DeleteItemsMutation($ids: [Int!]!) {
+    deleteItems(ids: $ids)
+  }
+`
 
 // TODO: Add functionality to "New" button.
 // TODO: Add a "Delete" button when more than one item is selected in edit mode.
@@ -76,14 +82,12 @@ const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir
 }
 
-const InventoryTable = ({ items }: CellSuccessProps<FindItems>) => {
+const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
   const [modalOpened, setModalOpened] = React.useState(false)
-
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
   const [globalFilter, setGlobalFilter] = React.useState('')
-
   const columns = React.useMemo<ColumnDef<ItemRow, any>[]>(
     () => [
       {
@@ -141,9 +145,6 @@ const InventoryTable = ({ items }: CellSuccessProps<FindItems>) => {
 
     []
   )
-
-  // const [data, setData] = React.useState<ItemRow[]>(() => makeData(50000))
-
   const table = useReactTable<ItemRow>({
     data: items,
     columns,
@@ -175,6 +176,33 @@ const InventoryTable = ({ items }: CellSuccessProps<FindItems>) => {
     debugHeaders: true,
     debugColumns: false,
   })
+
+  const [deleteItems] = useMutation(DELETE_ITEMS_MUTATION, {
+    onCompleted: () => {
+      toast.success('Item deleted')
+      refetch()
+      table.resetRowSelection()
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    },
+  })
+
+  const onDeleteItemsClick = () => {
+    if (
+      confirm(
+        `Are you sure you want to delete the ${
+          Object.keys(table.getState().rowSelection).length
+        } selected items?`
+      )
+    ) {
+      deleteItems({
+        variables: {
+          ids: table.getSelectedRowModel().rows.map((row) => row.original.id),
+        },
+      })
+    }
+  }
 
   return (
     <div className="p-2">
@@ -342,14 +370,30 @@ const InventoryTable = ({ items }: CellSuccessProps<FindItems>) => {
           </select>
         </div>
       </div>
-      <button
-        onClick={() => {
-          table.getColumn('select').toggleVisibility()
-        }}
-        className="px-4 py-2 bg-gray-900 rounded-md text-slate-100 "
-      >
-        {table.getColumn('select').getIsVisible() ? 'Done' : 'Manage'}
-      </button>
+
+      <div className="flex flex-row gap-3">
+        <button
+          onClick={() => {
+            table.getColumn('select').toggleVisibility()
+          }}
+          className="px-4 py-2 bg-gray-900 rounded-md text-slate-100 "
+        >
+          {table.getColumn('select').getIsVisible() ? 'Done' : 'Manage'}
+        </button>
+        {
+          // Get number of selected rows
+          Object.keys(table.getState().rowSelection).length > 0 && (
+            <button
+              onClick={() => {
+                onDeleteItemsClick()
+              }}
+              className="px-4 py-2 bg-red-500 rounded-md text-slate-100 "
+            >
+              Delete
+            </button>
+          )
+        }
+      </div>
 
       {/* To remove outside of debugging */}
       <div>{table.getPrePaginationRowModel().rows.length} Rows</div>
