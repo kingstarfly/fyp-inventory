@@ -52,7 +52,6 @@ const DELETE_ITEMS_MUTATION = gql`
 `
 
 // TODO: Add functionality to "New" button.
-// TODO: Add a "Delete" button when more than one item is selected in edit mode.
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item

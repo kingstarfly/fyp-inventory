@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { ItemRow } from '../Item/ItemsCell'
+import { ItemRow } from 'web/src/components/Item/ItemsCell/ItemsCell'
 
 const range = (len: number) => {
   const arr = []
@@ -33,5 +33,3 @@ export function makeData(...lens: number[]) {
 
   return makeDataLevel()
 }
-
-console.log(makeData(10))
