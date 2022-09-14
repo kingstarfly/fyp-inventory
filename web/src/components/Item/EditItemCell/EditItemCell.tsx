@@ -13,14 +13,14 @@ export const QUERY = gql`
       id
       name
       itemStatus
-      category
+      isAsset
 
       block
       floor
       room
       subIndex
 
-      description
+      remarks
       imageBlobBase64
       loan {
         id
@@ -36,14 +36,14 @@ const UPDATE_ITEM_MUTATION = gql`
     updateItem(id: $id, input: $input) {
       name
       itemStatus
-      category
+      isAsset
 
       block
       floor
       room
       subIndex
 
-      description
+      remarks
       imageBlobBase64
     }
   }

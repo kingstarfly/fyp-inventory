@@ -6,7 +6,7 @@ export const standard = defineScenario<Prisma.ItemCreateArgs>({
       data: {
         name: 'String',
         itemStatus: 'String',
-        category: 'String',
+        isAsset: true,
         block: 'String',
         floor: 'String',
         room: 'String',
@@ -16,7 +16,7 @@ export const standard = defineScenario<Prisma.ItemCreateArgs>({
       data: {
         name: 'String',
         itemStatus: 'String',
-        category: 'String',
+        isAsset: true,
         block: 'String',
         floor: 'String',
         room: 'String',

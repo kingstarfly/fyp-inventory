@@ -1,12 +1,11 @@
 import humanize from 'humanize-string'
 
 import { Link, routes, navigate } from '@redwoodjs/router'
-import { useMutation } from '@redwoodjs/web'
+import { CellSuccessProps, useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
-import { Item as ItemType } from 'types/graphql'
+import { FindItemById } from 'types/graphql'
 import { getLocationString } from 'src/components/InventoryTable/helper'
 import { Image } from '@mantine/core'
-import { useMemo } from 'react'
 import { QUERY } from '../ItemsCell'
 
 const DELETE_ITEM_MUTATION = gql`
@@ -50,7 +49,7 @@ const checkboxInputTag = (checked) => {
   return <input type="checkbox" checked={checked} disabled />
 }
 
-const Item = ({ item }: { item: ItemType }) => {
+const Item = ({ item }: { item: CellSuccessProps<FindItemById>['item'] }) => {
   const [deleteItem] = useMutation(DELETE_ITEM_MUTATION, {
     onCompleted: () => {
       toast.success('Item deleted')
@@ -91,16 +90,17 @@ const Item = ({ item }: { item: ItemType }) => {
               <td>{item.itemStatus}</td>
             </tr>
             <tr>
-              <th>Category</th>
-              <td>{item.category}</td>
+              <th>Is Asset?</th>
+              {/* Stringify a boolean */}
+              <td>{item.isAsset.toString()}</td>
             </tr>
             <tr>
               <th>Location</th>
               <td>{getLocationString(item)}</td>
             </tr>
             <tr>
-              <th>Description</th>
-              <td>{item.description || 'N.A'}</td>
+              <th>Remarks</th>
+              <td>{item.remarks || 'N.A'}</td>
             </tr>
             <tr>
               <th>Image</th>

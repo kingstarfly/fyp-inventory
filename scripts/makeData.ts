@@ -14,7 +14,7 @@ const newItemRow = (): ItemRow => {
     id: faker.datatype.number({ min: 100000, max: 51231322 }),
     name: faker.commerce.productName(),
     itemStatus: faker.helpers.arrayElement(['available', 'on_loan']),
-    // category: faker.helpers.arrayElement(['inventory', 'asset']),
+    isAsset: faker.datatype.boolean(),
     block: faker.helpers.arrayElement('N1,N2,N3,N4,S1,S2,S3,S4'.split(',')),
     floor: faker.helpers.arrayElement('1,2,3,4,5,6'.split(',')),
     room: faker.datatype

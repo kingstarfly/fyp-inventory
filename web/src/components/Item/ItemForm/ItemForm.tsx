@@ -61,16 +61,16 @@ const ItemForm = (props) => {
         <FieldError name="category" className="rw-field-error" />
 
         <Label
-          name="description"
+          name="remarks"
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          Description
+          Remarks
         </Label>
 
         <TextField
-          name="description"
-          defaultValue={props.item?.description}
+          name="remarks"
+          defaultValue={props.item?.remarks}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
         />

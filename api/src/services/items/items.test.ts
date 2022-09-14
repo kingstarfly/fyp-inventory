@@ -25,7 +25,7 @@ describe('items', () => {
       input: {
         name: 'String',
         itemStatus: 'String',
-        category: 'String',
+        isAsset: true,
         block: 'String',
         floor: 'String',
         room: 'String',
@@ -34,7 +34,7 @@ describe('items', () => {
 
     expect(result.name).toEqual('String')
     expect(result.itemStatus).toEqual('String')
-    expect(result.category).toEqual('String')
+    expect(result.isAsset).toEqual(true)
     expect(result.block).toEqual('String')
     expect(result.floor).toEqual('String')
     expect(result.room).toEqual('String')

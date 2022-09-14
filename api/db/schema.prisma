@@ -27,7 +27,7 @@ model Item {
   id    Int     @id @default(autoincrement())
   name  String
   itemStatus String
-  category String // Either "inventory" or "asset".
+  isAsset Boolean
 
   // Storage Location
   block String
@@ -35,7 +35,7 @@ model Item {
   room String
   subIndex String?
 
-  description String?
+  remarks String?
   imageBlobBase64 String?
   loan Loan?
   loanHistory LoanHistory?

@@ -3,12 +3,12 @@ export const schema = gql`
     id: Int!
     name: String!
     itemStatus: String!
-    category: String!
+    isAsset: Boolean!
     block: String!
     floor: String!
     room: String!
     subIndex: String
-    description: String
+    remarks: String
     imageBlobBase64: String
     loan: Loan
     loanHistory: LoanHistory
@@ -22,24 +22,24 @@ export const schema = gql`
   input CreateItemInput {
     name: String!
     itemStatus: String!
-    category: String!
+    isAsset: Boolean!
     block: String!
     floor: String!
     room: String!
     subIndex: String
-    description: String
+    remarks: String
     imageBlobBase64: String
   }
 
   input UpdateItemInput {
     name: String
     itemStatus: String
-    category: String
+    isAsset: Boolean
     block: String
     floor: String
     room: String
     subIndex: String
-    description: String
+    remarks: String
     imageBlobBase64: String
   }
 
