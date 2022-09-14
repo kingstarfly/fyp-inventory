@@ -49,7 +49,7 @@ const checkboxInputTag = (checked) => {
   return <input type="checkbox" checked={checked} disabled />
 }
 
-const Item = ({ item }: { item: CellSuccessProps<FindItemById>['item'] }) => {
+const Item = ({ item, locations }: CellSuccessProps<FindItemById>) => {
   const [deleteItem] = useMutation(DELETE_ITEM_MUTATION, {
     onCompleted: () => {
       toast.success('Item deleted')

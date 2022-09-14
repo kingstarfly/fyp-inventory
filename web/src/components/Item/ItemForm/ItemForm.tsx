@@ -1,4 +1,4 @@
-import { Image } from '@mantine/core'
+import { Image, Select } from '@mantine/core'
 import {
   Form,
   FormError,
@@ -7,15 +7,24 @@ import {
   TextField,
   Submit,
   FileField,
+  InputField,
+  SelectField,
 } from '@redwoodjs/forms'
+import { RiSearchLine } from 'react-icons/ri'
 
 const ItemForm = (props) => {
   const onSubmit = (data) => {
     props.onSave(data, props?.item?.id)
   }
 
+  // Control value of block, floor and room
+  const [block, setBlock] = React.useState(props?.item?.block)
+  const [floor, setFloor] = React.useState(props?.item?.floor)
+  const [room, setRoom] = React.useState(props?.item?.room)
+
   return (
     <div className="rw-form-wrapper">
+      {JSON.stringify(props, null, 2)}
       <Form onSubmit={onSubmit} error={props.error}>
         <FormError
           error={props.error}
@@ -43,22 +52,25 @@ const ItemForm = (props) => {
         <FieldError name="name" className="rw-field-error" />
 
         <Label
-          name="category"
+          name="isAsset"
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          Category
+          Is Asset?
         </Label>
 
-        <TextField
-          name="category"
-          defaultValue={props.item?.category}
+        <SelectField
+          name="isAsset"
+          defaultValue={props.item?.isAsset ? 'true' : 'false'}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
           validation={{ required: true }}
-        />
+        >
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </SelectField>
 
-        <FieldError name="category" className="rw-field-error" />
+        <FieldError name="isAsset" className="rw-field-error" />
 
         <Label
           name="remarks"
@@ -92,6 +104,39 @@ const ItemForm = (props) => {
 
         <FieldError name="itemStatus" className="rw-field-error" />
 
+        <Select
+          label="Search location name"
+          placeholder="..."
+          className="rw-select"
+          labelProps={{ className: 'rw-label' }}
+          icon={<RiSearchLine size={14} />}
+          searchable
+          clearable
+          nothingFound="No options"
+          data={
+            !props.locations
+              ? []
+              : props.locations?.map((location) => {
+                  return {
+                    value: location.locationName,
+                    label: location.locationName,
+                  }
+                })
+          }
+          onChange={(value) => {
+            props.locations.find((location) => {
+              if (location.locationName === value) {
+                // Fill in Block, Floor and Room with location.block, location.floor and location.room
+                setBlock(location.block)
+                setFloor(location.floor)
+                setRoom(location.room)
+              }
+            })
+          }}
+        />
+
+        <FieldError name="block" className="rw-field-error" />
+
         <Label
           name="block"
           className="rw-label"
@@ -102,9 +147,10 @@ const ItemForm = (props) => {
 
         <TextField
           name="block"
-          defaultValue={props.item?.block}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
+          value={block}
+          onChange={(event) => setBlock(event.target.value)}
         />
 
         <FieldError name="block" className="rw-field-error" />
@@ -119,9 +165,10 @@ const ItemForm = (props) => {
 
         <TextField
           name="floor"
-          defaultValue={props.item?.floor}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
+          value={floor}
+          onChange={(event) => setFloor(event.target.value)}
         />
 
         <FieldError name="floor" className="rw-field-error" />
@@ -136,9 +183,10 @@ const ItemForm = (props) => {
 
         <TextField
           name="room"
-          defaultValue={props.item?.room}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
+          value={room}
+          onChange={(event) => setRoom(event.target.value)}
         />
 
         <FieldError name="room" className="rw-field-error" />

@@ -26,6 +26,14 @@ export const QUERY = gql`
         id
       }
     }
+
+    locations: locations {
+      id
+      locationName
+      block
+      floor
+      room
+    }
   }
 `
 
@@ -37,6 +45,9 @@ export const Failure = ({ error }: CellFailureProps) => (
   <div className="rw-cell-error">{error.message}</div>
 )
 
-export const Success = ({ item }: CellSuccessProps<FindItemById>) => {
-  return <Item item={item} />
+export const Success = ({
+  item,
+  locations,
+}: CellSuccessProps<FindItemById>) => {
+  return <Item item={item} locations={locations} />
 }

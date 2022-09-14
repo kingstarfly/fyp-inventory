@@ -1,9 +1,21 @@
 import { navigate, routes } from '@redwoodjs/router'
-import { useMutation } from '@redwoodjs/web'
+import { CellFailureProps, CellSuccessProps, useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import ItemForm from 'src/components/Item/ItemForm'
-import { Item } from 'types/graphql'
+import { Item, NewItemLocations } from 'types/graphql'
+
+export const QUERY = gql`
+  query NewItemLocations {
+    locations: locations {
+      id
+      locationName
+      block
+      floor
+      room
+    }
+  }
+`
 
 const CREATE_ITEM_MUTATION = gql`
   mutation CreateItemMutation($input: CreateItemInput!) {
@@ -13,7 +25,13 @@ const CREATE_ITEM_MUTATION = gql`
   }
 `
 
-const NewItem = () => {
+export const Loading = () => <div>Loading...</div>
+
+export const Failure = ({ error }: CellFailureProps) => (
+  <div className="rw-cell-error">{error.message}</div>
+)
+
+export const Success = ({ locations }: CellSuccessProps<NewItemLocations>) => {
   const [createItem, { loading, error }] = useMutation(CREATE_ITEM_MUTATION, {
     onCompleted: () => {
       toast.success('Item created')
@@ -49,10 +67,13 @@ const NewItem = () => {
         <h2 className="rw-heading rw-heading-secondary">New Item</h2>
       </header>
       <div className="rw-segment-main">
-        <ItemForm onSave={onSave} loading={loading} error={error} />
+        <ItemForm
+          locations={locations}
+          onSave={onSave}
+          loading={loading}
+          error={error}
+        />
       </div>
     </div>
   )
 }
-
-export default NewItem

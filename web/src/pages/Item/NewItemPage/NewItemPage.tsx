@@ -1,7 +1,7 @@
-import NewItem from 'src/components/Item/NewItem'
+import NewItemCell from 'src/components/Item/NewItemCell'
 
 const NewItemPage = () => {
-  return <NewItem />
+  return <NewItemCell />
 }
 
 export default NewItemPage
