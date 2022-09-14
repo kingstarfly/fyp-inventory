@@ -9,7 +9,7 @@
 
 import { Router, Route, Set, Private } from '@redwoodjs/router'
 
-import LocationNameMappingsLayout from 'src/layouts/LocationNameMappingsLayout'
+import LocationsLayout from 'src/layouts/LocationsLayout'
 
 import ItemsLayout from 'src/layouts/ItemsLayout'
 import NavLayout from './layouts/NavLayout/NavLayout'
@@ -17,11 +17,11 @@ import NavLayout from './layouts/NavLayout/NavLayout'
 const Routes = () => {
   return (
     <Router>
-      <Set wrap={LocationNameMappingsLayout}>
-        <Route path="/location-name-mappings/new" page={LocationNameMappingNewLocationNameMappingPage} name="newLocationNameMapping" />
-        <Route path="/location-name-mappings/{id:Int}/edit" page={LocationNameMappingEditLocationNameMappingPage} name="editLocationNameMapping" />
-        <Route path="/location-name-mappings/{id:Int}" page={LocationNameMappingLocationNameMappingPage} name="locationNameMapping" />
-        <Route path="/location-name-mappings" page={LocationNameMappingLocationNameMappingsPage} name="locationNameMappings" />
+      <Set wrap={LocationsLayout}>
+        <Route path="/locations/new" page={LocationNewLocationPage} name="newLocation" />
+        <Route path="/locations/{id:Int}/edit" page={LocationEditLocationPage} name="editLocation" />
+        <Route path="/locations/{id:Int}" page={LocationLocationPage} name="location" />
+        <Route path="/locations" page={LocationLocationsPage} name="locations" />
       </Set>
       <Route path="/login" page={LoginPage} name="login" />
       <Route path="/signup" page={SignupPage} name="signup" />
