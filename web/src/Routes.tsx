@@ -9,12 +9,20 @@
 
 import { Router, Route, Set, Private } from '@redwoodjs/router'
 
+import LocationNameMappingsLayout from 'src/layouts/LocationNameMappingsLayout'
+
 import ItemsLayout from 'src/layouts/ItemsLayout'
 import NavLayout from './layouts/NavLayout/NavLayout'
 
 const Routes = () => {
   return (
     <Router>
+      <Set wrap={LocationNameMappingsLayout}>
+        <Route path="/location-name-mappings/new" page={LocationNameMappingNewLocationNameMappingPage} name="newLocationNameMapping" />
+        <Route path="/location-name-mappings/{id:Int}/edit" page={LocationNameMappingEditLocationNameMappingPage} name="editLocationNameMapping" />
+        <Route path="/location-name-mappings/{id:Int}" page={LocationNameMappingLocationNameMappingPage} name="locationNameMapping" />
+        <Route path="/location-name-mappings" page={LocationNameMappingLocationNameMappingsPage} name="locationNameMappings" />
+      </Set>
       <Route path="/login" page={LoginPage} name="login" />
       <Route path="/signup" page={SignupPage} name="signup" />
       <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />

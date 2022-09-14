@@ -65,3 +65,11 @@ model LoanHistory {
   item Item @relation(fields: [itemId], references: [id])
   itemId Int @unique
 }
+
+model LocationNameMapping {
+  id   Int     @id @default(autoincrement())
+  locationName String
+  block String
+  floor String
+  room String
+}
