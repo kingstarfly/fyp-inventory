@@ -1,5 +1,4 @@
 import { MetaTags } from '@redwoodjs/web'
-import { Text } from '@mantine/core'
 import ItemsCell from 'src/components/Item/ItemsCell'
 
 const HomePage = () => {

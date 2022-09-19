@@ -1,4 +1,4 @@
-import { Image, Select } from '@mantine/core'
+import { Image, NumberInput, SegmentedControl, Select } from '@mantine/core'
 import {
   Form,
   FormError,
@@ -9,29 +9,87 @@ import {
   FileField,
   InputField,
   SelectField,
+  NumberField,
 } from '@redwoodjs/forms'
+import { CellSuccessProps } from '@redwoodjs/web'
 import { RiSearchLine } from 'react-icons/ri'
+import { EditItemById, Item, NewItemLocations } from 'types/graphql'
 
-const ItemForm = (props) => {
+interface ItemFormProps {
+  locations: CellSuccessProps<NewItemLocations>['locations']
+  onSave: (input: any, id?: any) => void
+  item?: CellSuccessProps<EditItemById>['item']
+  error?: any
+  loading?: boolean
+}
+
+interface FormFields extends Item {
+  quantity: number
+}
+
+const ItemForm = (props: ItemFormProps) => {
   const onSubmit = (data) => {
     props.onSave(data, props?.item?.id)
   }
 
   // Control value of block, floor and room
-  const [block, setBlock] = React.useState(props?.item?.block)
-  const [floor, setFloor] = React.useState(props?.item?.floor)
-  const [room, setRoom] = React.useState(props?.item?.room)
+  const [block, setBlock] = React.useState(props?.item?.block || '')
+  const [floor, setFloor] = React.useState(props?.item?.floor || '')
+  const [room, setRoom] = React.useState(props?.item?.room || '')
+
+  const [addMode, setAddMode] = React.useState('single')
+  const [quantity, setQuantity] = React.useState(1)
 
   return (
     <div className="rw-form-wrapper">
       {JSON.stringify(props, null, 2)}
-      <Form onSubmit={onSubmit} error={props.error}>
+      <Form<FormFields>
+        onSubmit={(controlledData) => {
+          const dataToSubmit = {
+            ...controlledData,
+            block,
+            floor,
+            room,
+            quantity,
+          }
+
+          onSubmit(dataToSubmit)
+        }}
+        error={props.error}
+      >
         <FormError
           error={props.error}
           wrapperClassName="rw-form-error-wrapper"
           titleClassName="rw-form-error-title"
           listClassName="rw-form-error-list"
         />
+
+        {!props.item && (
+          <SegmentedControl
+            value={addMode}
+            onChange={setAddMode}
+            data={[
+              { label: 'Add Single Item', value: 'single' },
+              { label: 'Bulk Add Items', value: 'bulk' },
+            ]}
+          />
+        )}
+
+        {addMode === 'bulk' && (
+          <>
+            <NumberInput
+              name="quantity"
+              value={quantity}
+              label="Quantity"
+              onChange={(value) => setQuantity(value)}
+              labelProps={{ className: 'rw-label mb-2' }}
+              max={1000}
+              min={1}
+            />
+
+            <FieldError name="quantity" className="rw-field-error" />
+          </>
+        )}
 
         <Label
           name="name"
@@ -46,7 +104,6 @@ const ItemForm = (props) => {
           defaultValue={props.item?.name}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
         />
 
         <FieldError name="name" className="rw-field-error" />
@@ -191,8 +248,8 @@ const ItemForm = (props) => {
 
         <FieldError name="room" className="rw-field-error" />
 
-        {props.item?.thumbnailUrl ? (
-          <Image src={props.item?.thumbnailUrl} width={150} />
+        {props.item?.imageBlobBase64 ? (
+          <Image src={props.item?.imageBlobBase64} width={150} />
         ) : (
           <>
             <Label

@@ -17,11 +17,9 @@ export const QUERY = gql`
   }
 `
 
-const CREATE_ITEM_MUTATION = gql`
-  mutation CreateItemMutation($input: CreateItemInput!) {
-    createItem(input: $input) {
-      id
-    }
+const CREATE_MANY_ITEMS_MUTATION = gql`
+  mutation CreateManyItemsMutation($input: CreateItemInput!, $quantity: Int!) {
+    createManyItems(input: $input, quantity: $quantity)
   }
 `
 
@@ -30,31 +28,51 @@ export const Loading = () => <div>Loading...</div>
 export const Failure = ({ error }: CellFailureProps) => (
   <div className="rw-cell-error">{error.message}</div>
 )
-
 export const Success = ({ locations }: CellSuccessProps<NewItemLocations>) => {
-  const [createItem, { loading, error }] = useMutation(CREATE_ITEM_MUTATION, {
-    onCompleted: () => {
-      toast.success('Item created')
-      navigate(routes.items())
-    },
-    onError: (error) => {
-      toast.error(error.message)
-    },
-  })
+  const [createManyItems, { loading, error }] = useMutation(
+    CREATE_MANY_ITEMS_MUTATION,
+    {
+      onCompleted: (data) => {
+        console.log('Result of createManyItems: ', data)
+        toast.success('Many items created')
+        navigate(routes.items())
+      },
+      onError: (error) => {
+        toast.error(error.message)
+      },
+    }
+  )
 
   const onSave = (input) => {
-    const { image, ...inputWithoutImage } = input
+    console.log(input)
+    const { image, quantity, isAsset, ...modifiedInput } = input
+
+    const modifiedIsAsset = isAsset === 'Yes' ? true : false
 
     if (!image || image.length == 0) {
-      createItem({ variables: { input: inputWithoutImage } })
+      createManyItems({
+        variables: {
+          input: {
+            ...modifiedInput,
+            isAsset: modifiedIsAsset,
+          },
+          quantity: quantity,
+        },
+      })
     } else {
       const reader = new FileReader()
       reader.readAsDataURL(image[0])
       reader.onload = function () {
         const base64data = reader.result
-        createItem({
+        createManyItems({
           variables: {
-            input: { ...inputWithoutImage, imageBlobBase64: base64data },
+            input: {
+              ...modifiedInput,
+              isAsset,
+              modifiedIsAsset,
+              imageBlobBase64: base64data,
+            },
+            quantity: quantity,
           },
         })
       }

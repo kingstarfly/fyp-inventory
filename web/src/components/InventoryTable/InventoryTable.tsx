@@ -93,7 +93,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
         id: 'select',
         enableHiding: true,
         header: ({ table }) => (
-          <div className="flex justify-left">
+          <div className="justify-left flex">
             <IndeterminateCheckbox
               {...{
                 checked: table.getIsAllRowsSelected(),
@@ -104,7 +104,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
           </div>
         ),
         cell: ({ row }) => (
-          <div className="flex justify-left">
+          <div className="justify-left flex">
             <IndeterminateCheckbox
               {...{
                 checked: row.getIsSelected(),
@@ -206,11 +206,12 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
   return (
     <div className="p-2">
       <QrScanModal opened={modalOpened} onClose={() => setModalOpened(false)} />
-      <div className="flex flex-row items-center justify-between w-full my-4">
+
+      <div className="my-4 flex w-full flex-row items-center justify-between">
         <DebouncedInput
           value={globalFilter ?? ''}
           onChange={(value) => setGlobalFilter(String(value))}
-          className="p-2 border shadow font-lg border-block"
+          className="font-lg border-block border p-2 shadow"
           placeholder="Search all columns..."
         />
         <div className="flex flex-row items-center justify-end">
@@ -220,14 +221,17 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
           >
             <div className="flex flex-col items-center justify-center ">
               <RiQrScanLine />
-              <label className="text-xs cursor-pointer">Scan</label>
+              <label className="cursor-pointer text-xs">Scan</label>
             </div>
           </ActionIcon>
 
-          <ActionIcon className="ml-2 text-slate-800">
+          <ActionIcon
+            className="ml-2 text-slate-800"
+            onClick={() => navigate(routes.newItem())}
+          >
             <div className="flex flex-col items-center justify-center">
               <RiAddBoxFill />
-              <label className="text-xs cursor-pointer">New</label>
+              <label className="cursor-pointer text-xs">New</label>
             </div>
           </ActionIcon>
         </div>
@@ -309,28 +313,28 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <button
-            className="p-1 border rounded"
+            className="rounded border p-1"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
           >
             {'<<'}
           </button>
           <button
-            className="p-1 border rounded"
+            className="rounded border p-1"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
             {'<'}
           </button>
           <button
-            className="p-1 border rounded"
+            className="rounded border p-1"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
             {'>'}
           </button>
           <button
-            className="p-1 border rounded"
+            className="rounded border p-1"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
           >
@@ -352,7 +356,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
                 const page = e.target.value ? Number(e.target.value) - 1 : 0
                 table.setPageIndex(page)
               }}
-              className="w-16 p-1 border rounded"
+              className="w-16 rounded border p-1"
             />
           </span>
           <select
@@ -375,7 +379,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
           onClick={() => {
             table.getColumn('select').toggleVisibility()
           }}
-          className="px-4 py-2 bg-gray-900 rounded-md text-slate-100 "
+          className="rounded-md bg-gray-900 px-4 py-2 text-slate-100 "
         >
           {table.getColumn('select').getIsVisible() ? 'Done' : 'Manage'}
         </button>
@@ -386,7 +390,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
               onClick={() => {
                 onDeleteItemsClick()
               }}
-              className="px-4 py-2 bg-red-500 rounded-md text-slate-100 "
+              className="rounded-md bg-red-500 px-4 py-2 text-slate-100 "
             >
               Delete
             </button>

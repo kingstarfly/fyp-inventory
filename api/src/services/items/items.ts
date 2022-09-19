@@ -22,6 +22,34 @@ export const createItem: MutationResolvers['createItem'] = ({ input }) => {
   })
 }
 
+export const createManyItems: MutationResolvers['createManyItems'] = ({
+  input,
+  quantity,
+}) => {
+  const createdItemIds = []
+  return Promise.all(
+    Array(quantity)
+      .fill(null)
+      .map((_, i) => {
+        return db.item
+          .create({
+            data: input,
+          })
+          .then((createdItem) => {
+            createdItemIds.push(createdItem.id)
+          })
+      })
+  )
+    .then(() => {
+      console.log('createdItemIds', createdItemIds)
+      return createdItemIds
+    })
+    .catch((error) => {
+      console.log('error', error)
+      return []
+    })
+}
+
 export const updateItem: MutationResolvers['updateItem'] = ({ id, input }) => {
   return db.item.update({
     data: input,
@@ -33,6 +61,22 @@ export const deleteItem: MutationResolvers['deleteItem'] = ({ id }) => {
   return db.item.delete({
     where: { id },
   })
+}
+
+export const deleteItems: MutationResolvers['deleteItems'] = ({ ids }) => {
+  return db.item
+    .deleteMany({
+      where: { id: { in: ids } },
+    })
+    .then(
+      () => {
+        return ids
+      },
+      (error) => {
+        console.error(error)
+        return []
+      }
+    )
 }
 
 export const Item: ItemResolvers = {

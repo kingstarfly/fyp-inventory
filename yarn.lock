@@ -3467,20 +3467,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/modals@npm:^5.2.0":
-  version: 5.2.0
-  resolution: "@mantine/modals@npm:5.2.0"
-  dependencies:
-    "@mantine/utils": 5.2.0
-  peerDependencies:
-    "@mantine/core": 5.2.0
-    "@mantine/hooks": 5.2.0
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: 65b868d2954c9ef21b23d05006174bcd6d7fba76f6f79e516b9f8d62cad8a4d068ba790ac54c1cd4abc46b34598e7dff294f1474b3589f4472432ae7a05478ad
-  languageName: node
-  linkType: hard
-
 "@mantine/notifications@npm:^5.2.0":
   version: 5.2.0
   resolution: "@mantine/notifications@npm:5.2.0"
@@ -24810,7 +24796,6 @@ __metadata:
     "@mantine/dates": ^5.2.0
     "@mantine/form": ^5.2.0
     "@mantine/hooks": ^5.2.0
-    "@mantine/modals": ^5.2.0
     "@mantine/notifications": ^5.2.0
     "@redwoodjs/auth": 2.2.0
     "@redwoodjs/forms": 2.2.0
