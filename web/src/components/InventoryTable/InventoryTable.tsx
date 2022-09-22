@@ -50,9 +50,6 @@ const DELETE_ITEMS_MUTATION = gql`
     deleteItems(ids: $ids)
   }
 `
-
-// TODO: Add functionality to "New" button.
-
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)

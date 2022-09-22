@@ -42,7 +42,6 @@ const ItemForm = (props: ItemFormProps) => {
 
   return (
     <div className="rw-form-wrapper">
-      {JSON.stringify(props, null, 2)}
       <Form<FormFields>
         onSubmit={(controlledData) => {
           const dataToSubmit = {
@@ -199,7 +198,7 @@ const ItemForm = (props: ItemFormProps) => {
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          block
+          Block
         </Label>
 
         <TextField
@@ -217,7 +216,7 @@ const ItemForm = (props: ItemFormProps) => {
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          floor
+          Floor
         </Label>
 
         <TextField
@@ -235,7 +234,7 @@ const ItemForm = (props: ItemFormProps) => {
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          room
+          Room
         </Label>
 
         <TextField

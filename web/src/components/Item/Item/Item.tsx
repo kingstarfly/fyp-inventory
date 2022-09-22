@@ -3,10 +3,21 @@ import humanize from 'humanize-string'
 import { Link, routes, navigate } from '@redwoodjs/router'
 import { CellSuccessProps, useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
+import { Image } from '@mantine/core'
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Image as PDFImage,
+  PDFViewer,
+} from '@react-pdf/renderer'
+import { QRCodeCanvas, QRCodeSVG } from 'qrcode.react'
 import { FindItemById } from 'types/graphql'
 import { getLocationString } from 'src/components/InventoryTable/helper'
-import { Image } from '@mantine/core'
 import { QUERY } from '../ItemsCell'
+import { useEffect, useState } from 'react'
 
 const DELETE_ITEM_MUTATION = gql`
   mutation DeleteItemMutation($id: Int!) {
@@ -67,6 +78,8 @@ const Item = ({ item, locations }: CellSuccessProps<FindItemById>) => {
     }
   }
 
+  // TODO: On each item component, render the printout and add a download button.
+
   return (
     <>
       <div className="rw-segment">
@@ -116,6 +129,12 @@ const Item = ({ item, locations }: CellSuccessProps<FindItemById>) => {
                 )}
               </td>
             </tr>
+            <tr>
+              <th>Label PDF</th>
+              <td>
+                <PDFPreview item={item} />
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -139,3 +158,63 @@ const Item = ({ item, locations }: CellSuccessProps<FindItemById>) => {
 }
 
 export default Item
+
+// Create Document Component
+const PDFPreview = ({
+  item,
+}: {
+  item: CellSuccessProps<FindItemById>['item']
+}) => {
+  const [qrCodeUrl, setQrCodeUrl] = useState<string>('')
+  const divRef = React.createRef<HTMLDivElement>()
+
+  useEffect(() => {
+    const canvas = divRef.current?.querySelector('canvas')
+    const url = canvas?.toDataURL('image/png', 1)
+    console.log({ url })
+    setQrCodeUrl(url)
+  }, [item.id])
+
+  return (
+    <>
+      {/* Dummy div to render the QR Code so that pdf can have the url to the QR code */}
+      <div ref={divRef} className="hidden">
+        <QRCodeCanvas value={item.id.toString()} />
+      </div>
+
+      {qrCodeUrl && (
+        <PDFViewer height={300} width={500}>
+          <Document>
+            <Page
+              size="A8"
+              orientation="landscape"
+              style={{ padding: 8, flexDirection: 'row', display: 'flex' }}
+            >
+              <View style={{ flex: 2 }}>
+                <View>
+                  <Text style={{ fontSize: 10 }}>{item.name}</Text>
+                  <Text style={{ fontSize: 8 }}>ID: {item.id}</Text>
+                  <Text style={{ fontSize: 6 }}>
+                    {item.isAsset ? 'Asset' : 'Non-asset'}
+                  </Text>
+                </View>
+                <View style={{ marginTop: 12 }}>
+                  <Text style={{ fontSize: 8 }}>
+                    Location: {getLocationString(item)}
+                  </Text>
+                </View>
+                <View style={{ marginTop: 12 }}>
+                  <Text style={{ fontSize: 8 }}>{item.remarks}</Text>
+                </View>
+              </View>
+              <View style={{ flex: 1 }}>
+                {/* src is generated once QR code is generated */}
+                <PDFImage src={qrCodeUrl} />
+              </View>
+            </Page>
+          </Document>
+        </PDFViewer>
+      )}
+    </>
+  )
+}

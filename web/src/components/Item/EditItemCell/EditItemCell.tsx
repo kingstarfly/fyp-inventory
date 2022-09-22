@@ -79,24 +79,21 @@ export const Success = ({
   })
 
   const onSave = (input, id) => {
-    const { image, ...inputWithoutImage } = input
-    inputWithoutImage['isAsset'] =
-      inputWithoutImage['isAsset'] === 'Yes' ? true : false
+    const { image, quantity, ...modifiedInput } = input
+    modifiedInput['isAsset'] = modifiedInput['isAsset'] === 'Yes' ? true : false
 
     if (!image || image.length == 0) {
-      updateItem({ variables: { id, input: inputWithoutImage } })
+      updateItem({ variables: { id, input: modifiedInput } })
     } else {
       const reader = new FileReader()
       reader.readAsDataURL(image[0])
       reader.onload = function () {
         const base64data = reader.result
 
-        console.log(inputWithoutImage)
-
         updateItem({
           variables: {
             id,
-            input: { ...inputWithoutImage, imageBlobBase64: base64data },
+            input: { ...modifiedInput, imageBlobBase64: base64data },
           },
         })
       }
