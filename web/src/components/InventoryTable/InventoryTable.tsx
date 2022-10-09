@@ -234,7 +234,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
         </div>
       </div>
       <div className="h-2" />
-      <table className="w-full text-xs">
+      <table className="w-full border-separate border-spacing-y-3 text-xs md:text-base">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -292,7 +292,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
               >
                 {row.getVisibleCells().map((cell) => {
                   return (
-                    <td key={cell.id} className="px-2">
+                    <td key={cell.id} className=" px-2">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -305,17 +305,11 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
           })}
         </tbody>
       </table>
+
       <div className="h-2" />
 
-      <div className="flex items-center justify-between">
+      <div className="md:text-md flex items-center justify-between text-xs">
         <div className="flex items-center gap-2">
-          <button
-            className="rounded border p-1"
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {'<<'}
-          </button>
           <button
             className="rounded border p-1"
             onClick={() => table.previousPage()}
@@ -329,13 +323,6 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
             disabled={!table.getCanNextPage()}
           >
             {'>'}
-          </button>
-          <button
-            className="rounded border p-1"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
-          >
-            {'>>'}
           </button>
           <span className="flex items-center gap-1">
             <div>Page</div>
@@ -371,6 +358,8 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
         </div>
       </div>
 
+      <div className="h-4" />
+
       <div className="flex flex-row gap-3">
         <button
           onClick={() => {
@@ -396,8 +385,8 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
       </div>
 
       {/* To remove outside of debugging */}
-      <div>{table.getPrePaginationRowModel().rows.length} Rows</div>
-      <pre>{JSON.stringify(table.getState(), null, 2)}</pre>
+      {/* <div>{table.getPrePaginationRowModel().rows.length} Rows</div> */}
+      {/* <pre>{JSON.stringify(table.getState(), null, 2)}</pre> */}
     </div>
   )
 }
