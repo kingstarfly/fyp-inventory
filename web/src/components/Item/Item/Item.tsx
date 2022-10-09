@@ -3,17 +3,16 @@ import humanize from 'humanize-string'
 import { Link, routes, navigate } from '@redwoodjs/router'
 import { CellSuccessProps, useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
-import { Image } from '@mantine/core'
+import { Anchor, Image } from '@mantine/core'
 import {
   Document,
   Page,
   Text,
   View,
-  StyleSheet,
   Image as PDFImage,
-  PDFViewer,
+  PDFDownloadLink,
 } from '@react-pdf/renderer'
-import { QRCodeCanvas, QRCodeSVG } from 'qrcode.react'
+import { QRCodeCanvas } from 'qrcode.react'
 import { FindItemById } from 'types/graphql'
 import { getLocationString } from 'src/components/InventoryTable/helper'
 import { QUERY } from '../ItemsCell'
@@ -77,8 +76,6 @@ const Item = ({ item, locations }: CellSuccessProps<FindItemById>) => {
       deleteItem({ variables: { id } })
     }
   }
-
-  // TODO: On each item component, render the printout and add a download button.
 
   return (
     <>
@@ -183,37 +180,50 @@ const PDFPreview = ({
       </div>
 
       {qrCodeUrl && (
-        <PDFViewer height={300} width={500}>
-          <Document>
-            <Page
-              size="A8"
-              orientation="landscape"
-              style={{ padding: 8, flexDirection: 'row', display: 'flex' }}
-            >
-              <View style={{ flex: 2 }}>
-                <View>
-                  <Text style={{ fontSize: 10 }}>{item.name}</Text>
-                  <Text style={{ fontSize: 8 }}>ID: {item.id}</Text>
-                  <Text style={{ fontSize: 6 }}>
-                    {item.isAsset ? 'Asset' : 'Non-asset'}
-                  </Text>
+        <PDFDownloadLink
+          document={
+            <Document>
+              <Page
+                size="A8"
+                orientation="landscape"
+                style={{ padding: 8, flexDirection: 'row', display: 'flex' }}
+              >
+                <View style={{ flex: 2 }}>
+                  <View>
+                    <Text style={{ fontSize: 10 }}>{item.name}</Text>
+                    <Text style={{ fontSize: 8 }}>ID: {item.id}</Text>
+                    <Text style={{ fontSize: 6 }}>
+                      {item.isAsset ? 'Asset' : 'Non-asset'}
+                    </Text>
+                  </View>
+                  <View style={{ marginTop: 12 }}>
+                    <Text style={{ fontSize: 8 }}>
+                      Location: {getLocationString(item)}
+                    </Text>
+                  </View>
+                  <View style={{ marginTop: 12 }}>
+                    <Text style={{ fontSize: 8 }}>{item.remarks}</Text>
+                  </View>
                 </View>
-                <View style={{ marginTop: 12 }}>
-                  <Text style={{ fontSize: 8 }}>
-                    Location: {getLocationString(item)}
-                  </Text>
+                <View style={{ flex: 1 }}>
+                  {/* src is generated once QR code is generated */}
+                  <PDFImage src={qrCodeUrl} />
                 </View>
-                <View style={{ marginTop: 12 }}>
-                  <Text style={{ fontSize: 8 }}>{item.remarks}</Text>
-                </View>
-              </View>
-              <View style={{ flex: 1 }}>
-                {/* src is generated once QR code is generated */}
-                <PDFImage src={qrCodeUrl} />
-              </View>
-            </Page>
-          </Document>
-        </PDFViewer>
+              </Page>
+            </Document>
+          }
+          fileName={`${item.name}_${item.id}_Label.pdf`}
+        >
+          {({ blob, url, loading, error }) =>
+            loading ? (
+              'Loading document...'
+            ) : (
+              <Anchor>
+                {item.name}_{item.id}_Label.pdf
+              </Anchor>
+            )
+          }
+        </PDFDownloadLink>
       )}
     </>
   )
