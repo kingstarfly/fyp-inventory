@@ -471,7 +471,10 @@ function Filter({
       <DebouncedInput
         type="text"
         value={(columnFilterValue ?? '') as string}
-        onChange={(value) => column.setFilterValue(value)}
+        onFocus={() => column.setFilterValue('')}
+        onChange={(value) => {
+          column.setFilterValue(value)
+        }}
         placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
         className="w-36 rounded border shadow"
         list={column.id + 'list'}
