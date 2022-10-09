@@ -234,7 +234,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
         </div>
       </div>
       <div className="h-2" />
-      <table className="w-full">
+      <table className="w-full text-xs">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -441,7 +441,7 @@ function Filter({
               ? `(${column.getFacetedMinMaxValues()?.[0]})`
               : ''
           }`}
-          className="w-24 border rounded shadow"
+          className="w-24 rounded border shadow"
         />
         <DebouncedInput
           type="number"
@@ -456,7 +456,7 @@ function Filter({
               ? `(${column.getFacetedMinMaxValues()?.[1]})`
               : ''
           }`}
-          className="w-24 border rounded shadow"
+          className="w-24 rounded border shadow"
         />
       </div>
       <div className="h-1" />
@@ -473,7 +473,7 @@ function Filter({
         value={(columnFilterValue ?? '') as string}
         onChange={(value) => column.setFilterValue(value)}
         placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-        className="border rounded shadow w-36"
+        className="w-36 rounded border shadow"
         list={column.id + 'list'}
       />
       <div className="h-1" />
