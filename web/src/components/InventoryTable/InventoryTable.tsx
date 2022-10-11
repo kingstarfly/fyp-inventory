@@ -361,25 +361,26 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
       <div className="h-4" />
 
       <div className="flex flex-row gap-3">
-        <button
+        <Button
+          color="dark.7"
           onClick={() => {
             table.getColumn('select').toggleVisibility()
           }}
-          className="rounded-md bg-gray-900 px-4 py-2 text-slate-100 "
         >
           {table.getColumn('select').getIsVisible() ? 'Done' : 'Manage'}
-        </button>
+        </Button>
+
         {
           // Get number of selected rows
           Object.keys(table.getState().rowSelection).length > 0 && (
-            <button
+            <Button
+              color="red.8"
               onClick={() => {
                 onDeleteItemsClick()
               }}
-              className="rounded-md bg-red-500 px-4 py-2 text-slate-100 "
             >
               Delete
-            </button>
+            </Button>
           )
         }
       </div>
