@@ -1,4 +1,4 @@
-import { Anchor, Button, Menu, Text } from '@mantine/core'
+import { Button, Menu, Text } from '@mantine/core'
 import { useAuth } from '@redwoodjs/auth'
 import { Link, routes } from '@redwoodjs/router'
 import { Toaster } from '@redwoodjs/web/toast'

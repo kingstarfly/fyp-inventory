@@ -1,4 +1,4 @@
-import type { FindItems } from 'types/graphql'
+import type { FindItems, FindItemsVariables } from 'types/graphql'
 
 import { Link, routes } from '@redwoodjs/router'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
@@ -36,7 +36,7 @@ export const Empty = () => {
   )
 }
 
-export const Failure = ({ error }: CellFailureProps) => (
+export const Failure = ({ error }: CellFailureProps<FindItemsVariables>) => (
   <div className="rw-cell-error">{error.message}</div>
 )
 
