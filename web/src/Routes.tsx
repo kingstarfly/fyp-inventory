@@ -11,7 +11,6 @@ import { Router, Route, Set, Private } from '@redwoodjs/router'
 
 import LocationsLayout from 'src/layouts/LocationsLayout'
 
-import ItemsLayout from 'src/layouts/ItemsLayout'
 import NavLayout from './layouts/NavLayout/NavLayout'
 
 const Routes = () => {

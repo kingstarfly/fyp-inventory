@@ -49,7 +49,7 @@ export const Success = ({
   return (
     <Grid>
       {itemSummaries.map((item) => (
-        <Grid.Col span={3}>
+        <Grid.Col xs={6} sm={4} md={3}>
           <SummaryCard
             name={item.name}
             qtyTotal={item.qtyTotal}

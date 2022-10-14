@@ -1,3 +1,4 @@
+import { Title } from '@mantine/core'
 import { MetaTags } from '@redwoodjs/web'
 import SummariesCell from 'src/components/Summary/SummariesCell'
 const SummaryPage = () => {
@@ -5,7 +6,9 @@ const SummaryPage = () => {
     <>
       <MetaTags title="Summary" description="Summary page" />
 
-      <h1>SummaryPage</h1>
+      <Title order={2} pb="md">
+        Summary
+      </Title>
       <SummariesCell />
     </>
   )

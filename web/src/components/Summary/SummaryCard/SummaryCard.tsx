@@ -1,4 +1,13 @@
-import { Badge, Button, Card, Group, Image, Text, Title } from '@mantine/core'
+import {
+  Badge,
+  Button,
+  Card,
+  Group,
+  Image,
+  Mark,
+  Text,
+  Title,
+} from '@mantine/core'
 
 interface Props {
   name: string
@@ -26,7 +35,7 @@ const SummaryCard = ({
       {qtyAvailable !== undefined && (
         <Group position="apart" mt="md" mb="xs">
           <Text weight={500}>Available</Text>
-          <Badge color="green" variant="filled">
+          <Badge color="green" variant="filled" size="xl">
             {qtyAvailable}
           </Badge>
         </Group>
@@ -35,7 +44,7 @@ const SummaryCard = ({
       {qtyInUse !== undefined && (
         <Group position="apart" mt="md" mb="xs">
           <Text weight={500}>In Use</Text>
-          <Badge color="yellow" variant="filled">
+          <Badge color="yellow" variant="filled" size="xl">
             {qtyInUse}
           </Badge>
         </Group>
@@ -44,7 +53,7 @@ const SummaryCard = ({
       {qtyWriteOff !== undefined && (
         <Group position="apart" mt="md" mb="xs">
           <Text weight={500}>Write Off</Text>
-          <Badge color="red" variant="filled">
+          <Badge color="red" variant="filled" size="xl">
             {qtyWriteOff}
           </Badge>
         </Group>
@@ -52,7 +61,8 @@ const SummaryCard = ({
 
       <Group position="apart" mt="md" mb="xs">
         <Text weight={500}>Total</Text>
-        <Badge color="dark" variant="filled">
+
+        <Badge color="dark" variant="filled" size="xl">
           {qtyTotal}
         </Badge>
       </Group>
