@@ -10,6 +10,52 @@ export const items: QueryResolvers['items'] = () => {
   return db.item.findMany()
 }
 
+export const itemSummaries: QueryResolvers['itemSummaries'] = async () => {
+  // Use prisma to group by name and count the number of items.
+  const result = await db.item.groupBy({
+    by: ['name', 'itemStatus', 'imageBlobBase64'],
+    _count: {
+      _all: true,
+    },
+  })
+
+  const itemToStatusMap = new Map<string, Map<string, number>>()
+  const itemToImgUrlMap = new Map<string, string>()
+
+  result.forEach((item) => {
+    if (!itemToStatusMap.has(item.name)) {
+      itemToStatusMap.set(item.name, new Map<string, number>())
+    }
+
+    itemToStatusMap.get(item.name).set(item.itemStatus, item._count._all)
+
+    if (item.imageBlobBase64 && !itemToImgUrlMap.has(item.name)) {
+      itemToImgUrlMap.set(item.name, item.imageBlobBase64)
+    }
+  })
+
+  // Iterate through the map and return the result in the expected format.
+  const summaries = []
+  for (const [name, statusMap] of itemToStatusMap) {
+    summaries.push({
+      name,
+      qtyTotal:
+        statusMap.get('available') ||
+        0 + statusMap.get('on_loan') ||
+        0 + statusMap.get('in_use') ||
+        0 + statusMap.get('write_off') ||
+        0,
+
+      qtyAvailable: statusMap.get('available') || 0,
+      qtyInUse: statusMap.get('in_use') || 0,
+      qtyWriteOff: statusMap.get('write_off') || 0,
+      qtyOnLoan: statusMap.get('on_loan') || 0,
+      imgUrl: itemToImgUrlMap.get(name),
+    })
+  }
+  return summaries
+}
+
 export const item: QueryResolvers['item'] = ({ id }) => {
   return db.item.findUnique({
     where: { id },

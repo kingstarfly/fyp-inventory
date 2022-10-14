@@ -44,8 +44,22 @@ const range = (len: number) => {
 const newItem = (): Prisma.ItemCreateArgs['data'] => {
   return {
     id: faker.datatype.number({ min: 100000, max: 51231322 }),
-    name: faker.commerce.productName(),
-    itemStatus: faker.helpers.arrayElement(['available', 'on_loan']),
+    name: faker.helpers.arrayElement([
+      'Asus Laptop',
+      'Dell Laptop',
+      'HP Laptop',
+      'Lenovo Laptop',
+      'Macbook Pro Laptop',
+      'Macbook Air Laptop',
+      'Acer Laptop',
+    ]),
+
+    itemStatus: faker.helpers.arrayElement([
+      'available',
+      'on_loan',
+      'in_use',
+      'write_off',
+    ]),
     isAsset: faker.datatype.boolean(),
     block: faker.helpers.arrayElement('N1,N2,N3,N4,S1,S2,S3,S4'.split(',')),
     floor: faker.helpers.arrayElement('1,2,3,4,5,6'.split(',')),

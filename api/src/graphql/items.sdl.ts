@@ -14,9 +14,21 @@ export const schema = gql`
     loanHistory: LoanHistory
   }
 
+  type ItemSummary {
+    name: String!
+    qtyTotal: Int!
+    qtyAvailable: Int!
+    qtyInUse: Int!
+    qtyWriteOff: Int!
+    qtyOnLoan: Int!
+    imgUrl: String
+  }
+
   type Query {
-    items: [Item!]! @requireAuth
     item(id: Int!): Item @requireAuth
+    items: [Item!]! @requireAuth
+
+    itemSummaries: [ItemSummary!]! @requireAuth
   }
 
   input CreateItemInput {
