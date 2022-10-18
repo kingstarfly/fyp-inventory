@@ -8,9 +8,6 @@
 // 'src/pages/Admin/BooksPage/BooksPage.js' -> AdminBooksPage
 
 import { Router, Route, Set, Private } from '@redwoodjs/router'
-
-import LocationsLayout from 'src/layouts/LocationsLayout'
-
 import NavLayout from './layouts/NavLayout/NavLayout'
 
 const Routes = () => {
@@ -33,12 +30,10 @@ const Routes = () => {
           <Route path="/items/{id:Int}" page={ItemItemPage} name="item" />
           <Route path="/items" page={HomePage} name="items" />
 
-          <Set wrap={LocationsLayout}>
-            <Route path="/locations/new" page={LocationNewLocationPage} name="newLocation" />
-            <Route path="/locations/{id:Int}/edit" page={LocationEditLocationPage} name="editLocation" />
-            <Route path="/locations/{id:Int}" page={LocationLocationPage} name="location" />
-            <Route path="/locations" page={LocationLocationsPage} name="locations" />
-          </Set>
+          <Route path="/locations/new" page={LocationNewLocationPage} name="newLocation" />
+          <Route path="/locations/{id:Int}/edit" page={LocationEditLocationPage} name="editLocation" />
+          <Route path="/locations/{id:Int}" page={LocationLocationPage} name="location" />
+          <Route path="/locations" page={LocationLocationsPage} name="locations" />
         </Set>
       </Private>
     </Router>

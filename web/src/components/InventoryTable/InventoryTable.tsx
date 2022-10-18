@@ -31,7 +31,7 @@ import { getLocationString } from './helper'
 import { ItemRow } from '../Item/ItemsCell'
 import { navigate, routes } from '@redwoodjs/router'
 import IndeterminateCheckbox from './IndeterminateCheckbox'
-import { ActionIcon, Button, clsx, TextInput } from '@mantine/core'
+import { ActionIcon, Button, clsx, Menu, TextInput } from '@mantine/core'
 import { RiAddBoxFill, RiQrScanLine } from 'react-icons/ri'
 import QrScanModal from '../QrScanModal/QrScanModal'
 import { toast } from '@redwoodjs/web/toast'
@@ -221,16 +221,25 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
               <label className="cursor-pointer text-xs">Scan</label>
             </div>
           </ActionIcon>
+          <Menu shadow="md">
+            <Menu.Target>
+              <ActionIcon className=" ">
+                <div className="ml-2 flex flex-col items-center justify-center text-slate-800">
+                  <RiAddBoxFill />
+                  <label className="cursor-pointer text-xs">New</label>
+                </div>
+              </ActionIcon>
+            </Menu.Target>
 
-          <ActionIcon
-            className="ml-2 text-slate-800"
-            onClick={() => navigate(routes.newItem())}
-          >
-            <div className="flex flex-col items-center justify-center">
-              <RiAddBoxFill />
-              <label className="cursor-pointer text-xs">New</label>
-            </div>
-          </ActionIcon>
+            <Menu.Dropdown>
+              <Menu.Item onClick={() => navigate(routes.newItem())}>
+                Item
+              </Menu.Item>
+              <Menu.Item onClick={() => navigate(routes.newLocation())}>
+                Location
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
         </div>
       </div>
       <div className="h-2" />
