@@ -1,8 +1,9 @@
-import { Group, NavLink, Text, ThemeIcon } from '@mantine/core'
+import { NavLink, ThemeIcon } from '@mantine/core'
 import { AnchorHTMLAttributes } from 'react'
 import { TbChevronRight } from 'react-icons/tb'
 
-interface NavBarButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+export interface NavBarButtonProps
+  extends AnchorHTMLAttributes<HTMLAnchorElement> {
   icon: React.ReactNode
   label: string
 }
