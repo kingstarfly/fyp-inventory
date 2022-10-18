@@ -308,7 +308,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
 
       <div className="h-2" />
 
-      <div className="md:text-md flex items-center justify-between text-xs">
+      <div className="md:text-md flex flex-wrap items-center justify-between text-xs">
         <div className="flex items-center gap-2">
           <button
             className="rounded border p-1"
@@ -326,12 +326,12 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
           </button>
           <span className="flex items-center gap-1">
             <div>Page</div>
-            <strong>
+            <strong className="whitespace-nowrap">
               {table.getState().pagination.pageIndex + 1} of{' '}
               {table.getPageCount()}
             </strong>
           </span>
-          <span className="flex items-center gap-1">
+          <span className="flex items-center gap-1 whitespace-nowrap">
             | Go to page:
             <input
               type="number"
