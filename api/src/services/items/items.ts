@@ -40,16 +40,14 @@ export const itemSummaries: QueryResolvers['itemSummaries'] = async () => {
     summaries.push({
       name,
       qtyTotal:
-        statusMap.get('available') ||
-        0 + statusMap.get('on_loan') ||
-        0 + statusMap.get('in_use') ||
-        0 + statusMap.get('write_off') ||
-        0,
-
+        (statusMap.get('available') || 0) +
+        (statusMap.get('loaned') || 0) +
+        (statusMap.get('reserved') || 0) +
+        (statusMap.get('faulty') || 0),
       qtyAvailable: statusMap.get('available') || 0,
-      qtyInUse: statusMap.get('in_use') || 0,
-      qtyWriteOff: statusMap.get('write_off') || 0,
-      qtyOnLoan: statusMap.get('on_loan') || 0,
+      qtyReserved: statusMap.get('reserved') || 0,
+      qtyLoaned: statusMap.get('loaned') || 0,
+      qtyFaulty: statusMap.get('faulty') || 0,
       imgUrl: itemToImgUrlMap.get(name),
     })
   }

@@ -1,12 +1,12 @@
 import type { GetItemSummaries, GetItemSummariesVariables } from 'types/graphql'
 
-import { Link, routes } from '@redwoodjs/router'
-import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
+import SummaryTable from 'src/components/SummaryTable/SummaryTable'
 import { ArrayElement } from 'src/library/ts-helpers'
-import { Grid } from '@mantine/core'
-import SummaryCard from '../SummaryCard/SummaryCard'
 
-export type ItemRow = ArrayElement<
+import { Link, routes } from '@redwoodjs/router'
+
+import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
+export type ItemSummaryRow = ArrayElement<
   CellSuccessProps<GetItemSummaries>['itemSummaries']
 >
 
@@ -16,9 +16,9 @@ export const QUERY = gql`
       name
       qtyTotal
       qtyAvailable
-      qtyInUse
-      qtyWriteOff
-      qtyOnLoan
+      qtyReserved
+      qtyLoaned
+      qtyFaulty
       imgUrl
     }
   }
@@ -46,19 +46,5 @@ export const Failure = ({
 export const Success = ({
   itemSummaries,
 }: CellSuccessProps<GetItemSummaries>) => {
-  return (
-    <Grid>
-      {itemSummaries.map((item) => (
-        <Grid.Col xs={6} sm={4} md={3}>
-          <SummaryCard
-            name={item.name}
-            qtyTotal={item.qtyTotal}
-            qtyAvailable={item.qtyAvailable}
-            qtyInUse={item.qtyInUse}
-            qtyWriteOff={item.qtyWriteOff}
-          />
-        </Grid.Col>
-      ))}
-    </Grid>
-  )
+  return <SummaryTable itemSummaries={itemSummaries} />
 }

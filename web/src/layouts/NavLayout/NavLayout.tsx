@@ -20,6 +20,7 @@ import { useAuth } from '@redwoodjs/auth'
 import { Link, routes, useLocation } from '@redwoodjs/router'
 import { Toaster } from '@redwoodjs/web/toast'
 import { ReactNode, useState } from 'react'
+import { RiLineLine } from 'react-icons/ri'
 
 import { TbLayoutDashboard, TbTable, TbTableExport } from 'react-icons/tb'
 import NavBarButton, {
@@ -153,7 +154,7 @@ const NavLayout = ({ children }: NavLayoutProps) => {
         <div className="flex h-[95%] flex-1 flex-col">
           <div className="flex flex-1 flex-col">
             {links.map((link) => (
-              <NavBarButton {...link} />
+              <NavBarButton {...link} key={link.label} />
             ))}
           </div>
 

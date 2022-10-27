@@ -18,9 +18,9 @@ export const schema = gql`
     name: String!
     qtyTotal: Int!
     qtyAvailable: Int!
-    qtyInUse: Int!
-    qtyWriteOff: Int!
-    qtyOnLoan: Int!
+    qtyReserved: Int!
+    qtyLoaned: Int!
+    qtyFaulty: Int!
     imgUrl: String
   }
 
