@@ -1,8 +1,8 @@
 import React from 'react'
-import { TbEye } from 'react-icons/tb'
+import { TbEye, TbSearch } from 'react-icons/tb'
 import { GetItemSummaries } from 'types/graphql'
 
-import { ActionIcon, Popover, TextInput } from '@mantine/core'
+import { ActionIcon, Popover } from '@mantine/core'
 import { CellSuccessProps } from '@redwoodjs/web'
 import { RankingInfo, rankItem } from '@tanstack/match-sorter-utils'
 import {
@@ -22,6 +22,7 @@ import {
 } from '@tanstack/react-table'
 
 import { ItemSummaryRow } from '../Summary/SummariesCell'
+import DebouncedInput from '../DebouncedInput/DebouncedInput'
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -152,8 +153,9 @@ const SummaryTable = ({
         <DebouncedInput
           value={globalFilter ?? ''}
           onChange={(value) => setGlobalFilter(String(value))}
-          className="p-2 border shadow font-lg border-block"
+          className="w-1/3 p-2 bg-white border rounded-sm shadow-md font-lg"
           placeholder="Search item name..."
+          icon={<TbSearch size={16} />}
         />
       </div>
       <div className="h-2" />
@@ -166,7 +168,7 @@ const SummaryTable = ({
                   <th
                     key={header.id}
                     colSpan={header.colSpan}
-                    className="px-2 text-left"
+                    className="px-4 text-left"
                   >
                     {header.isPlaceholder ? null : (
                       <>
@@ -203,10 +205,13 @@ const SummaryTable = ({
         <tbody>
           {table.getRowModel().rows.map((row) => {
             return (
-              <tr key={row.id}>
+              <tr key={row.id} className="bg-white shadow-sm">
                 {row.getVisibleCells().map((cell) => {
                   return (
-                    <td key={cell.id} className="px-2 ">
+                    <td
+                      key={cell.id}
+                      className="px-4 py-3 first:rounded-l-sm last:rounded-r-sm"
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -363,40 +368,3 @@ function Filter({
   )
 }
 
-// A debounced input react component
-function DebouncedInput({
-  value: initialValue,
-  onChange,
-  debounce = 500,
-  ...props
-}: {
-  value: string | number
-  onChange: (value: string | number) => void
-  debounce?: number
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
-  const [value, setValue] = React.useState(initialValue)
-
-  React.useEffect(() => {
-    setValue(initialValue)
-  }, [initialValue])
-
-  React.useEffect(() => {
-    const timeout = setTimeout(() => {
-      onChange(value)
-    }, debounce)
-
-    return () => clearTimeout(timeout)
-  }, [value])
-
-  return (
-    <TextInput
-      {...props}
-      size="xs"
-      value={value}
-      onChange={(event) => setValue(event.target.value)}
-      aria-label="search"
-      variant="filled"
-      className="flex-1"
-    />
-  )
-}

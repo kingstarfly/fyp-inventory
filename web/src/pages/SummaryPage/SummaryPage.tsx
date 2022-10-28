@@ -6,7 +6,6 @@ const SummaryPage = () => {
     <>
       <MetaTags title="Summary" description="Summary page" />
 
-
       <SummariesCell />
     </>
   )

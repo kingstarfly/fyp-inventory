@@ -31,10 +31,12 @@ import { getLocationString } from './helper'
 import { ItemRow } from '../Item/ItemsCell'
 import { navigate, routes } from '@redwoodjs/router'
 import IndeterminateCheckbox from './IndeterminateCheckbox'
-import { ActionIcon, Button, clsx, Menu, TextInput } from '@mantine/core'
+import { ActionIcon, Button, clsx, Menu } from '@mantine/core'
 import { RiAddBoxFill, RiQrScanLine } from 'react-icons/ri'
 import QrScanModal from '../QrScanModal/QrScanModal'
 import { toast } from '@redwoodjs/web/toast'
+import DebouncedInput from '../DebouncedInput/DebouncedInput'
+import { TbSearch } from 'react-icons/tb'
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -90,7 +92,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
         id: 'select',
         enableHiding: true,
         header: ({ table }) => (
-          <div className="justify-left flex">
+          <div className="flex justify-left">
             <IndeterminateCheckbox
               {...{
                 checked: table.getIsAllRowsSelected(),
@@ -101,7 +103,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
           </div>
         ),
         cell: ({ row }) => (
-          <div className="justify-left flex">
+          <div className="flex justify-left">
             <IndeterminateCheckbox
               {...{
                 checked: row.getIsSelected(),
@@ -124,6 +126,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
         accessorFn: (row) => row.id,
         id: 'id',
         header: () => 'ID',
+        size: 50,
       },
 
       {
@@ -204,29 +207,27 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
     <div className="p-2">
       <QrScanModal opened={modalOpened} onClose={() => setModalOpened(false)} />
 
-      <div className="my-4 flex w-full flex-row items-center justify-between">
+      <div className="flex flex-row items-center w-full gap-4 my-4">
         <DebouncedInput
           value={globalFilter ?? ''}
           onChange={(value) => setGlobalFilter(String(value))}
-          className="font-lg border-block border p-2 shadow"
+          className="w-5/6 p-2 bg-white border rounded-sm shadow-md font-lg sm:w-1/3"
           placeholder="Search all columns..."
+          icon={<TbSearch size={16} />}
         />
-        <div className="flex flex-row items-center justify-end">
-          <ActionIcon
-            className="mx-2 text-slate-800"
-            onClick={() => setModalOpened(true)}
-          >
-            <div className="flex flex-col items-center justify-center ">
-              <RiQrScanLine />
-              <label className="cursor-pointer text-xs">Scan</label>
+        <div className="flex flex-row items-center gap-2">
+          <ActionIcon onClick={() => setModalOpened(true)}>
+            <div className="flex flex-col items-center justify-center text-slate-800">
+              <RiQrScanLine size={24} />
+              <label className="text-xs cursor-pointer">Scan</label>
             </div>
           </ActionIcon>
           <Menu shadow="md">
             <Menu.Target>
-              <ActionIcon className=" ">
-                <div className="ml-2 flex flex-col items-center justify-center text-slate-800">
-                  <RiAddBoxFill />
-                  <label className="cursor-pointer text-xs">New</label>
+              <ActionIcon>
+                <div className="flex flex-col items-center justify-center text-slate-800">
+                  <RiAddBoxFill size={24} />
+                  <label className="text-xs cursor-pointer">New</label>
                 </div>
               </ActionIcon>
             </Menu.Target>
@@ -243,7 +244,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
         </div>
       </div>
       <div className="h-2" />
-      <table className="w-full border-separate border-spacing-y-3 text-xs md:text-base">
+      <table className="w-full text-xs border-separate border-spacing-y-3 md:text-base">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -297,11 +298,17 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
                     navigate(routes.item({ id: row.original.id }))
                   }
                 }}
-                className={clsx(!isManaging && 'cursor-pointer')}
+                className={clsx(
+                  !isManaging && 'cursor-pointer',
+                  'bg-white shadow-sm'
+                )}
               >
                 {row.getVisibleCells().map((cell) => {
                   return (
-                    <td key={cell.id} className=" px-2">
+                    <td
+                      key={cell.id}
+                      className="px-4 py-3 first:rounded-l-sm last:rounded-r-sm"
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -317,17 +324,17 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
 
       <div className="h-2" />
 
-      <div className="md:text-md flex flex-wrap items-center justify-between text-xs">
+      <div className="flex flex-wrap items-center justify-between text-xs md:text-md">
         <div className="flex items-center gap-2">
           <button
-            className="rounded border p-1"
+            className="p-1 border rounded"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
             {'<'}
           </button>
           <button
-            className="rounded border p-1"
+            className="p-1 border rounded"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
@@ -349,7 +356,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
                 const page = e.target.value ? Number(e.target.value) - 1 : 0
                 table.setPageIndex(page)
               }}
-              className="w-16 rounded border p-1"
+              className="w-16 p-1 border rounded"
             />
           </span>
           <select
@@ -440,7 +447,7 @@ function Filter({
               ? `(${column.getFacetedMinMaxValues()?.[0]})`
               : ''
           }`}
-          className="w-24 rounded border shadow"
+          className="w-1/2 px-1 border rounded shadow"
         />
         <DebouncedInput
           type="number"
@@ -455,7 +462,7 @@ function Filter({
               ? `(${column.getFacetedMinMaxValues()?.[1]})`
               : ''
           }`}
-          className="w-24 rounded border shadow"
+          className="w-1/2 px-1 border rounded shadow"
         />
       </div>
       <div className="h-1" />
@@ -475,48 +482,10 @@ function Filter({
           column.setFilterValue(value)
         }}
         placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-        className="w-36 rounded border shadow"
+        className="w-full px-1 border rounded shadow"
         list={column.id + 'list'}
       />
       <div className="h-1" />
     </>
-  )
-}
-
-// A debounced input react component
-function DebouncedInput({
-  value: initialValue,
-  onChange,
-  debounce = 500,
-  ...props
-}: {
-  value: string | number
-  onChange: (value: string | number) => void
-  debounce?: number
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
-  const [value, setValue] = React.useState(initialValue)
-
-  React.useEffect(() => {
-    setValue(initialValue)
-  }, [initialValue])
-
-  React.useEffect(() => {
-    const timeout = setTimeout(() => {
-      onChange(value)
-    }, debounce)
-
-    return () => clearTimeout(timeout)
-  }, [value])
-
-  return (
-    <TextInput
-      {...props}
-      size="xs"
-      value={value}
-      onChange={(event) => setValue(event.target.value)}
-      aria-label="search"
-      variant="filled"
-      className="flex-1"
-    />
   )
 }

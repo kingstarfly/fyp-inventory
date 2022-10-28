@@ -5,7 +5,6 @@ import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
 import InventoryTable from 'src/components/InventoryTable/InventoryTable'
 import { ArrayElement } from 'src/library/ts-helpers'
-// import Items from 'src/components/Item/Items'
 
 export type ItemRow = ArrayElement<CellSuccessProps<FindItems>['items']>
 
@@ -41,6 +40,5 @@ export const Failure = ({ error }: CellFailureProps<FindItemsVariables>) => (
 )
 
 export const Success = ({ items, refetch }: CellSuccessProps<FindItems>) => {
-  // return <Items items={items} />
   return <InventoryTable items={items} refetch={refetch} />
 }
