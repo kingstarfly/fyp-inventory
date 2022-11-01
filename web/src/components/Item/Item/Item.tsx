@@ -218,7 +218,7 @@ const PDFPreview = ({
             loading ? (
               'Loading document...'
             ) : (
-              <Anchor>
+              <Anchor component="span">
                 {item.name}_{item.id}_Label.pdf
               </Anchor>
             )
