@@ -21,8 +21,7 @@ const Routes = () => {
       <Private unauthenticated="login">
         <Set wrap={NavLayout}>
           <Route path="/" page={HomePage} name="home" />
-          <Route notfound page={NotFoundPage} />
-          <Route path="/summary" page={SummaryPage} name="summary" />
+          <Route path="/inventory" page={InventoryPage} name="inventory" />
           <Route path="/export" page={ExportPage} name="export" />
 
           <Route path="/items/new" page={ItemNewItemPage} name="newItem" />
@@ -34,6 +33,7 @@ const Routes = () => {
           <Route path="/locations/{id:Int}/edit" page={LocationEditLocationPage} name="editLocation" />
           <Route path="/locations/{id:Int}" page={LocationLocationPage} name="location" />
           <Route path="/locations" page={LocationLocationsPage} name="locations" />
+          <Route notfound page={NotFoundPage} />
         </Set>
       </Private>
     </Router>

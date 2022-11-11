@@ -115,6 +115,13 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
         ),
       },
       {
+        accessorFn: (row) => row.id,
+        id: 'id',
+        header: () => 'ID',
+        size: 50,
+      },
+
+      {
         accessorFn: (row) => row.name,
         id: 'name',
         cell: (info) => info.getValue(),
@@ -122,13 +129,6 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
         filterFn: 'fuzzy',
         sortingFn: fuzzySort,
       },
-      {
-        accessorFn: (row) => row.id,
-        id: 'id',
-        header: () => 'ID',
-        size: 50,
-      },
-
       {
         accessorFn: (row) => getLocationString(row),
         id: 'location',
@@ -216,7 +216,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
           icon={<TbSearch size={16} />}
         />
         <div className="flex flex-row items-center gap-2">
-          <ActionIcon onClick={() => setModalOpened(true)}>
+          <ActionIcon size={40} onClick={() => setModalOpened(true)}>
             <div className="flex flex-col items-center justify-center text-slate-800">
               <RiQrScanLine size={24} />
               <label className="text-xs cursor-pointer">Scan</label>
@@ -224,7 +224,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
           </ActionIcon>
           <Menu shadow="md">
             <Menu.Target>
-              <ActionIcon>
+              <ActionIcon size={40}>
                 <div className="flex flex-col items-center justify-center text-slate-800">
                   <RiAddBoxFill size={24} />
                   <label className="text-xs cursor-pointer">New</label>

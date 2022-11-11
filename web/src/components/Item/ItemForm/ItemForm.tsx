@@ -27,6 +27,8 @@ interface FormFields extends Item {
   quantity: number
 }
 
+type ItemStatus = 'available' | 'loaned' | 'reserved' | 'faulty'
+
 const ItemForm = (props: ItemFormProps) => {
   const onSubmit = (data) => {
     props.onSave(data, props?.item?.id)
@@ -36,6 +38,9 @@ const ItemForm = (props: ItemFormProps) => {
   const [block, setBlock] = React.useState(props?.item?.block || '')
   const [floor, setFloor] = React.useState(props?.item?.floor || '')
   const [room, setRoom] = React.useState(props?.item?.room || '')
+  const [itemStatus, setItemStatus] = React.useState<ItemStatus>(
+    (props.item?.itemStatus as ItemStatus) || 'available'
+  )
 
   const [addMode, setAddMode] = React.useState('single')
   const [quantity, setQuantity] = React.useState(1)
@@ -50,6 +55,7 @@ const ItemForm = (props: ItemFormProps) => {
             floor,
             room,
             quantity,
+            itemStatus,
           }
 
           onSubmit(dataToSubmit)
@@ -65,8 +71,11 @@ const ItemForm = (props: ItemFormProps) => {
 
         {!props.item && (
           <SegmentedControl
+            radius={0}
             value={addMode}
             onChange={setAddMode}
+            className="mt-4"
+            color="blue"
             data={[
               { label: 'Add Single Item', value: 'single' },
               { label: 'Bulk Add Items', value: 'bulk' },
@@ -151,11 +160,15 @@ const ItemForm = (props: ItemFormProps) => {
           Item Status
         </Label>
 
-        <TextField
-          name="itemStatus"
-          defaultValue={props.item?.itemStatus}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
+        <SegmentedControl
+          value={itemStatus}
+          onChange={(value) => setItemStatus(value as ItemStatus)}
+          data={[
+            { label: 'Available', value: 'available' },
+            { label: 'Loaned', value: 'loaned' },
+            { label: 'Reserved', value: 'reserved' },
+            { label: 'Faulty', value: 'faulty' },
+          ]}
         />
 
         <FieldError name="itemStatus" className="rw-field-error" />

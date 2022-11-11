@@ -1,12 +1,11 @@
-import { Title } from '@mantine/core'
 import { MetaTags } from '@redwoodjs/web'
-import ItemsCell from 'src/components/Item/ItemsCell'
+import SummariesCell from 'src/components/Summary/SummariesCell'
 const HomePage = () => {
   return (
     <>
       <MetaTags title="Home" description="Home page" />
 
-      <ItemsCell />
+      <SummariesCell />
     </>
   )
 }

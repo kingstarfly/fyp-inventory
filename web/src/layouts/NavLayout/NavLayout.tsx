@@ -78,14 +78,14 @@ const useStyles = createStyles((theme) => ({
 
 const links: NavBarButtonProps[] = [
   {
-    label: 'Inventory',
+    label: 'Home',
     href: '/',
-    icon: <TbTable size={24} />,
+    icon: <TbLayoutDashboard size={24} />,
   },
   {
-    label: 'Summary',
-    href: '/summary',
-    icon: <TbLayoutDashboard size={24} />,
+    label: 'Inventory',
+    href: '/inventory',
+    icon: <TbTable size={24} />,
   },
   {
     label: 'Export to CSV',

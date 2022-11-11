@@ -32,10 +32,15 @@ export const Success = ({ locations }: CellSuccessProps<NewItemLocations>) => {
   const [createManyItems, { loading, error }] = useMutation(
     CREATE_MANY_ITEMS_MUTATION,
     {
-      onCompleted: (data) => {
-        console.log('Result of createManyItems: ', data)
-        toast.success('Many items created')
-        navigate(routes.items())
+      onCompleted: ({ createManyItems }: { createManyItems: number[] }) => {
+        console.log(createManyItems)
+        if (createManyItems.length === 1) {
+          toast.success('Item created')
+          navigate(routes.item({ id: createManyItems[0] }))
+        } else {
+          toast.success(`${createManyItems.length} Items created`)
+          navigate(routes.items())
+        }
       },
       onError: (error) => {
         toast.error(error.message)
