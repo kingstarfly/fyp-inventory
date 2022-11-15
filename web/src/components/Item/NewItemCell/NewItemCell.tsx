@@ -1,9 +1,10 @@
+import { Item, NewItemLocations } from 'types/graphql'
+
 import { navigate, routes } from '@redwoodjs/router'
 import { CellFailureProps, CellSuccessProps, useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import ItemForm from 'src/components/Item/ItemForm'
-import { Item, NewItemLocations } from 'types/graphql'
 
 export const QUERY = gql`
   query NewItemLocations {

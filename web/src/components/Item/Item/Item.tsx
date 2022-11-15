@@ -1,8 +1,5 @@
-import humanize from 'humanize-string'
+import { useEffect, useState } from 'react'
 
-import { Link, routes, navigate } from '@redwoodjs/router'
-import { CellSuccessProps, useMutation } from '@redwoodjs/web'
-import { toast } from '@redwoodjs/web/toast'
 import { Anchor, Image } from '@mantine/core'
 import {
   Document,
@@ -12,11 +9,17 @@ import {
   Image as PDFImage,
   PDFDownloadLink,
 } from '@react-pdf/renderer'
+import humanize from 'humanize-string'
 import { QRCodeCanvas } from 'qrcode.react'
 import { FindItemById } from 'types/graphql'
+
+import { Link, routes, navigate } from '@redwoodjs/router'
+import { CellSuccessProps, useMutation } from '@redwoodjs/web'
+import { toast } from '@redwoodjs/web/toast'
+
 import { getLocationString } from 'src/components/InventoryTable/helper'
+
 import { QUERY } from '../ItemsCell'
-import { useEffect, useState } from 'react'
 
 const DELETE_ITEM_MUTATION = gql`
   mutation DeleteItemMutation($id: Int!) {

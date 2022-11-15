@@ -1,4 +1,5 @@
 import { MetaTags } from '@redwoodjs/web'
+
 import ItemsCell from 'src/components/Item/ItemsCell'
 
 const InventoryPage = () => {

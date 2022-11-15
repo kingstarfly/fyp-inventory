@@ -1,7 +1,8 @@
-import { ItemRow } from '$web/src/components/Item/ItemsCell/ItemsCell'
 import { faker } from '@faker-js/faker'
 import type { Prisma } from '@prisma/client'
 import { db } from 'api/src/lib/db'
+
+import { ItemRow } from '$web/src/components/Item/ItemsCell/ItemsCell'
 export default async () => {
   try {
     //

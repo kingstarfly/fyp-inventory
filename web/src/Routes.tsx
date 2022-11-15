@@ -8,6 +8,7 @@
 // 'src/pages/Admin/BooksPage/BooksPage.js' -> AdminBooksPage
 
 import { Router, Route, Set, Private } from '@redwoodjs/router'
+
 import NavLayout from './layouts/NavLayout/NavLayout'
 
 const Routes = () => {

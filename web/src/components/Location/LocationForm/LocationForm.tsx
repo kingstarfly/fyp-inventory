@@ -7,24 +7,8 @@ import {
   Submit,
 } from '@redwoodjs/forms'
 
-
-
 const LocationForm = (props) => {
   const onSubmit = (data) => {
-
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
     props.onSave(data, props?.location?.id)
   }
 
@@ -37,7 +21,7 @@ const LocationForm = (props) => {
           titleClassName="rw-form-error-title"
           listClassName="rw-form-error-list"
         />
-      
+
         <Label
           name="locationName"
           className="rw-label"
@@ -45,15 +29,14 @@ const LocationForm = (props) => {
         >
           Location name
         </Label>
-        
-          <TextField
-            name="locationName"
-            defaultValue={props.location?.locationName}
-            className="rw-input"
-            errorClassName="rw-input rw-input-error"
-            validation={{ required: true }}
-          />
-        
+
+        <TextField
+          name="locationName"
+          defaultValue={props.location?.locationName}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+          validation={{ required: true }}
+        />
 
         <FieldError name="locationName" className="rw-field-error" />
 
@@ -64,15 +47,14 @@ const LocationForm = (props) => {
         >
           Block
         </Label>
-        
-          <TextField
-            name="block"
-            defaultValue={props.location?.block}
-            className="rw-input"
-            errorClassName="rw-input rw-input-error"
-            validation={{ required: true }}
-          />
-        
+
+        <TextField
+          name="block"
+          defaultValue={props.location?.block}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+          validation={{ required: true }}
+        />
 
         <FieldError name="block" className="rw-field-error" />
 
@@ -83,15 +65,14 @@ const LocationForm = (props) => {
         >
           Floor
         </Label>
-        
-          <TextField
-            name="floor"
-            defaultValue={props.location?.floor}
-            className="rw-input"
-            errorClassName="rw-input rw-input-error"
-            validation={{ required: true }}
-          />
-        
+
+        <TextField
+          name="floor"
+          defaultValue={props.location?.floor}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+          validation={{ required: true }}
+        />
 
         <FieldError name="floor" className="rw-field-error" />
 
@@ -102,23 +83,19 @@ const LocationForm = (props) => {
         >
           Room
         </Label>
-        
-          <TextField
-            name="room"
-            defaultValue={props.location?.room}
-            className="rw-input"
-            errorClassName="rw-input rw-input-error"
-            validation={{ required: true }}
-          />
-        
+
+        <TextField
+          name="room"
+          defaultValue={props.location?.room}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+          validation={{ required: true }}
+        />
 
         <FieldError name="room" className="rw-field-error" />
 
         <div className="rw-button-group">
-          <Submit
-            disabled={props.loading}
-            className="rw-button rw-button-blue"
-          >
+          <Submit disabled={props.loading} className="rw-button rw-button-blue">
             Save
           </Submit>
         </div>

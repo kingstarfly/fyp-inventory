@@ -1,11 +1,11 @@
 import type { GetItemSummaries, GetItemSummariesVariables } from 'types/graphql'
 
+import { Link, routes } from '@redwoodjs/router'
+import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
+
 import SummaryTable from 'src/components/SummaryTable/SummaryTable'
 import { ArrayElement } from 'src/library/ts-helpers'
 
-import { Link, routes } from '@redwoodjs/router'
-
-import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 export type ItemSummaryRow = ArrayElement<
   CellSuccessProps<GetItemSummaries>['itemSummaries']
 >

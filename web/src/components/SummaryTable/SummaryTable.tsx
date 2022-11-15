@@ -1,9 +1,6 @@
 import React from 'react'
-import { TbEye, TbSearch } from 'react-icons/tb'
-import { GetItemSummaries } from 'types/graphql'
 
 import { ActionIcon, Popover } from '@mantine/core'
-import { CellSuccessProps } from '@redwoodjs/web'
 import { RankingInfo, rankItem } from '@tanstack/match-sorter-utils'
 import {
   Column,
@@ -20,9 +17,13 @@ import {
   Table,
   useReactTable,
 } from '@tanstack/react-table'
+import { TbEye, TbSearch } from 'react-icons/tb'
+import { GetItemSummaries } from 'types/graphql'
 
-import { ItemSummaryRow } from '../Summary/SummariesCell'
+import { CellSuccessProps } from '@redwoodjs/web'
+
 import DebouncedInput from '../DebouncedInput/DebouncedInput'
+import { ItemSummaryRow } from '../Summary/SummariesCell'
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -149,17 +150,17 @@ const SummaryTable = ({
 
   return (
     <div className="p-2">
-      <div className="flex flex-row items-center justify-between w-full my-4">
+      <div className="my-4 flex w-full flex-row items-center justify-between">
         <DebouncedInput
           value={globalFilter ?? ''}
           onChange={(value) => setGlobalFilter(String(value))}
-          className="w-1/3 p-2 bg-white border rounded-sm shadow-md font-lg"
+          className="font-lg w-1/3 rounded-sm border bg-white p-2 shadow-md"
           placeholder="Search item name..."
           icon={<TbSearch size={16} />}
         />
       </div>
       <div className="h-2" />
-      <table className="w-full text-xs border-separate border-spacing-y-3 md:text-base">
+      <table className="w-full border-separate border-spacing-y-3 text-xs md:text-base">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -227,17 +228,17 @@ const SummaryTable = ({
 
       <div className="h-2" />
 
-      <div className="flex flex-wrap items-center justify-between text-xs md:text-md">
+      <div className="md:text-md flex flex-wrap items-center justify-between text-xs">
         <div className="flex items-center gap-2">
           <button
-            className="p-1 border rounded"
+            className="rounded border p-1"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
             {'<'}
           </button>
           <button
-            className="p-1 border rounded"
+            className="rounded border p-1"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
@@ -259,7 +260,7 @@ const SummaryTable = ({
                 const page = e.target.value ? Number(e.target.value) - 1 : 0
                 table.setPageIndex(page)
               }}
-              className="w-16 p-1 border rounded"
+              className="w-16 rounded border p-1"
             />
           </span>
           <select
@@ -325,7 +326,7 @@ function Filter({
               ? `(${column.getFacetedMinMaxValues()?.[0]})`
               : ''
           }`}
-          className="w-24 border rounded shadow"
+          className="w-24 rounded border shadow"
         />
         <DebouncedInput
           type="number"
@@ -340,7 +341,7 @@ function Filter({
               ? `(${column.getFacetedMinMaxValues()?.[1]})`
               : ''
           }`}
-          className="w-24 border rounded shadow"
+          className="w-24 rounded border shadow"
         />
       </div>
       <div className="h-1" />
@@ -360,11 +361,10 @@ function Filter({
           column.setFilterValue(value)
         }}
         placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-        className="border rounded shadow w-36"
+        className="w-36 rounded border shadow"
         list={column.id + 'list'}
       />
       <div className="h-1" />
     </>
   )
 }
-

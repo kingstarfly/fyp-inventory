@@ -1,6 +1,7 @@
 import { Modal, ModalProps } from '@mantine/core'
-import { navigate, routes } from '@redwoodjs/router'
 import { QrReader } from 'react-qr-reader'
+
+import { navigate, routes } from '@redwoodjs/router'
 
 interface Props extends ModalProps {}
 
@@ -9,12 +10,12 @@ const QrScanModal = ({ opened, onClose }: Props) => {
     <Modal opened={opened} onClose={onClose} title="Scan QR Code">
       <QrReader
         onResult={(result, error) => {
-          if (!!result) {
+          if (result) {
             const text = result.getText()
             navigate(routes.item({ id: parseInt(text) }))
           }
 
-          if (!!error) {
+          if (error) {
             console.info(error)
           }
         }}

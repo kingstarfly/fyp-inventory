@@ -13,15 +13,18 @@ const CREATE_LOCATION_MUTATION = gql`
 `
 
 const NewLocation = () => {
-  const [createLocation, { loading, error }] = useMutation(CREATE_LOCATION_MUTATION, {
-    onCompleted: () => {
-      toast.success('Location created')
-      navigate(routes.locations())
-    },
-    onError: (error) => {
-      toast.error(error.message)
-    },
-  })
+  const [createLocation, { loading, error }] = useMutation(
+    CREATE_LOCATION_MUTATION,
+    {
+      onCompleted: () => {
+        toast.success('Location created')
+        navigate(routes.locations())
+      },
+      onError: (error) => {
+        toast.error(error.message)
+      },
+    }
+  )
 
   const onSave = (input) => {
     createLocation({ variables: { input } })

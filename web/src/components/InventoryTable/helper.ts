@@ -1,6 +1,8 @@
-import { CellSuccessProps } from '@redwoodjs/web'
-import { ArrayElement } from 'src/library/ts-helpers'
 import { FindItems } from 'types/graphql'
+
+import { CellSuccessProps } from '@redwoodjs/web'
+
+import { ArrayElement } from 'src/library/ts-helpers'
 
 export function getLocationString(
   row: ArrayElement<CellSuccessProps<FindItems>['items']>

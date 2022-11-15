@@ -1,4 +1,7 @@
 import { Image, NumberInput, SegmentedControl, Select } from '@mantine/core'
+import { RiSearchLine } from 'react-icons/ri'
+import { EditItemById, Item, NewItemLocations } from 'types/graphql'
+
 import {
   Form,
   FormError,
@@ -12,8 +15,6 @@ import {
   NumberField,
 } from '@redwoodjs/forms'
 import { CellSuccessProps } from '@redwoodjs/web'
-import { RiSearchLine } from 'react-icons/ri'
-import { EditItemById, Item, NewItemLocations } from 'types/graphql'
 
 interface ItemFormProps {
   locations: CellSuccessProps<NewItemLocations>['locations']

@@ -66,23 +66,29 @@ const Location = ({ location }) => {
     <>
       <div className="rw-segment">
         <header className="rw-segment-header">
-          <h2 className="rw-heading rw-heading-secondary">Location {location.id} Detail</h2>
+          <h2 className="rw-heading rw-heading-secondary">
+            Location {location.id} Detail
+          </h2>
         </header>
         <table className="rw-table">
           <tbody>
             <tr>
               <th>Id</th>
               <td>{location.id}</td>
-            </tr><tr>
+            </tr>
+            <tr>
               <th>Location name</th>
               <td>{location.locationName}</td>
-            </tr><tr>
+            </tr>
+            <tr>
               <th>Block</th>
               <td>{location.block}</td>
-            </tr><tr>
+            </tr>
+            <tr>
               <th>Floor</th>
               <td>{location.floor}</td>
-            </tr><tr>
+            </tr>
+            <tr>
               <th>Room</th>
               <td>{location.room}</td>
             </tr>
