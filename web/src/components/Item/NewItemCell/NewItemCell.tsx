@@ -50,16 +50,13 @@ export const Success = ({ locations }: CellSuccessProps<NewItemLocations>) => {
   )
 
   const onSave = (input) => {
-    const { image, quantity, isAsset, ...modifiedInput } = input
-
-    const modifiedIsAsset = isAsset === 'Yes' ? true : false
+    const { image, quantity, assetType, ...modifiedInput } = input
 
     if (!image || image.length == 0) {
       createManyItems({
         variables: {
           input: {
             ...modifiedInput,
-            isAsset: modifiedIsAsset,
           },
           quantity: quantity,
         },
@@ -73,7 +70,6 @@ export const Success = ({ locations }: CellSuccessProps<NewItemLocations>) => {
           variables: {
             input: {
               ...modifiedInput,
-              isAsset: modifiedIsAsset,
               imageBlobBase64: base64data,
             },
             quantity: quantity,

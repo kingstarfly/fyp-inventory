@@ -3,7 +3,7 @@ export const schema = gql`
     id: Int!
     name: String!
     itemStatus: String!
-    isAsset: Boolean!
+    assetType: String!
     block: String!
     floor: String!
     room: String!
@@ -21,6 +21,7 @@ export const schema = gql`
     qtyReserved: Int!
     qtyLoaned: Int!
     qtyFaulty: Int!
+    qtyWriteOff: Int!
     imgUrl: String
   }
 
@@ -34,7 +35,7 @@ export const schema = gql`
   input CreateItemInput {
     name: String!
     itemStatus: String!
-    isAsset: Boolean!
+    assetType: String!
     block: String!
     floor: String!
     room: String!
@@ -46,7 +47,7 @@ export const schema = gql`
   input UpdateItemInput {
     name: String
     itemStatus: String
-    isAsset: Boolean
+    assetType: String
     block: String
     floor: String
     room: String

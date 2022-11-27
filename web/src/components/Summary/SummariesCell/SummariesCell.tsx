@@ -19,6 +19,7 @@ export const QUERY = gql`
       qtyReserved
       qtyLoaned
       qtyFaulty
+      qtyWriteOff
       imgUrl
     }
   }

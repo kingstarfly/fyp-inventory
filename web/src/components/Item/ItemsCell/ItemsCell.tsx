@@ -18,6 +18,7 @@ export const QUERY = gql`
       room
       subIndex
       itemStatus
+      assetType
     }
   }
 `

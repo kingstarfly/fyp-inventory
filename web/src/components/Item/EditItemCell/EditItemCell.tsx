@@ -13,7 +13,7 @@ export const QUERY = gql`
       id
       name
       itemStatus
-      isAsset
+      assetType
 
       block
       floor
@@ -45,7 +45,7 @@ const UPDATE_ITEM_MUTATION = gql`
     updateItem(id: $id, input: $input) {
       name
       itemStatus
-      isAsset
+      assetType
 
       block
       floor
@@ -80,7 +80,6 @@ export const Success = ({
 
   const onSave = (input, id) => {
     const { image, quantity, ...modifiedInput } = input
-    modifiedInput['isAsset'] = modifiedInput['isAsset'] === 'Yes' ? true : false
 
     if (!image || image.length == 0) {
       updateItem({ variables: { id, input: modifiedInput } })

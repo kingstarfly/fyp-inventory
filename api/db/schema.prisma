@@ -27,7 +27,7 @@ model Item {
   id    Int     @id @default(autoincrement())
   name  String
   itemStatus String
-  isAsset Boolean
+  assetType String
 
   // Storage Location
   block String

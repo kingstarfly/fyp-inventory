@@ -3,7 +3,7 @@ export const schema = gql`
     id: Int!
     name: String!
     itemStatus: String!
-    isAsset: Boolean!
+    assetType: String!
     block: String!
     floor: String!
     room: String!

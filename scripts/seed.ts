@@ -60,9 +60,14 @@ const newItem = (): Prisma.ItemCreateArgs['data'] => {
       'loaned',
       'reserved',
       'faulty',
+      'write-off',
     ]),
     imageBlobBase64: faker.image.abstract(),
-    isAsset: faker.datatype.boolean(),
+    assetType: faker.helpers.arrayElement([
+      'inventorised',
+      'SAP',
+      'non-inventorised',
+    ]),
     block: faker.helpers.arrayElement('N1,N2,N3,N4,S1,S2,S3,S4'.split(',')),
     floor: faker.helpers.arrayElement('1,2,3,4,5,6'.split(',')),
     room: faker.datatype

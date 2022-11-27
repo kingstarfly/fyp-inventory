@@ -43,11 +43,13 @@ export const itemSummaries: QueryResolvers['itemSummaries'] = async () => {
         (statusMap.get('available') || 0) +
         (statusMap.get('loaned') || 0) +
         (statusMap.get('reserved') || 0) +
-        (statusMap.get('faulty') || 0),
+        (statusMap.get('faulty') || 0) +
+        (statusMap.get('write-off') || 0),
       qtyAvailable: statusMap.get('available') || 0,
       qtyReserved: statusMap.get('reserved') || 0,
       qtyLoaned: statusMap.get('loaned') || 0,
       qtyFaulty: statusMap.get('faulty') || 0,
+      qtyWriteOff: statusMap.get('write-off') || 0,
       imgUrl: itemToImgUrlMap.get(name),
     })
   }

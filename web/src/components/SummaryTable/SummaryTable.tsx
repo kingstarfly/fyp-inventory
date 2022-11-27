@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ActionIcon, Popover } from '@mantine/core'
+import { ActionIcon, Image, Popover } from '@mantine/core'
 import { RankingInfo, rankItem } from '@tanstack/match-sorter-utils'
 import {
   Column,
@@ -90,6 +90,13 @@ const SummaryTable = ({
         enableGlobalFilter: false,
       },
       {
+        accessorFn: (row) => row.qtyFaulty,
+        id: 'qtyWriteOff',
+        header: 'Write-off',
+        enableColumnFilter: false,
+        enableGlobalFilter: false,
+      },
+      {
         accessorFn: (row) => row.qtyTotal,
         id: 'qtyTotal',
         header: 'Total',
@@ -110,7 +117,12 @@ const SummaryTable = ({
                   </ActionIcon>
                 </Popover.Target>
                 <Popover.Dropdown>
-                  <img src={imgUrl} width={500} height={500} />
+                  <Image
+                    src={imgUrl}
+                    width={200}
+                    height={200}
+                    withPlaceholder
+                  />
                 </Popover.Dropdown>
               </Popover>
             )
@@ -150,17 +162,17 @@ const SummaryTable = ({
 
   return (
     <div className="p-2">
-      <div className="my-4 flex w-full flex-row items-center justify-between">
+      <div className="flex flex-row items-center justify-between w-full my-4">
         <DebouncedInput
           value={globalFilter ?? ''}
           onChange={(value) => setGlobalFilter(String(value))}
-          className="font-lg w-1/3 rounded-sm border bg-white p-2 shadow-md"
+          className="w-1/3 p-2 bg-white border rounded-sm shadow-md font-lg"
           placeholder="Search item name..."
           icon={<TbSearch size={16} />}
         />
       </div>
       <div className="h-2" />
-      <table className="w-full border-separate border-spacing-y-3 text-xs md:text-base">
+      <table className="w-full text-xs border-separate border-spacing-y-3 md:text-base">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -228,17 +240,17 @@ const SummaryTable = ({
 
       <div className="h-2" />
 
-      <div className="md:text-md flex flex-wrap items-center justify-between text-xs">
+      <div className="flex flex-wrap items-center justify-between text-xs md:text-md">
         <div className="flex items-center gap-2">
           <button
-            className="rounded border p-1"
+            className="p-1 border rounded"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
             {'<'}
           </button>
           <button
-            className="rounded border p-1"
+            className="p-1 border rounded"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
@@ -260,7 +272,7 @@ const SummaryTable = ({
                 const page = e.target.value ? Number(e.target.value) - 1 : 0
                 table.setPageIndex(page)
               }}
-              className="w-16 rounded border p-1"
+              className="w-16 p-1 border rounded"
             />
           </span>
           <select
@@ -326,7 +338,7 @@ function Filter({
               ? `(${column.getFacetedMinMaxValues()?.[0]})`
               : ''
           }`}
-          className="w-24 rounded border shadow"
+          className="w-24 border rounded shadow"
         />
         <DebouncedInput
           type="number"
@@ -341,7 +353,7 @@ function Filter({
               ? `(${column.getFacetedMinMaxValues()?.[1]})`
               : ''
           }`}
-          className="w-24 rounded border shadow"
+          className="w-24 border rounded shadow"
         />
       </div>
       <div className="h-1" />
@@ -361,7 +373,7 @@ function Filter({
           column.setFilterValue(value)
         }}
         placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-        className="w-36 rounded border shadow"
+        className="border rounded shadow w-36"
         list={column.id + 'list'}
       />
       <div className="h-1" />

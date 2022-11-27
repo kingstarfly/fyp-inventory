@@ -20,6 +20,7 @@ import { toast } from '@redwoodjs/web/toast'
 import { getLocationString } from 'src/components/InventoryTable/helper'
 
 import { QUERY } from '../ItemsCell'
+import { capitalize } from 'src/library/display-names'
 
 const DELETE_ITEM_MUTATION = gql`
   mutation DeleteItemMutation($id: Int!) {
@@ -100,12 +101,12 @@ const Item = ({ item, locations }: CellSuccessProps<FindItemById>) => {
             </tr>
             <tr>
               <th>Item Status</th>
-              <td>{item.itemStatus}</td>
+              <td>{capitalize(item.itemStatus)}</td>
             </tr>
             <tr>
-              <th>Is Asset?</th>
+              <th>Asset Type</th>
               {/* Stringify a boolean */}
-              <td>{item.isAsset.toString()}</td>
+              <td>{capitalize(item.assetType)}</td>
             </tr>
             <tr>
               <th>Location</th>
@@ -195,9 +196,7 @@ const PDFPreview = ({
                   <View>
                     <Text style={{ fontSize: 10 }}>{item.name}</Text>
                     <Text style={{ fontSize: 8 }}>ID: {item.id}</Text>
-                    <Text style={{ fontSize: 6 }}>
-                      {item.isAsset ? 'Asset' : 'Non-asset'}
-                    </Text>
+                    <Text style={{ fontSize: 6 }}>{item.assetType}</Text>
                   </View>
                   <View style={{ marginTop: 12 }}>
                     <Text style={{ fontSize: 8 }}>

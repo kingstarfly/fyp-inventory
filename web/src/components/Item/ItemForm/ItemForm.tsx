@@ -28,7 +28,8 @@ interface FormFields extends Item {
   quantity: number
 }
 
-type ItemStatus = 'available' | 'loaned' | 'reserved' | 'faulty'
+type ItemStatus = 'available' | 'loaned' | 'reserved' | 'faulty' | 'write-off'
+type AssetType = 'inventorised' | 'non-inventorised' | 'SAP'
 
 const ItemForm = (props: ItemFormProps) => {
   const onSubmit = (data) => {
@@ -39,6 +40,8 @@ const ItemForm = (props: ItemFormProps) => {
   const [block, setBlock] = React.useState(props?.item?.block || '')
   const [floor, setFloor] = React.useState(props?.item?.floor || '')
   const [room, setRoom] = React.useState(props?.item?.room || '')
+
+  const [assetType, setAssetType] = React.useState(props?.item?.assetType || '')
   const [itemStatus, setItemStatus] = React.useState<ItemStatus>(
     (props.item?.itemStatus as ItemStatus) || 'available'
   )
@@ -118,25 +121,25 @@ const ItemForm = (props: ItemFormProps) => {
         <FieldError name="name" className="rw-field-error" />
 
         <Label
-          name="isAsset"
+          name="assetType"
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          Is Asset?
+          Asset Type
         </Label>
 
-        <SelectField
-          name="isAsset"
-          defaultValue={props.item?.isAsset ? 'true' : 'false'}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        >
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </SelectField>
+        <SegmentedControl
+          value={assetType}
+          onChange={(value) => setAssetType(value as AssetType)}
+          data={[
+            { label: 'Inventorised', value: 'inventorised' },
+            { label: 'Non-Inventorised', value: 'non-inventorised' },
+            { label: 'SAP', value: 'SAP' },
+          ]}
+          color="blue"
+        />
 
-        <FieldError name="isAsset" className="rw-field-error" />
+        <FieldError name="assetType" className="rw-field-error" />
 
         <Label
           name="remarks"
@@ -169,7 +172,9 @@ const ItemForm = (props: ItemFormProps) => {
             { label: 'Loaned', value: 'loaned' },
             { label: 'Reserved', value: 'reserved' },
             { label: 'Faulty', value: 'faulty' },
+            { label: 'Write-off', value: 'write-off' },
           ]}
+          color="blue"
         />
 
         <FieldError name="itemStatus" className="rw-field-error" />

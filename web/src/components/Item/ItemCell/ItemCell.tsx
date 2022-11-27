@@ -10,7 +10,7 @@ export const QUERY = gql`
       id
       name
       itemStatus
-      isAsset
+      assetType
 
       block
       floor
