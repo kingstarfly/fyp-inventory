@@ -19,6 +19,7 @@ export const QUERY = gql`
       subIndex
       itemStatus
       assetType
+      remarks
     }
   }
 `

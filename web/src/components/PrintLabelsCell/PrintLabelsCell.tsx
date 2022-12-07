@@ -1,20 +1,14 @@
 import type { FindItems } from 'types/graphql'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
-import {
-  Anchor,
-  Button,
-  Modal,
-  TransferList,
-  TransferListData,
-} from '@mantine/core'
+import { TbCheck } from 'react-icons/tb'
 import { ArrayElement } from 'src/library/ts-helpers'
-import { PDFDownloadLink } from '@react-pdf/renderer'
-import { QRCodeCanvas } from 'qrcode.react'
-import { PDFDocument } from '../Item/Item'
+
+import { Button, Modal, TransferList, TransferListData } from '@mantine/core'
+
 import PDFGeneratorWithQR from '../PDFGeneratorWithQR/PDFGeneratorWithQR'
 
 export const QUERY = gql`
-  query FindItems {
+  query FindItemsForPrintLabels {
     items {
       id
       name
@@ -24,6 +18,7 @@ export const QUERY = gql`
       subIndex
       itemStatus
       assetType
+      remarks
     }
   }
 `
@@ -65,15 +60,16 @@ export const Success = ({ items }: CellSuccessProps<FindItems>) => {
   }, [data, mapOfAllItems])
 
   return (
-    <div className="flex flex-col align-middle">
+    <div className="flex flex-col items-center gap-4">
       <TransferList
         value={data}
         onChange={setData}
         searchPlaceholder="Search..."
         nothingFound="Nothing here"
         titles={['Available', 'Selected']}
-        breakpoint="sm"
+        breakpoint="xs"
         listHeight={350}
+        showTransferAll={false}
       />
       <div className="flex flex-row justify-center">
         <Button
@@ -81,15 +77,17 @@ export const Success = ({ items }: CellSuccessProps<FindItems>) => {
             setOpened(true)
             setItemsToPrint(selectedItems)
           }}
+          leftIcon={<TbCheck size={16} />}
         >
           Confirm Selection
         </Button>
       </div>
-      {/* TODO: Put link in a modal popup. */}
+
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
         withCloseButton={false}
+        centered
       >
         <div className="flex flex-col align-middle">
           <h3 className="mb-4 text-lg font-semibold text-center">

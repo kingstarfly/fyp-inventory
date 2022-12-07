@@ -1,25 +1,20 @@
-import { ReactNode, useState } from 'react'
-
 import {
-  Anchor,
   Burger,
   Button,
   clsx,
-  Container,
   createStyles,
   Divider,
   Drawer,
-  Group,
-  Menu,
-  Navbar,
   Text,
-  ThemeIcon,
   Title,
-  UnstyledButton,
 } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { RiLineLine } from 'react-icons/ri'
-import { TbLayoutDashboard, TbTable, TbTableExport } from 'react-icons/tb'
+import {
+  TbLayoutDashboard,
+  TbPrinter,
+  TbTable,
+  TbTableExport,
+} from 'react-icons/tb'
 
 import { useAuth } from '@redwoodjs/auth'
 import { Link, routes, useLocation } from '@redwoodjs/router'
@@ -90,6 +85,11 @@ const links: NavBarButtonProps[] = [
     icon: <TbTable size={24} />,
   },
   {
+    label: 'Print Labels',
+    href: '/print-labels',
+    icon: <TbPrinter size={24} />,
+  },
+  {
     label: 'Export to CSV',
     href: '/export',
     target: '_blank',
@@ -105,14 +105,14 @@ const NavLayout = ({ children }: NavLayoutProps) => {
   const { pathname } = useLocation()
 
   return (
-    <div className="min-w-screen min-h-screen bg-slate-100">
+    <div className="min-h-screen min-w-screen bg-slate-100">
       <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
-      <header className="border-b-2 bg-blue-300 px-4 py-2">
-        <div className="flex h-full items-center justify-between">
+      <header className="px-4 py-2 bg-blue-300 border-b-2">
+        <div className="flex items-center justify-between h-full">
           <h3>Logo</h3>
 
-          <div className="hidden items-center justify-between sm:flex">
-            <div className="flex flex-1">
+          <div className="items-center justify-between hidden sm:flex">
+            <div className="flex flex-1 gap-4">
               {links.map((link) => (
                 <a
                   key={link.label}
@@ -127,7 +127,7 @@ const NavLayout = ({ children }: NavLayoutProps) => {
             </div>
           </div>
 
-          <div className="hidden items-center justify-between sm:flex">
+          <div className="items-center justify-between hidden sm:flex">
             {isAuthenticated ? (
               <div className="flex flex-row items-center text-xs">
                 <Text size="xs">{currentUser.email}</Text>{' '}
@@ -154,7 +154,7 @@ const NavLayout = ({ children }: NavLayoutProps) => {
         size="md"
       >
         <div className="flex h-[95%] flex-1 flex-col">
-          <div className="flex flex-1 flex-col">
+          <div className="flex flex-col flex-1">
             {links.map((link) => (
               <NavBarButton {...link} key={link.label} />
             ))}
@@ -180,7 +180,7 @@ const NavLayout = ({ children }: NavLayoutProps) => {
           )}
         </div>
       </Drawer>
-      <div className="mx-4 py-2">{children}</div>
+      <div className="py-2 mx-4">{children}</div>
     </div>
   )
 }
