@@ -34,6 +34,9 @@ const Routes = () => {
           <Route path="/locations/{id:Int}/edit" page={LocationEditLocationPage} name="editLocation" />
           <Route path="/locations/{id:Int}" page={LocationLocationPage} name="location" />
           <Route path="/locations" page={LocationLocationsPage} name="locations" />
+
+          <Route path="/print-labels" page={PrintLabelsPage} name="printLabels" />
+
           <Route notfound page={NotFoundPage} />
         </Set>
       </Private>
