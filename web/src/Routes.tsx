@@ -18,6 +18,7 @@ const Routes = () => {
       <Route path="/signup" page={SignupPage} name="signup" />
       <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
       <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />
+      <Route notfound page={NotFoundPage} />
 
       <Private unauthenticated="login">
         <Set wrap={NavLayout}>
@@ -36,8 +37,11 @@ const Routes = () => {
           <Route path="/locations" page={LocationLocationsPage} name="locations" />
 
           <Route path="/print-labels" page={PrintLabelsPage} name="printLabels" />
-
-          <Route notfound page={NotFoundPage} />
+        </Set>
+      </Private>
+      <Private unauthenticated="home" roles="admin">
+        <Set wrap={NavLayout}>
+          <Route path="/manage-users" page={ManageUsersPage} name="manageUsers" />
         </Set>
       </Private>
     </Router>

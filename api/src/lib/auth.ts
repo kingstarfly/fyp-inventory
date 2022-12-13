@@ -22,7 +22,13 @@ import { db } from './db'
 export const getCurrentUser = async (session) => {
   return await db.user.findUnique({
     where: { id: session.id },
-    select: { id: true, email: true, firstName: true, lastName: true },
+    select: {
+      id: true,
+      email: true,
+      firstName: true,
+      lastName: true,
+      roles: true,
+    },
   })
 }
 
@@ -60,24 +66,24 @@ export const hasRole = (roles: AllowedRoles): boolean => {
     if (typeof currentUserRoles === 'string') {
       // roles to check is a string, currentUser.roles is a string
       return currentUserRoles === roles
-    } else if (Array.isArray(currentUserRoles)) {
-      // roles to check is a string, currentUser.roles is an array
-      return currentUserRoles?.some((allowedRole) => roles === allowedRole)
+      // } else if (Array.isArray(currentUserRoles)) {
+      //   // roles to check is a string, currentUser.roles is an array
+      //   return currentUserRoles?.some((allowedRole) => roles === allowedRole)
+      // }
     }
-  }
 
-  if (Array.isArray(roles)) {
-    if (Array.isArray(currentUserRoles)) {
-      // roles to check is an array, currentUser.roles is an array
-      return currentUserRoles?.some((allowedRole) =>
-        roles.includes(allowedRole)
-      )
-    } else if (typeof context.currentUser.roles === 'string') {
-      // roles to check is an array, currentUser.roles is a string
-      return roles.some(
-        (allowedRole) => context.currentUser?.roles === allowedRole
-      )
-    }
+    // if (Array.isArray(roles)) {
+    //   if (Array.isArray(currentUserRoles)) {
+    //     // roles to check is an array, currentUser.roles is an array
+    //     return currentUserRoles?.some((allowedRole) =>
+    //       roles.includes(allowedRole)
+    //     )
+    //   } else if (typeof context.currentUser.roles === 'string') {
+    //     // roles to check is an array, currentUser.roles is a string
+    //     return roles.some(
+    //       (allowedRole) => context.currentUser?.roles === allowedRole
+    //     )
+    //   }
   }
 
   // roles not found

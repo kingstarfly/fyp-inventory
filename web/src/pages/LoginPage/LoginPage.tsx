@@ -40,6 +40,8 @@ const LoginPage = () => {
     }
   }
 
+  // TODO: Remove registration option. Creation of a new user will only be done by a L2 and above admin on a separate page.
+
   return (
     <>
       <MetaTags title="Login" />

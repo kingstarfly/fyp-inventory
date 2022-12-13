@@ -17,6 +17,8 @@ model User {
   salt String
   resetToken String?
   resetTokenExpireAt DateTime?
+  roles String @default("L1") // - L1 is unable to delete entries from database. - L2 is able to Create User. - L3 is able to Create User and Promote User to L2.
+
   firstName  String?
   lastName String?
   createdAt DateTime @default(now())

@@ -23,6 +23,7 @@ import { Toaster } from '@redwoodjs/web/toast'
 import NavBarButton, {
   NavBarButtonProps,
 } from 'src/components/NavBarButton/NavBarButton'
+import UserDisplay from 'src/components/UserDisplay/UserDisplay'
 
 type NavLayoutProps = {
   children?: React.ReactNode
@@ -103,7 +104,6 @@ const NavLayout = ({ children }: NavLayoutProps) => {
     useDisclosure(false)
   const { classes } = useStyles()
   const { pathname } = useLocation()
-
   return (
     <div className="min-h-screen min-w-screen bg-slate-100">
       <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
@@ -128,16 +128,7 @@ const NavLayout = ({ children }: NavLayoutProps) => {
           </div>
 
           <div className="items-center justify-between hidden sm:flex">
-            {isAuthenticated ? (
-              <div className="flex flex-row items-center text-xs">
-                <Text size="xs">{currentUser.email}</Text>{' '}
-                <Button color="dark.5" mx="md" onClick={logOut}>
-                  Logout
-                </Button>
-              </div>
-            ) : (
-              <Link to={routes.login()}>Login</Link>
-            )}
+            <UserDisplay />
           </div>
           <Burger
             opened={drawerOpened}
