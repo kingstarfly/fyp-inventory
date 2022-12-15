@@ -1,9 +1,15 @@
+import type { APIGatewayProxyEvent, Context } from 'aws-lambda'
+
 import { DbAuthHandler } from '@redwoodjs/api'
+import type { DbAuthHandlerOptions } from '@redwoodjs/api'
 
 import { db } from 'src/lib/db'
 
-export const handler = async (event, context) => {
-  const forgotPasswordOptions = {
+export const handler = async (
+  event: APIGatewayProxyEvent,
+  context: Context
+) => {
+  const forgotPasswordOptions: DbAuthHandlerOptions['forgotPassword'] = {
     // handler() is invoked after verifying that a user was found with the given
     // username. This is where you can send the user an email with a link to
     // reset their password. With the default dbAuth routes and field names, the
@@ -33,7 +39,7 @@ export const handler = async (event, context) => {
     },
   }
 
-  const loginOptions = {
+  const loginOptions: DbAuthHandlerOptions['login'] = {
     // handler() is called after finding the user that matches the
     // username/password provided at login, but before actually considering them
     // logged in. The `user` argument will be the user in the database that
@@ -62,16 +68,16 @@ export const handler = async (event, context) => {
     expires: 60 * 60 * 24 * 365 * 10,
   }
 
-  const resetPasswordOptions = {
+  const resetPasswordOptions: DbAuthHandlerOptions['resetPassword'] = {
     // handler() is invoked after the password has been successfully updated in
-    // the database. Returning anything truthy will automatically log the user
+    // the database. Returning anything truthy will automatically logs the user
     // in. Return `false` otherwise, and in the Reset Password page redirect the
     // user to the login page.
-    handler: (user) => {
-      return user
+    handler: (_user) => {
+      return true
     },
 
-    // If `false` then the new password MUST be different from the current one
+    // If `false` then the new password MUST be different than the current one
     allowReusedPassword: true,
 
     errors: {
@@ -86,7 +92,7 @@ export const handler = async (event, context) => {
     },
   }
 
-  const signupOptions = {
+  const signupOptions: DbAuthHandlerOptions['signup'] = {
     // Whatever you want to happen to your data on new user signup. Redwood will
     // check for duplicate usernames before calling this handler. At a minimum
     // you need to save the `username`, `hashedPassword` and `salt` to your
@@ -103,14 +109,29 @@ export const handler = async (event, context) => {
     // If this returns anything else, it will be returned by the
     // `signUp()` function in the form of: `{ message: 'String here' }`.
     handler: ({ username, hashedPassword, salt, userAttributes }) => {
+      // if userAttributes.roles is not L2 or L3, throw an error
+      if (userAttributes.roles !== 'L2' && userAttributes.roles !== 'L3') {
+        throw new Error(
+          'Current user role must be L2 or L3 to create a new user'
+        )
+      }
+
       return db.user.create({
         data: {
           email: username,
-          passwordHash: hashedPassword,
+          hashedPassword: hashedPassword,
           salt: salt,
+          roles: 'L1',
           // name: userAttributes.name
         },
       })
+    },
+
+    // Include any format checks for password here. Return `true` if the
+    // password is valid, otherwise throw a `PasswordValidationError`.
+    // Import the error along with `DbAuthHandler` from `@redwoodjs/api` above.
+    passwordValidation: (_password) => {
+      return true
     },
 
     errors: {
@@ -125,8 +146,12 @@ export const handler = async (event, context) => {
     db: db,
 
     // The name of the property you'd call on `db` to access your user table.
-    // i.e. if your Prisma model is named `User` this value would be `user`, as in `db.user`
+    // ie. if your Prisma model is named `User` this value would be `user`, as in `db.user`
     authModelAccessor: 'user',
+
+    // The name of the property you'd call on `db` to access your user credentials table.
+    // ie. if your Prisma model is named `UserCredential` this value would be `userCredential`, as in `db.userCredential`
+    credentialModelAccessor: 'userCredential',
 
     // A map of what dbAuth calls a field to what your database calls it.
     // `id` is whatever column you use to uniquely identify a user (probably
@@ -134,10 +159,11 @@ export const handler = async (event, context) => {
     authFields: {
       id: 'id',
       username: 'email',
-      hashedPassword: 'passwordHash',
+      hashedPassword: 'hashedPassword',
       salt: 'salt',
       resetToken: 'resetToken',
       resetTokenExpiresAt: 'resetTokenExpiresAt',
+      challenge: 'webAuthnChallenge',
     },
 
     // Specifies attributes on the cookie that dbAuth sets in order to remember
@@ -146,7 +172,7 @@ export const handler = async (event, context) => {
       HttpOnly: true,
       Path: '/',
       SameSite: 'Strict',
-      Secure: process.env.NODE_ENV !== 'development',
+      Secure: process.env.NODE_ENV !== 'development' ? true : false,
 
       // If you need to allow other domains (besides the api side) access to
       // the dbAuth session cookie:
@@ -157,6 +183,34 @@ export const handler = async (event, context) => {
     login: loginOptions,
     resetPassword: resetPasswordOptions,
     signup: signupOptions,
+
+    // See https://redwoodjs.com/docs/authentication/dbauth#webauthn for options
+    webAuthn: {
+      enabled: true,
+      // How long to allow re-auth via WebAuthn in seconds (default is 10 years).
+      // The `login.expires` time denotes how many seconds before a user will be
+      // logged out, and this value is how long they'll be to continue to use a
+      // fingerprint/face scan to log in again. When this one expires they
+      // *must* re-enter username and password to authenticate (WebAuthn will
+      // then be re-enabled for this amount of time).
+      expires: 60 * 60 * 24 * 365 * 10,
+      name: 'Redwood Application',
+      domain:
+        process.env.NODE_ENV === 'development' ? 'localhost' : 'server.com',
+      origin:
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:8910'
+          : 'https://server.com',
+      type: 'platform',
+      timeout: 60000,
+      credentialFields: {
+        id: 'id',
+        userId: 'userId',
+        publicKey: 'publicKey',
+        transports: 'transports',
+        counter: 'counter',
+      },
+    },
   })
 
   return await authHandler.invoke()

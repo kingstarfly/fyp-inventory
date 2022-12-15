@@ -8,7 +8,7 @@ export const standard = defineScenario<Prisma.LoanCreateArgs>({
         user: {
           create: {
             email: 'String4787894',
-            passwordHash: 'String',
+            hashedPassword: 'String',
             salt: 'String',
           },
         },
@@ -30,7 +30,7 @@ export const standard = defineScenario<Prisma.LoanCreateArgs>({
         user: {
           create: {
             email: 'String3891442',
-            passwordHash: 'String',
+            hashedPassword: 'String',
             salt: 'String',
           },
         },

@@ -1,3 +1,4 @@
+import type { Decoded } from '@redwoodjs/api'
 import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
 
 import { db } from './db'
@@ -19,7 +20,11 @@ import { db } from './db'
  * fields to the `select` object below once you've decided they are safe to be
  * seen if someone were to open the Web Inspector in their browser.
  */
-export const getCurrentUser = async (session) => {
+export const getCurrentUser = async (session: Decoded) => {
+  if (!session || typeof session.id !== 'number') {
+    return null
+  }
+
   return await db.user.findUnique({
     where: { id: session.id },
     select: {
@@ -45,7 +50,7 @@ export const isAuthenticated = (): boolean => {
  * When checking role membership, roles can be a single value, a list, or none.
  * You can use Prisma enums too (if you're using them for roles), just import your enum type from `@prisma/client`
  */
-type AllowedRoles = string | string[] | undefined
+type AllowedRoles = string[] | undefined
 
 /**
  * Checks if the currentUser is authenticated (and assigned one of the given roles)
@@ -61,33 +66,35 @@ export const hasRole = (roles: AllowedRoles): boolean => {
   }
 
   const currentUserRoles = context.currentUser?.roles
+  return roles.some((allowedRole) => currentUserRoles === allowedRole)
 
+  /*
   if (typeof roles === 'string') {
     if (typeof currentUserRoles === 'string') {
       // roles to check is a string, currentUser.roles is a string
       return currentUserRoles === roles
-      // } else if (Array.isArray(currentUserRoles)) {
-      //   // roles to check is a string, currentUser.roles is an array
-      //   return currentUserRoles?.some((allowedRole) => roles === allowedRole)
-      // }
+    } else if (Array.isArray(currentUserRoles)) {
+      // roles to check is a string, currentUser.roles is an array
+      return currentUserRoles?.some((allowedRole) => roles === allowedRole)
     }
-
-    // if (Array.isArray(roles)) {
-    //   if (Array.isArray(currentUserRoles)) {
-    //     // roles to check is an array, currentUser.roles is an array
-    //     return currentUserRoles?.some((allowedRole) =>
-    //       roles.includes(allowedRole)
-    //     )
-    //   } else if (typeof context.currentUser.roles === 'string') {
-    //     // roles to check is an array, currentUser.roles is a string
-    //     return roles.some(
-    //       (allowedRole) => context.currentUser?.roles === allowedRole
-    //     )
-    //   }
   }
+
+  if (Array.isArray(roles)) {
+    if (Array.isArray(currentUserRoles)) {
+      // roles to check is an array, currentUser.roles is an array
+      return currentUserRoles?.some((allowedRole) =>
+        roles.includes(allowedRole)
+      )
+    } else if (typeof currentUserRoles === 'string') {
+      // roles to check is an array, currentUser.roles is a string
+      return roles.some((allowedRole) => currentUserRoles === allowedRole)
+    }
+  }
+
 
   // roles not found
   return false
+  */
 }
 
 /**
@@ -104,7 +111,7 @@ export const hasRole = (roles: AllowedRoles): boolean => {
  *
  * @see https://github.com/redwoodjs/redwood/tree/main/packages/auth for examples
  */
-export const requireAuth = ({ roles }: { roles: AllowedRoles }) => {
+export const requireAuth = ({ roles }: { roles?: AllowedRoles } = {}) => {
   if (!isAuthenticated()) {
     throw new AuthenticationError("You don't have permission to do that.")
   }

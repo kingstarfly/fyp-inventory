@@ -2,15 +2,8 @@ export const schema = gql`
   type User {
     id: Int!
     email: String!
-    passwordHash: String!
-    salt: String!
-    resetToken: String
-    resetTokenExpireAt: DateTime
     roles: String!
-    firstName: String
-    lastName: String
     createdAt: DateTime!
-    loans: [Loan]!
   }
 
   type Query {
@@ -18,31 +11,12 @@ export const schema = gql`
     user(id: Int!): User @requireAuth
   }
 
-  input CreateUserInput {
-    email: String!
-    passwordHash: String!
-    salt: String!
-    resetToken: String
-    resetTokenExpireAt: DateTime
-    roles: String!
-    firstName: String
-    lastName: String
-  }
-
-  input UpdateUserInput {
-    email: String
-    passwordHash: String
-    salt: String
-    resetToken: String
-    resetTokenExpireAt: DateTime
+  input ModifyUserRoleInput {
     roles: String
-    firstName: String
-    lastName: String
   }
 
   type Mutation {
-    createUser(input: CreateUserInput!): User! @requireAuth
-    updateUser(id: Int!, input: UpdateUserInput!): User! @requireAuth
-    deleteUser(id: Int!): User! @requireAuth
+    modifyUserRole(id: Int!, input: ModifyUserRoleInput!): User! @requireAuth
+    deleteUser(id: Int!): User! @requireAuth(roles: ["L2", "L3"])
   }
 `

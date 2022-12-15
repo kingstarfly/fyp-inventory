@@ -1,41 +1,24 @@
-import type { EditUserById, UpdateUserInput } from 'types/graphql'
+import type { EditUserRoleById, ModifyUserRoleInput } from 'types/graphql'
 
 import { navigate, routes } from '@redwoodjs/router'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
-import UserForm from 'src/components/User/UserForm'
+import EditUserRoleForm from 'src/components/User/EditUserRoleForm/EditUserRoleForm'
 
 export const QUERY = gql`
-  query EditUserById($id: Int!) {
+  query EditUserRoleById($id: Int!) {
     user: user(id: $id) {
       id
-      email
-      passwordHash
-      salt
-      resetToken
-      resetTokenExpireAt
       roles
-      firstName
-      lastName
-      createdAt
     }
   }
 `
-const UPDATE_USER_MUTATION = gql`
-  mutation UpdateUserMutation($id: Int!, $input: UpdateUserInput!) {
-    updateUser(id: $id, input: $input) {
-      id
-      email
-      passwordHash
-      salt
-      resetToken
-      resetTokenExpireAt
+const UPDATE_USER_ROLE_MUTATION = gql`
+  mutation ModifyUserRoleMutation($id: Int!, $input: ModifyUserRoleInput!) {
+    modifyUserRole(id: $id, input: $input) {
       roles
-      firstName
-      lastName
-      createdAt
     }
   }
 `
@@ -46,9 +29,9 @@ export const Failure = ({ error }: CellFailureProps) => (
   <div className="rw-cell-error">{error?.message}</div>
 )
 
-export const Success = ({ user }: CellSuccessProps<EditUserById>) => {
-  const [updateUser, { loading, error }] = useMutation(
-    UPDATE_USER_MUTATION,
+export const Success = ({ user }: CellSuccessProps<EditUserRoleById>) => {
+  const [updateUserRole, { loading, error }] = useMutation(
+    UPDATE_USER_ROLE_MUTATION,
     {
       onCompleted: () => {
         toast.success('User updated')
@@ -61,19 +44,26 @@ export const Success = ({ user }: CellSuccessProps<EditUserById>) => {
   )
 
   const onSave = (
-    input: UpdateUserInput,
-    id: EditUserById['user']['id']
+    input: ModifyUserRoleInput,
+    id: EditUserRoleById['user']['id']
   ) => {
-    updateUser({ variables: { id, input } })
+    updateUserRole({ variables: { id, input } })
   }
 
   return (
     <div className="rw-segment">
       <header className="rw-segment-header">
-        <h2 className="rw-heading rw-heading-secondary">Edit User {user?.id}</h2>
+        <h2 className="rw-heading rw-heading-secondary">
+          Edit User Role {user?.id}
+        </h2>
       </header>
       <div className="rw-segment-main">
-        <UserForm user={user} onSave={onSave} error={error} loading={loading} />
+        <EditUserRoleForm
+          user={user}
+          onSave={onSave}
+          error={error}
+          loading={loading}
+        />
       </div>
     </div>
   )

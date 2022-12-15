@@ -1,9 +1,10 @@
 
+import { useAuth } from '@redwoodjs/auth'
 import { Link, routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
-import { timeTag,  } from 'src/lib/formatters'
+import { timeTag } from 'src/lib/formatters'
 
 import type { DeleteUserMutationVariables, FindUserById } from 'types/graphql'
 
@@ -20,6 +21,7 @@ interface Props {
 }
 
 const User = ({ user }: Props) => {
+  const { currentUser } = useAuth()
   const [deleteUser] = useMutation(DELETE_USER_MUTATION, {
     onCompleted: () => {
       toast.success('User deleted')
@@ -49,52 +51,39 @@ const User = ({ user }: Props) => {
             <tr>
               <th>Id</th>
               <td>{user.id}</td>
-            </tr><tr>
+            </tr>
+            <tr>
               <th>Email</th>
               <td>{user.email}</td>
-            </tr><tr>
-              <th>Password hash</th>
-              <td>{user.passwordHash}</td>
-            </tr><tr>
-              <th>Salt</th>
-              <td>{user.salt}</td>
-            </tr><tr>
-              <th>Reset token</th>
-              <td>{user.resetToken}</td>
-            </tr><tr>
-              <th>Reset token expire at</th>
-              <td>{timeTag(user.resetTokenExpireAt)}</td>
-            </tr><tr>
+            </tr>
+            <tr>
               <th>Roles</th>
               <td>{user.roles}</td>
-            </tr><tr>
-              <th>First name</th>
-              <td>{user.firstName}</td>
-            </tr><tr>
-              <th>Last name</th>
-              <td>{user.lastName}</td>
-            </tr><tr>
+            </tr>
+            <tr>
               <th>Created at</th>
               <td>{timeTag(user.createdAt)}</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <nav className="rw-button-group">
-        <Link
-          to={routes.editUser({ id: user.id })}
-          className="rw-button rw-button-blue"
-        >
-          Edit
-        </Link>
-        <button
-          type="button"
-          className="rw-button rw-button-red"
-          onClick={() => onDeleteClick(user.id)}
-        >
-          Delete
-        </button>
-      </nav>
+      {currentUser?.id !== user.id && (
+        <nav className="rw-button-group">
+          <Link
+            to={routes.editUser({ id: user.id })}
+            className="rw-button rw-button-blue"
+          >
+            Edit
+          </Link>
+          <button
+            type="button"
+            className="rw-button rw-button-red"
+            onClick={() => onDeleteClick(user.id)}
+          >
+            Delete
+          </button>
+        </nav>
+      )}
     </>
   )
 }

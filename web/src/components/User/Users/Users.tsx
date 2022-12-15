@@ -1,3 +1,4 @@
+import { useAuth } from '@redwoodjs/auth'
 import { Link, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
@@ -17,6 +18,8 @@ const DELETE_USER_MUTATION = gql`
 // TODO: Use Netlify Identity to manage users, but roles should be managed locally
 
 const UsersList = ({ users }: FindUsers) => {
+  const { currentUser } = useAuth()
+
   const [deleteUser] = useMutation(DELETE_USER_MUTATION, {
     onCompleted: () => {
       toast.success('User deleted')
@@ -55,7 +58,7 @@ const UsersList = ({ users }: FindUsers) => {
               <td>{truncate(user.email)}</td>
               <td>{truncate(user.roles)}</td>
               <td>
-                <nav className="rw-table-actions">
+                <nav className="rw-table-actions ">
                   <Link
                     to={routes.user({ id: user.id })}
                     title={'Show user ' + user.id + ' detail'}
@@ -63,21 +66,26 @@ const UsersList = ({ users }: FindUsers) => {
                   >
                     Show
                   </Link>
-                  <Link
-                    to={routes.editUser({ id: user.id })}
-                    title={'Edit user ' + user.id}
-                    className="rw-button rw-button-small rw-button-blue"
-                  >
-                    Edit
-                  </Link>
-                  <button
-                    type="button"
-                    title={'Delete user ' + user.id}
-                    className="rw-button rw-button-small rw-button-red"
-                    onClick={() => onDeleteClick(user.id)}
-                  >
-                    Delete
-                  </button>
+                  {user.id !== currentUser.id && (
+                    <>
+                      <Link
+                        to={routes.editUser({ id: user.id })}
+                        title={'Edit user ' + user.id}
+                        className="rw-button rw-button-small rw-button-blue"
+                      >
+                        Edit
+                      </Link>
+
+                      <button
+                        type="button"
+                        title={'Delete user ' + user.id}
+                        className="rw-button rw-button-small rw-button-red"
+                        onClick={() => onDeleteClick(user.id)}
+                      >
+                        Delete
+                      </button>
+                    </>
+                  )}
                 </nav>
               </td>
             </tr>

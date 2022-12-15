@@ -9,13 +9,7 @@ export const QUERY = gql`
     user: user(id: $id) {
       id
       email
-      passwordHash
-      salt
-      resetToken
-      resetTokenExpireAt
       roles
-      firstName
-      lastName
       createdAt
     }
   }

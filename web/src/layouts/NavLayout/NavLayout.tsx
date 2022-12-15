@@ -155,7 +155,7 @@ const NavLayout = ({ children }: NavLayoutProps) => {
 
           {isAuthenticated ? (
             <div className="flex flex-col items-center justify-center text-xs">
-              <Text size="md">{currentUser.email}</Text>{' '}
+              <Text size="md">{currentUser?.email}</Text>{' '}
               <Button
                 size="sm"
                 variant="outline"

@@ -1,6 +1,7 @@
+import { AuthProvider } from '@redwoodjs/auth'
+import WebAuthnClient from '@redwoodjs/auth/webAuthn'
 import { createEmotionCache, Global, MantineProvider } from '@mantine/core'
 
-import { AuthProvider } from '@redwoodjs/auth'
 import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
@@ -15,7 +16,7 @@ const myCache = createEmotionCache({ key: 'mantine', prepend: false })
 const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
     <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
-      <AuthProvider type="dbAuth">
+      <AuthProvider type="dbAuth" client={WebAuthnClient}>
         <RedwoodApolloProvider>
           <Global
             styles={[
@@ -25,8 +26,8 @@ const App = () => (
                   fontStyle: 'normal',
                   fontWeight: 400,
                   src: `local(''),
-                url('../fonts/open-sans-v34-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-                url('../fonts/open-sans-v34-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */`,
+                  url('../fonts/open-sans-v34-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+                  url('../fonts/open-sans-v34-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */`,
                 },
               },
             ]}

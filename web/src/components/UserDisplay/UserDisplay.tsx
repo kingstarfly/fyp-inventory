@@ -12,7 +12,7 @@ const useStyles = createStyles((theme) => ({
 }))
 
 const UserDisplay = () => {
-  const { isAuthenticated, currentUser, logOut } = useAuth()
+  const { isAuthenticated, currentUser, logOut, hasRole } = useAuth()
 
   const { classes } = useStyles()
 
@@ -30,39 +30,41 @@ const UserDisplay = () => {
           <Avatar
             radius="xl"
             src={null}
-            alt={currentUser.email}
+            alt={currentUser?.email}
             color="gray"
             className="hover:cursor-pointer"
           >
-            {generateInitials(currentUser.email)}
+            {generateInitials(currentUser?.email)}
           </Avatar>
         </Menu.Target>
 
         <Menu.Dropdown>
-          <div className="mb-4 flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center mb-4">
             <Avatar
               radius="xl"
               size="lg"
               src={null}
-              alt={currentUser.email}
+              alt={currentUser?.email}
               color="blue.5"
             >
-              {generateInitials(currentUser.email)}
+              {generateInitials(currentUser?.email)}
             </Avatar>
 
             <span className="max-w-[25ch] truncate text-base text-slate-600">
-              {currentUser.email}
+              {currentUser?.email}
             </span>
             <span className="max-w-[20ch] truncate text-xs text-slate-500">
-              {capitaliseFirstLetter(currentUser.roles as string)}
+              {capitaliseFirstLetter(currentUser?.roles as string)}
             </span>
           </div>
 
-          <Menu.Item icon={<TbUsers size={14} />}>
-            <Link to={routes.manageUsers()}>
-              <Text size="xs">Manage Users</Text>
-            </Link>
-          </Menu.Item>
+          {hasRole(['L2', 'L3']) ? (
+            <Menu.Item icon={<TbUsers size={14} />}>
+              <Link to={routes.users()}>
+                <Text size="xs">Manage Users</Text>
+              </Link>
+            </Menu.Item>
+          ) : null}
 
           <Menu.Item
             icon={<TbLogout size={14} />}
@@ -103,6 +105,9 @@ function generateInitials(nameOrEmail: string): string {
   }
 }
 
-function capitaliseFirstLetter(string: string) {
-  return string.charAt(0).toUpperCase() + string.slice(1)
+function capitaliseFirstLetter(s: string) {
+  if (!s) {
+    return ''
+  }
+  return s.charAt(0).toUpperCase() + s.slice(1)
 }
