@@ -15,8 +15,6 @@ const DELETE_USER_MUTATION = gql`
     }
   }
 `
-// TODO: Use Netlify Identity to manage users, but roles should be managed locally
-
 const UsersList = ({ users }: FindUsers) => {
   const { currentUser } = useAuth()
 

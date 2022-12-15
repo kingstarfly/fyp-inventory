@@ -10,8 +10,14 @@ import {
 import { navigate, routes } from '@redwoodjs/router'
 import { toast } from '@redwoodjs/web/toast'
 
+
+import { useApolloClient } from '@apollo/client'
+import { QUERY as FIND_USERS_QUERY } from '../UsersCell'
+
 const NewUser = () => {
   const { signUp, currentUser } = useAuth()
+  const apolloClient = useApolloClient()
+
   // focus on email box on page load
   const usernameRef = React.useRef<HTMLInputElement>()
   React.useEffect(() => {
@@ -19,14 +25,18 @@ const NewUser = () => {
   }, [])
 
   const onSubmit = async (data) => {
-    const response = await signUp({ ...data, roles: currentUser.roles as string })
+    const response = await signUp({
+      ...data,
+      roles: currentUser.roles as string,
+    })
 
     if (response.message) {
       toast(response.message)
     } else if (response.error) {
       toast.error(response.error)
     } else {
-      // user is signed in automatically
+      await apolloClient.refetchQueries({ include: [FIND_USERS_QUERY] })
+
       toast.success('User created')
       navigate(routes.users())
     }

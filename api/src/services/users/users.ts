@@ -37,10 +37,6 @@ export const modifyUserRole: MutationResolvers['modifyUserRole'] = async ({
       throw new Error('You cannot change your own role')
     }
 
-    function getRoleLevel(role: string) {
-      return parseInt(role.substring(1))
-    }
-
     if (getRoleLevel(targetUser.roles) >= getRoleLevel(currentUser.roles)) {
       throw new Error(
         'You cannot change the role of a user with equal or higher role'
@@ -54,9 +50,30 @@ export const modifyUserRole: MutationResolvers['modifyUserRole'] = async ({
   })
 }
 
-export const deleteUser: MutationResolvers['deleteUser'] = ({ id }) => {
+export const deleteUser: MutationResolvers['deleteUser'] = async ({ id }) => {
   requireAuth({ roles: ['L3'] })
+  const targetUser = await db.user.findUnique({ where: { id } })
+  const currentUser = await db.user.findUnique({
+    where: { id: context.currentUser.id },
+  })
+
+  validateWith(() => {
+    if (targetUser.id === currentUser.id) {
+      throw new Error('You cannot delete your own account')
+    }
+
+    if (getRoleLevel(targetUser.roles) >= getRoleLevel(currentUser.roles)) {
+      throw new Error(
+        'You cannot delete another user with equal or higher role'
+      )
+    }
+  })
+
   return db.user.delete({
     where: { id },
   })
+}
+
+function getRoleLevel(role: string) {
+  return parseInt(role.substring(1))
 }

@@ -108,7 +108,7 @@ export const handler = async (
     //
     // If this returns anything else, it will be returned by the
     // `signUp()` function in the form of: `{ message: 'String here' }`.
-    handler: ({ username, hashedPassword, salt, userAttributes }) => {
+    handler: async ({ username, hashedPassword, salt, userAttributes }) => {
       // if userAttributes.roles is not L2 or L3, throw an error
       if (userAttributes.roles !== 'L2' && userAttributes.roles !== 'L3') {
         throw new Error(
@@ -116,7 +116,7 @@ export const handler = async (
         )
       }
 
-      return db.user.create({
+      await db.user.create({
         data: {
           email: username,
           hashedPassword: hashedPassword,
@@ -125,6 +125,9 @@ export const handler = async (
           // name: userAttributes.name
         },
       })
+
+      // We don't want the newly created user to be logged in.
+      return
     },
 
     // Include any format checks for password here. Return `true` if the
