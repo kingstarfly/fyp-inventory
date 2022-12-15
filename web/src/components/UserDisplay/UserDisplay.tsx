@@ -11,10 +11,6 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-// TODO: Create a helper function to generate initials from the user's name or email.
-// TODO: Create a helper function to generate a random color from the user's name or email.
-// TODO: Create a new "Manage Users" page and link the button to it.
-
 const UserDisplay = () => {
   const { isAuthenticated, currentUser, logOut } = useAuth()
 
@@ -28,20 +24,38 @@ const UserDisplay = () => {
         withArrow
         arrowPosition="center"
         position="left-start"
+        width={240}
       >
         <Menu.Target>
-          <Avatar radius="xl" src={null} alt={currentUser.email}>
-            VR
+          <Avatar
+            radius="xl"
+            src={null}
+            alt={currentUser.email}
+            color="gray"
+            className="hover:cursor-pointer"
+          >
+            {generateInitials(currentUser.email)}
           </Avatar>
         </Menu.Target>
 
         <Menu.Dropdown>
-          <div className="flex flex-col items-center justify-center mb-4">
-            <Avatar radius="xl" size="lg" src={null} alt={currentUser.email}>
-              VR
+          <div className="mb-4 flex flex-col items-center justify-center">
+            <Avatar
+              radius="xl"
+              size="lg"
+              src={null}
+              alt={currentUser.email}
+              color="blue.5"
+            >
+              {generateInitials(currentUser.email)}
             </Avatar>
 
-            <Text size="sm">{currentUser.email}</Text>
+            <span className="max-w-[25ch] truncate text-base text-slate-600">
+              {currentUser.email}
+            </span>
+            <span className="max-w-[20ch] truncate text-xs text-slate-500">
+              {capitaliseFirstLetter(currentUser.roles as string)}
+            </span>
           </div>
 
           <Menu.Item icon={<TbUsers size={14} />}>
@@ -66,3 +80,29 @@ const UserDisplay = () => {
 }
 
 export default UserDisplay
+
+function generateInitials(nameOrEmail: string): string {
+  if (!nameOrEmail) {
+    return ''
+  }
+
+  if (nameOrEmail.includes('@')) {
+    // Return the first two characters of the email address.
+    return nameOrEmail.substring(0, 2).toUpperCase()
+  } else {
+    // Return the first character of the first two words in the name.
+    const words = nameOrEmail.split(' ')
+    if (words.length === 1) {
+      return words[0].substring(0, 2).toUpperCase()
+    } else {
+      return (
+        words[0].substring(0, 1).toUpperCase() +
+        words[1].substring(0, 1).toUpperCase()
+      )
+    }
+  }
+}
+
+function capitaliseFirstLetter(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}

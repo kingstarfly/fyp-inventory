@@ -9,6 +9,8 @@
 
 import { Router, Route, Set, Private } from '@redwoodjs/router'
 
+import ScaffoldLayout from 'src/layouts/ScaffoldLayout'
+
 import NavLayout from './layouts/NavLayout/NavLayout'
 
 const Routes = () => {
@@ -37,11 +39,15 @@ const Routes = () => {
           <Route path="/locations" page={LocationLocationsPage} name="locations" />
 
           <Route path="/print-labels" page={PrintLabelsPage} name="printLabels" />
-        </Set>
-      </Private>
-      <Private unauthenticated="home" roles="admin">
-        <Set wrap={NavLayout}>
-          <Route path="/manage-users" page={ManageUsersPage} name="manageUsers" />
+
+          <Private unauthenticated="home" roles="admin">
+            <Set wrap={ScaffoldLayout} title="Manage Users" titleTo="users" buttonLabel="New User" buttonTo="newUser">
+              <Route path="/users/new" page={UserNewUserPage} name="newUser" />
+              <Route path="/users/{id:Int}/edit" page={UserEditUserPage} name="editUser" />
+              <Route path="/users/{id:Int}" page={UserUserPage} name="user" />
+              <Route path="/users" page={UserUsersPage} name="users" />
+            </Set>
+          </Private>
         </Set>
       </Private>
     </Router>

@@ -36,11 +36,11 @@ const LoginPage = () => {
     } else if (response.error) {
       toast.error(response.error)
     } else {
-      toast.success('Welcome back!')
+      toast.success('Welcome back!', {
+        duration: 2000,
+      })
     }
   }
-
-  // TODO: Remove registration option. Creation of a new user will only be done by a L2 and above admin on a separate page.
 
   return (
     <>
@@ -106,6 +106,7 @@ const LoginPage = () => {
                     >
                       Forgot Password?
                     </Link>
+                    {/* TODO: Create forget-password service to email reset password to user's email */}
                   </div>
 
                   <FieldError name="password" className="rw-field-error" />
@@ -116,12 +117,6 @@ const LoginPage = () => {
                 </Form>
               </div>
             </div>
-          </div>
-          <div className="rw-login-link">
-            <span>Don&apos;t have an account?</span>{' '}
-            <Link to={routes.signup()} className="rw-link">
-              Sign up!
-            </Link>
           </div>
         </div>
       </main>

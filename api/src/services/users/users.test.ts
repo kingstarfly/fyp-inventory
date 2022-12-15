@@ -1,8 +1,10 @@
+import type { User } from '@prisma/client'
+
 import { users, user, createUser, updateUser, deleteUser } from './users'
 import type { StandardScenario } from './users.scenarios'
 
 // Generated boilerplate tests do not account for all circumstances
-// and can fail without adjustments, e.g. Float and DateTime types.
+// and can fail without adjustments, e.g. Float.
 //           Please refer to the RedwoodJS Testing Docs:
 //       https://redwoodjs.com/docs/testing#testing-services
 // https://redwoodjs.com/docs/testing#jest-expect-type-considerations
@@ -22,26 +24,26 @@ describe('users', () => {
 
   scenario('creates a user', async () => {
     const result = await createUser({
-      input: { email: 'String1404595', passwordHash: 'String', salt: 'String' },
+      input: { email: 'String6623709', passwordHash: 'String', salt: 'String' },
     })
 
-    expect(result.email).toEqual('String1404595')
+    expect(result.email).toEqual('String6623709')
     expect(result.passwordHash).toEqual('String')
     expect(result.salt).toEqual('String')
   })
 
   scenario('updates a user', async (scenario: StandardScenario) => {
-    const original = await user({ id: scenario.user.one.id })
+    const original = (await user({ id: scenario.user.one.id })) as User
     const result = await updateUser({
       id: original.id,
-      input: { email: 'String11022182' },
+      input: { email: 'String9366532' },
     })
 
-    expect(result.email).toEqual('String11022182')
+    expect(result.email).toEqual('String9366532')
   })
 
   scenario('deletes a user', async (scenario: StandardScenario) => {
-    const original = await deleteUser({ id: scenario.user.one.id })
+    const original = (await deleteUser({ id: scenario.user.one.id })) as User
     const result = await user({ id: original.id })
 
     expect(result).toEqual(null)
