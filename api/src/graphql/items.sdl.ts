@@ -1,17 +1,20 @@
 export const schema = gql`
   type Item {
     id: Int!
+    legacyId: String
     name: String!
     itemStatus: String!
     assetType: String!
+
     block: String!
     floor: String!
     room: String!
     subIndex: String
+
     remarks: String
     imageBlobBase64: String
-    loan: Loan
-    loanHistory: LoanHistory
+    createdAt: DateTime!
+    updatedAt: DateTime!
   }
 
   type ItemSummary {
@@ -33,18 +36,22 @@ export const schema = gql`
   }
 
   input CreateItemInput {
+    legacyId: String
     name: String!
     itemStatus: String!
     assetType: String!
+
     block: String!
     floor: String!
     room: String!
     subIndex: String
+
     remarks: String
     imageBlobBase64: String
   }
 
   input UpdateItemInput {
+    legacyId: String
     name: String
     itemStatus: String
     assetType: String

@@ -23,10 +23,13 @@ export default async () => {
       //
       // Change to match your data model and seeding needs
       //
-      items.map(async (item) => {
-        const record = await db.item.create({ data: item })
-        console.log(record)
-      })
+      [
+        items.map(async (item) => {
+          const record = await db.item.create({ data: item })
+          console.log(record)
+        }),
+        db.user.create({ data: newUser() }),
+      ]
     )
   } catch (error) {
     console.warn('Please define your seed data.')
@@ -42,9 +45,20 @@ const range = (len: number) => {
   return arr
 }
 
+const newUser = (): Prisma.UserCreateArgs['data'] => {
+  return {
+    id: 1,
+    email: 'user1@ntu.edu.sg',
+    roles: 'L3',
+    salt: 'salt',
+    hashedPassword:
+      '834abd0e7b88d20f5cb2e39e07b6c0ab6607ff71ebd82641db7acf41af50f745',
+  }
+}
+
 const newItem = (): Prisma.ItemCreateArgs['data'] => {
-  const modifiedAt = faker.date.recent()
-  const createdAt = faker.date.past(1, modifiedAt)
+  const updatedAt = faker.date.recent()
+  const createdAt = faker.date.past(1, updatedAt)
   return {
     id: faker.datatype.number({ min: 100000, max: 51231322 }),
     legacyId: `${faker.datatype.number({
@@ -82,7 +96,7 @@ const newItem = (): Prisma.ItemCreateArgs['data'] => {
       .padStart(2, '0'),
     subIndex: faker.helpers.arrayElement(',A,B,C,D'.split(',')),
     createdAt: createdAt,
-    modifiedAt: modifiedAt,
+    updatedAt: updatedAt,
   }
 }
 

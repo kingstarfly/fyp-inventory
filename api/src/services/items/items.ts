@@ -118,10 +118,3 @@ export const deleteItems: MutationResolvers['deleteItems'] = ({ ids }) => {
       }
     )
 }
-
-export const Item: ItemRelationResolvers = {
-  loan: (_obj, { root }) =>
-    db.item.findUnique({ where: { id: root.id } }).loan(),
-  loanHistory: (_obj, { root }) =>
-    db.item.findUnique({ where: { id: root.id } }).loanHistory(),
-}
