@@ -25,10 +25,7 @@ const NewUser = () => {
   }, [])
 
   const onSubmit = async (data) => {
-    const response = await signUp({
-      ...data,
-      roles: currentUser.roles as string,
-    })
+    const response = await signUp({ ...data })
 
     if (response.message) {
       toast(response.message)

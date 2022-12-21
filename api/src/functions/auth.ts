@@ -2,13 +2,12 @@ import type { APIGatewayProxyEvent, Context } from 'aws-lambda'
 
 import { DbAuthHandler } from '@redwoodjs/api'
 import type { DbAuthHandlerOptions } from '@redwoodjs/api'
+import { getCurrentUser, hasRole } from 'src/lib/auth'
+import { useRequireAuth } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 
-export const handler = async (
-  event: APIGatewayProxyEvent,
-  context: Context
-) => {
+const authHandler = async (event: APIGatewayProxyEvent, context: Context) => {
   const forgotPasswordOptions: DbAuthHandlerOptions['forgotPassword'] = {
     // handler() is invoked after verifying that a user was found with the given
     // username. This is where you can send the user an email with a link to
@@ -110,7 +109,7 @@ export const handler = async (
     // `signUp()` function in the form of: `{ message: 'String here' }`.
     handler: async ({ username, hashedPassword, salt, userAttributes }) => {
       // if userAttributes.roles is not L2 or L3, throw an error
-      if (userAttributes.roles !== 'L2' && userAttributes.roles !== 'L3') {
+      if (!hasRole(['L2', 'L3'])) {
         throw new Error(
           'Current user role must be L2 or L3 to create a new user'
         )
@@ -218,3 +217,9 @@ export const handler = async (
 
   return await authHandler.invoke()
 }
+
+export const handler = useRequireAuth({
+  handlerFn: authHandler,
+  getCurrentUser,
+})
+
