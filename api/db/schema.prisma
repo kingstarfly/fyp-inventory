@@ -11,35 +11,19 @@ generator client {
 // Define your own datamodels here and run `yarn redwood prisma migrate dev`
 // to create migrations for them and apply to your dev DB.
 model User {
-  id                 Int              @id @default(autoincrement())
-  email              String           @unique
+  id                 Int       @id @default(autoincrement())
+  email              String    @unique
   hashedPassword     String
   salt               String
   resetToken         String?
   resetTokenExpireAt DateTime?
-  webAuthnChallenge  String?          @unique
-  credentials        UserCredential[]
-
-  roles String // L1 - item CRU (no delete), L2 - item CRUD + L1 user creation, L3 - item CRUD + L1 user creation + ability to modify user roles (L1, L2, L3).
-
-  firstName String?
-  lastName  String?
-  createdAt DateTime @default(now())
-
-  loans Loan[]
-}
-
-model UserCredential {
-  id         String  @id
-  userId     Int
-  user       User    @relation(fields: [userId], references: [id])
-  publicKey  Bytes
-  transports String?
-  counter    BigInt
+  roles              String // L1 - item CRU (no delete), L2 - item CRUD + L1 user creation, L3 - item CRUD + L1 user creation + ability to modify user roles (L1, L2, L3).
+  createdAt          DateTime  @default(now())
 }
 
 model Item {
   id         Int    @id @default(autoincrement())
+  legacyId   String @unique
   name       String
   itemStatus String
   assetType  String
@@ -52,33 +36,8 @@ model Item {
 
   remarks         String?
   imageBlobBase64 String?
-  loan            Loan?
-  loanHistory     LoanHistory?
-}
-
-model Loan {
-  id               Int       @id @default(autoincrement())
-  loanedAt         DateTime  @default(now())
-  expectedReturnAt DateTime
-  returnedAt       DateTime?
-  remarks          String?
-
-  user   User @relation(fields: [userId], references: [id])
-  userId Int  @unique
-
-  loanHistory   LoanHistory @relation(fields: [loanHistoryId], references: [id])
-  loanHistoryId Int         @unique
-
-  item   Item @relation(fields: [itemId], references: [id])
-  itemId Int  @unique
-}
-
-model LoanHistory {
-  id    Int    @id @default(autoincrement())
-  loans Loan[]
-
-  item   Item @relation(fields: [itemId], references: [id])
-  itemId Int  @unique
+  createdAt       DateTime @default(now())
+  modifiedAt      DateTime @default(now())
 }
 
 model Location {
