@@ -22,8 +22,8 @@ model User {
 }
 
 model Item {
-  id         Int    @id @default(autoincrement())
-  legacyId   String @unique
+  id         Int     @id @default(autoincrement())
+  legacyId   String? @unique
   name       String
   itemStatus String
   assetType  String
