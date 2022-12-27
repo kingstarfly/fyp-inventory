@@ -22,7 +22,7 @@ packageManagerCommand = "yarn"
 monitorCommand = "pm2"
 path = "/var/www/inventory-management-system"
 processNames = ["serve"]
-repo = "git@github-fyp-inventory"
+repo = "git@github.com:kingstarfly/fyp-inventory.git"
 branch = "master"
 keepReleases = 5
 
