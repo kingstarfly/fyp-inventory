@@ -37,7 +37,7 @@ export const Success = ({ locations }: CellSuccessProps<NewItemLocations>) => {
         console.log(createManyItems)
         if (createManyItems.length === 1) {
           toast.success('Item created')
-          navigate(routes.item({ id: createManyItems[0] }))
+          navigate(routes.item({ id: `${createManyItems[0]}` }))
         } else {
           toast.success(`${createManyItems.length} Items created`)
           navigate(routes.items())

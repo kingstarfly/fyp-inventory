@@ -249,83 +249,87 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
         </div>
       </div>
       <div className="h-2" />
-      <table className="w-full text-xs border-separate border-spacing-y-3 md:text-base">
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <th
-                    key={header.id}
-                    colSpan={header.colSpan}
-                    className="px-2 text-left"
-                  >
-                    {header.isPlaceholder ? null : (
-                      <>
-                        <div
-                          {...{
-                            className: header.column.getCanSort()
-                              ? 'cursor-pointer select-none'
-                              : '',
-                            onClick: header.column.getToggleSortingHandler(),
-                          }}
-                        >
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                          {{
-                            asc: ' 🔼',
-                            desc: ' 🔽',
-                          }[header.column.getIsSorted() as string] ?? null}
-                        </div>
-                        {header.column.getCanFilter() ? (
-                          <div>
-                            <Filter column={header.column} table={table} />
-                          </div>
-                        ) : null}
-                      </>
-                    )}
-                  </th>
-                )
-              })}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => {
-            const isManaging = table.getColumn('select').getIsVisible()
-            return (
+      <div className="my-6 overflow-hidden rounded-lg shadow-xl ">
+        <table className="w-full text-xs min-w-max md:text-base">
+          <thead>
+            {table.getHeaderGroups().map((headerGroup) => (
               <tr
-                key={row.id}
-                onClick={() => {
-                  if (!isManaging) {
-                    navigate(routes.item({ id: row.original.id }))
-                  }
-                }}
-                className={clsx(
-                  !isManaging && 'cursor-pointer',
-                  'bg-white shadow-sm hover:brightness-90'
-                )}
+                key={headerGroup.id}
+                className="uppercase bg-slate-200 text-slate-700"
               >
-                {row.getVisibleCells().map((cell) => {
+                {headerGroup.headers.map((header) => {
                   return (
-                    <td
-                      key={cell.id}
-                      className="px-4 py-3 first:rounded-l-sm last:rounded-r-sm"
+                    <th
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      className="px-4 py-5 tracking-wider text-left"
                     >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
+                      {header.isPlaceholder ? null : (
+                        <>
+                          <div
+                            className={clsx(
+                              'mb-2 align-text-top',
+                              header.column.getCanSort()
+                                ? 'cursor-pointer select-none'
+                                : ''
+                            )}
+                            onClick={header.column.getToggleSortingHandler()}
+                          >
+                            {flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                            {{
+                              asc: ' 🔼',
+                              desc: ' 🔽',
+                            }[header.column.getIsSorted() as string] ?? null}
+                          </div>
+                          {header.column.getCanFilter() ? (
+                            <Filter column={header.column} table={table} />
+                          ) : null}
+                        </>
                       )}
-                    </td>
+                    </th>
                   )
                 })}
               </tr>
-            )
-          })}
-        </tbody>
-      </table>
+            ))}
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.map((row) => {
+              const isManaging = table.getColumn('select').getIsVisible()
+              return (
+                <tr
+                  key={row.id}
+                  onClick={() => {
+                    if (!isManaging) {
+                      navigate(routes.item({ id: `${row.original.id}` }))
+                    }
+                  }}
+                  className={clsx(
+                    !isManaging && 'cursor-pointer',
+                    'border-b border-slate-200 bg-white hover:bg-slate-100 '
+                  )}
+                >
+                  {row.getVisibleCells().map((cell) => {
+                    return (
+                      <td
+                        key={cell.id}
+                        className="px-4 py-3 first:rounded-l-sm last:rounded-r-sm"
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </td>
+                    )
+                  })}
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
 
       <div className="h-2" />
 
@@ -437,40 +441,37 @@ function Filter({
   )
 
   return typeof firstValue === 'number' ? (
-    <div>
-      <div className="flex space-x-2">
-        <DebouncedInput
-          type="number"
-          min={Number(column.getFacetedMinMaxValues()?.[0] ?? '')}
-          max={Number(column.getFacetedMinMaxValues()?.[1] ?? '')}
-          value={(columnFilterValue as [number, number])?.[0] ?? ''}
-          onChange={(value) =>
-            column.setFilterValue((old: [number, number]) => [value, old?.[1]])
-          }
-          placeholder={`Min ${
-            column.getFacetedMinMaxValues()?.[0]
-              ? `(${column.getFacetedMinMaxValues()?.[0]})`
-              : ''
-          }`}
-          className="w-1/2 px-1 border rounded shadow"
-        />
-        <DebouncedInput
-          type="number"
-          min={Number(column.getFacetedMinMaxValues()?.[0] ?? '')}
-          max={Number(column.getFacetedMinMaxValues()?.[1] ?? '')}
-          value={(columnFilterValue as [number, number])?.[1] ?? ''}
-          onChange={(value) =>
-            column.setFilterValue((old: [number, number]) => [old?.[0], value])
-          }
-          placeholder={`Max ${
-            column.getFacetedMinMaxValues()?.[1]
-              ? `(${column.getFacetedMinMaxValues()?.[1]})`
-              : ''
-          }`}
-          className="w-1/2 px-1 border rounded shadow"
-        />
-      </div>
-      <div className="h-1" />
+    <div className="flex space-x-2">
+      <DebouncedInput
+        type="number"
+        min={Number(column.getFacetedMinMaxValues()?.[0] ?? '')}
+        max={Number(column.getFacetedMinMaxValues()?.[1] ?? '')}
+        value={(columnFilterValue as [number, number])?.[0] ?? ''}
+        onChange={(value) =>
+          column.setFilterValue((old: [number, number]) => [value, old?.[1]])
+        }
+        placeholder={`Min ${
+          column.getFacetedMinMaxValues()?.[0]
+            ? `(${column.getFacetedMinMaxValues()?.[0]})`
+            : ''
+        }`}
+        className="w-1/2 px-1 border rounded shadow"
+      />
+      <DebouncedInput
+        type="number"
+        min={Number(column.getFacetedMinMaxValues()?.[0] ?? '')}
+        max={Number(column.getFacetedMinMaxValues()?.[1] ?? '')}
+        value={(columnFilterValue as [number, number])?.[1] ?? ''}
+        onChange={(value) =>
+          column.setFilterValue((old: [number, number]) => [old?.[0], value])
+        }
+        placeholder={`Max ${
+          column.getFacetedMinMaxValues()?.[1]
+            ? `(${column.getFacetedMinMaxValues()?.[1]})`
+            : ''
+        }`}
+        className="w-1/2 px-1 border rounded shadow"
+      />
     </div>
   ) : (
     <>
@@ -490,7 +491,6 @@ function Filter({
         className="w-full px-1 border rounded shadow"
         list={column.id + 'list'}
       />
-      <div className="h-1" />
     </>
   )
 }

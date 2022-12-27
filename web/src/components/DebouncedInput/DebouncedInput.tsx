@@ -33,6 +33,7 @@ export default function DebouncedInput({
       onChange={(event) => setValue(event.target.value)}
       aria-label="search"
       variant="unstyled"
+      bg="white"
     />
   )
 }
