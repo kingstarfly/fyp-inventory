@@ -16,7 +16,6 @@
 [[production.servers]]
 host = "172.21.148.188"
 username = "VMadmin"
-privateKeyPath = "/c/Users/xingxiang/.ssh/id_rsa"
 agentForward = false
 sides = ["api","web"]
 packageManagerCommand = "yarn"
