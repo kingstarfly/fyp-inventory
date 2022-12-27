@@ -10,9 +10,6 @@ import {
   TextField,
   Submit,
   FileField,
-  InputField,
-  SelectField,
-  NumberField,
 } from '@redwoodjs/forms'
 import { CellSuccessProps } from '@redwoodjs/web'
 
@@ -104,6 +101,23 @@ const ItemForm = (props: ItemFormProps) => {
         )}
 
         <Label
+          name="legacyId"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Legacy ID
+        </Label>
+
+        <TextField
+          name="legacyId"
+          defaultValue={props.item?.legacyId}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+        />
+
+        <FieldError name="name" className="rw-field-error" />
+
+        <Label
           name="name"
           className="rw-label"
           errorClassName="rw-label rw-label-error"
@@ -140,21 +154,6 @@ const ItemForm = (props: ItemFormProps) => {
         />
 
         <FieldError name="assetType" className="rw-field-error" />
-
-        <Label
-          name="remarks"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Remarks
-        </Label>
-
-        <TextField
-          name="remarks"
-          defaultValue={props.item?.remarks}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-        />
 
         <Label
           name="itemStatus"
@@ -266,27 +265,42 @@ const ItemForm = (props: ItemFormProps) => {
 
         <FieldError name="room" className="rw-field-error" />
 
+        <Label
+          name="image"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Image
+        </Label>
+
         {props.item?.imageBlobBase64 ? (
           <Image src={props.item?.imageBlobBase64} width={150} />
         ) : (
           <>
-            <Label
-              name="image"
-              className="rw-label"
-              errorClassName="rw-label rw-label-error"
-            >
-              Image
-            </Label>
-
             <FileField
               name="image"
               className="rw-input"
               errorClassName="rw-input rw-input-error"
             />
-
-            <FieldError name="image" className="rw-field-error" />
           </>
         )}
+
+        <FieldError name="image" className="rw-field-error" />
+
+        <Label
+          name="remarks"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Remarks
+        </Label>
+
+        <TextField
+          name="remarks"
+          defaultValue={props.item?.remarks}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+        />
 
         <div className="rw-button-group">
           <Submit disabled={props.loading} className="rw-button rw-button-blue">

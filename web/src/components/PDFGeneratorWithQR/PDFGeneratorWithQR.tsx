@@ -22,7 +22,7 @@ const PDFGeneratorWithQR = ({ items }: CellSuccessProps<FindItems>) => {
       : `labels_${new Date().toISOString().replaceAll(':', '')}.pdf`
 
   return (
-    <div className="flex flex-row justify-center">
+    <div>
       <div>
         {items.map((selectedItem) => {
           return (

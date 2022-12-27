@@ -1,6 +1,6 @@
 import type { FindItems } from 'types/graphql'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
-import { TbCheck } from 'react-icons/tb'
+import { TbArrowBarRight, TbArrowBarToLeft, TbCheck } from 'react-icons/tb'
 import { ArrayElement } from 'src/library/ts-helpers'
 
 import { Button, Modal, TransferList, TransferListData } from '@mantine/core'
@@ -66,10 +66,17 @@ export const Success = ({ items }: CellSuccessProps<FindItems>) => {
         onChange={setData}
         searchPlaceholder="Search..."
         nothingFound="Nothing here"
-        titles={['Available', 'Selected']}
+        titles={['Available', 'To Be Printed']}
         breakpoint="xs"
         listHeight={350}
         showTransferAll={false}
+        transferIcon={({ reversed }) =>
+          reversed ? (
+            <TbArrowBarToLeft className="disabled:text-red-200" />
+          ) : (
+            <TbArrowBarRight />
+          )
+        }
       />
       <div className="flex flex-row justify-center">
         <Button
@@ -89,8 +96,8 @@ export const Success = ({ items }: CellSuccessProps<FindItems>) => {
         withCloseButton={false}
         centered
       >
-        <div className="flex flex-col align-middle">
-          <h3 className="mb-4 text-lg font-semibold text-center">
+        <div className="flex flex-col items-center">
+          <h3 className="mb-4 text-center text-lg font-semibold">
             Your Generated PDF File
           </h3>
 

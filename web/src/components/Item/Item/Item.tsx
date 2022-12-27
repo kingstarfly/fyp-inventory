@@ -1,17 +1,6 @@
-import { useEffect, useState } from 'react'
-
-import { Anchor, Image } from '@mantine/core'
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  Image as PDFImage,
-  PDFDownloadLink,
-} from '@react-pdf/renderer'
+import { Image } from '@mantine/core'
 import humanize from 'humanize-string'
-import { QRCodeCanvas } from 'qrcode.react'
-import { FindItemById, FindItems } from 'types/graphql'
+import { FindItemById } from 'types/graphql'
 
 import { Link, routes, navigate } from '@redwoodjs/router'
 import { CellSuccessProps, useMutation } from '@redwoodjs/web'
@@ -146,7 +135,7 @@ const Item = ({ item, locations }: CellSuccessProps<FindItemById>) => {
       </div>
       <nav className="rw-button-group">
         <Link
-          to={routes.editItem({ id: item.id.toLocaleString() })}
+          to={routes.editItem({ id: `${item.id}` })}
           className="rw-button rw-button-blue"
         >
           Edit
@@ -164,4 +153,3 @@ const Item = ({ item, locations }: CellSuccessProps<FindItemById>) => {
 }
 
 export default Item
-
