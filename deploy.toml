@@ -16,6 +16,7 @@
 [[production.servers]]
 host = "172.21.148.188"
 username = "VMadmin"
+password = "SCSE[0346]"
 agentForward = false
 sides = ["api","web"]
 packageManagerCommand = "yarn"
