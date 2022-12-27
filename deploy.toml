@@ -22,9 +22,10 @@ packageManagerCommand = "yarn"
 monitorCommand = "pm2"
 path = "/var/www/inventory-management-system"
 processNames = ["serve"]
-repo = "git@github.com:kingstarfly/fyp-inventory.git"
+repo = "git@github-fyp-inventory"
 branch = "master"
 keepReleases = 5
+privateKeyPath = "/home/VMadmin"
 
 # If you have separate api and web servers:
 #
