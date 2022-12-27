@@ -4,7 +4,14 @@ import { TbSearch } from 'react-icons/tb'
 import { capitalize } from 'src/library/display-names'
 import { FindItems } from 'types/graphql'
 
-import { ActionIcon, Button, clsx, Menu } from '@mantine/core'
+import {
+  ActionIcon,
+  Badge,
+  BadgeProps,
+  Button,
+  clsx,
+  Menu,
+} from '@mantine/core'
 import { navigate, routes } from '@redwoodjs/router'
 import { CellSuccessProps, useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
@@ -141,7 +148,8 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
         header: 'Asset Type',
       },
       {
-        accessorFn: (row) => capitalize(row.itemStatus),
+        accessorFn: (row) => row.itemStatus,
+        cell: (info) => <StatusBadge status={info.getValue()} />,
         id: 'status',
         header: 'Status',
       },
@@ -249,13 +257,13 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
         </div>
       </div>
       <div className="h-2" />
-      <div className="my-6 overflow-hidden rounded-lg shadow-xl ">
+      <div className="my-6 overflow-hidden rounded-lg shadow-xl">
         <table className="w-full text-xs min-w-max md:text-base">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr
                 key={headerGroup.id}
-                className="uppercase bg-slate-200 text-slate-700"
+                className="uppercase bg-slate-200 text-slate-700 md:text-sm"
               >
                 {headerGroup.headers.map((header) => {
                   return (
@@ -308,15 +316,12 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
                   }}
                   className={clsx(
                     !isManaging && 'cursor-pointer',
-                    'border-b border-slate-200 bg-white hover:bg-slate-100 '
+                    'border-b border-slate-200 bg-white hover:bg-slate-100'
                   )}
                 >
                   {row.getVisibleCells().map((cell) => {
                     return (
-                      <td
-                        key={cell.id}
-                        className="px-4 py-3 first:rounded-l-sm last:rounded-r-sm"
-                      >
+                      <td key={cell.id} className="px-4 py-3">
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
@@ -492,5 +497,27 @@ function Filter({
         list={column.id + 'list'}
       />
     </>
+  )
+}
+
+function StatusBadge({ status }: { status: string }) {
+  // Depending on the status, we can return a different badge
+  // Status can be: 'available', 'loaned', 'reserved', 'faulty', 'write-off',
+  // Define a type where the key is the status and the value is the gradient
+
+  const gradients: {
+    [key: string]: BadgeProps['gradient']
+  } = {
+    available: { from: 'teal.6', to: 'teal.8', deg: 135 },
+    loaned: { from: 'yellow.6', to: 'yellow.8', deg: 135 },
+    reserved: { from: 'indigo.4', to: 'indigo.8', deg: 135 },
+    faulty: { from: 'red.5', to: 'red.8', deg: 135 },
+    'write-off': { from: 'gray.6', to: 'gray.8', deg: 135 },
+  }
+
+  return (
+    <Badge variant="gradient" gradient={gradients[status]}>
+      {capitalize(status)}
+    </Badge>
   )
 }
