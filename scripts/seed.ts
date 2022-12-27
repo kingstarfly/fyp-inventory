@@ -61,10 +61,10 @@ const newItem = (): Prisma.ItemCreateArgs['data'] => {
   const createdAt = faker.date.past(1, updatedAt)
   return {
     id: faker.datatype.number({ min: 100000, max: 51231322 }),
-    legacyId: `${faker.datatype.number({
+    legacyId: `*${faker.datatype.number({
       min: 1000000000,
       max: 9999999999,
-    })}-${faker.datatype.number({ min: 0, max: 9 })}`,
+    })}-${faker.datatype.number({ min: 0, max: 9 })}*`,
     name: faker.helpers.arrayElement([
       'Asus Laptop',
       'Dell Laptop',

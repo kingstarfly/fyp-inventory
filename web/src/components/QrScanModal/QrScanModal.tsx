@@ -3,6 +3,8 @@ import { QrReader } from 'react-qr-reader'
 
 import { navigate, routes } from '@redwoodjs/router'
 
+
+// TODO: If legacy ID mode, then use this legacy ID to navigate to find the item ID and then navigate to the item page
 interface Props extends ModalProps {}
 
 const QrScanModal = ({ opened, onClose }: Props) => {
@@ -13,7 +15,11 @@ const QrScanModal = ({ opened, onClose }: Props) => {
         onResult={(result, error) => {
           if (result) {
             const text = result.getText()
-            navigate(routes.item({ id: parseInt(text) }))
+            if (isLegacyId) {
+              navigate(routes.itemViaLegacyId({ id: text }))
+            } else {
+              navigate(routes.itemViaId({ id: text }))
+            }
           }
 
           if (error) {

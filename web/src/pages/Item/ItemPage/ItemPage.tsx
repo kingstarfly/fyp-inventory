@@ -1,7 +1,7 @@
 import ItemCell from 'src/components/Item/ItemCell'
 
 type ItemPageProps = {
-  id: number
+  id: string
 }
 
 const ItemPage = ({ id }: ItemPageProps) => {

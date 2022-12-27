@@ -5,9 +5,10 @@ import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 import Item from 'src/components/Item/Item'
 
 export const QUERY = gql`
-  query FindItemById($id: Int!) {
+  query FindItemById($id: String!) {
     item: item(id: $id) {
       id
+      legacyId
       name
       itemStatus
       assetType
@@ -19,12 +20,6 @@ export const QUERY = gql`
 
       remarks
       imageBlobBase64
-      loan {
-        id
-      }
-      loanHistory {
-        id
-      }
     }
 
     locations: locations {

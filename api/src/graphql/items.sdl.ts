@@ -29,7 +29,8 @@ export const schema = gql`
   }
 
   type Query {
-    item(id: Int!): Item @requireAuth
+    # id is a String here because legacy ID is a string. When resolving the query, if isLegacyId is false, then convert the id to an Int since the database stores it as an Int. If not, then use the id as is since legacyId is a string.
+    item(id: String!, isLegacyId: Boolean): Item @requireAuth
     items: [Item!]! @requireAuth
 
     itemSummaries: [ItemSummary!]! @requireAuth

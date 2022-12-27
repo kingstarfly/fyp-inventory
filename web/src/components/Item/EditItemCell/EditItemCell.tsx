@@ -8,9 +8,10 @@ import { toast } from '@redwoodjs/web/toast'
 import ItemForm from 'src/components/Item/ItemForm'
 
 export const QUERY = gql`
-  query EditItemById($id: Int!) {
+  query EditItemById($id: String!) {
     item: item(id: $id) {
       id
+      legacyId
       name
       itemStatus
       assetType
@@ -22,12 +23,6 @@ export const QUERY = gql`
 
       remarks
       imageBlobBase64
-      loan {
-        id
-      }
-      loanHistory {
-        id
-      }
     }
 
     locations: locations {

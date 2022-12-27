@@ -57,9 +57,17 @@ export const itemSummaries: QueryResolvers['itemSummaries'] = async () => {
 }
 
 export const item: QueryResolvers['item'] = ({ id }) => {
-  return db.item.findUnique({
-    where: { id },
-  })
+  // Legacy ID looks like "*6201012839-0*".
+  // Normal ID looks like "123456789"
+  if (id.includes('*') || id.includes('-')) {
+    return db.item.findUnique({
+      where: { legacyId: id },
+    })
+  } else {
+    return db.item.findUnique({
+      where: { id: parseInt(id) },
+    })
+  }
 }
 
 export const createManyItems: MutationResolvers['createManyItems'] = ({

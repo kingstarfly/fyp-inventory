@@ -97,6 +97,10 @@ const Item = ({ item, locations }: CellSuccessProps<FindItemById>) => {
               <td>{item.id}</td>
             </tr>
             <tr>
+              <th>Legacy ID</th>
+              <td>{item.legacyId}</td>
+            </tr>
+            <tr>
               <th>Name</th>
               <td>{item.name}</td>
             </tr>
@@ -142,7 +146,7 @@ const Item = ({ item, locations }: CellSuccessProps<FindItemById>) => {
       </div>
       <nav className="rw-button-group">
         <Link
-          to={routes.editItem({ id: item.id })}
+          to={routes.editItem({ id: item.id.toLocaleString() })}
           className="rw-button rw-button-blue"
         >
           Edit

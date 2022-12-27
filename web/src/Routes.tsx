@@ -29,8 +29,8 @@ const Routes = () => {
           <Route path="/export" page={ExportPage} name="export" />
 
           <Route path="/items/new" page={ItemNewItemPage} name="newItem" />
-          <Route path="/items/{id:Int}/edit" page={ItemEditItemPage} name="editItem" />
-          <Route path="/items/{id:Int}" page={ItemItemPage} name="item" />
+          <Route path="/items/{id:String}/edit" page={ItemEditItemPage} name="editItem" />
+          <Route path="/items/{id:String}" page={ItemItemPage} name="item" />
           <Route path="/items" page={HomePage} name="items" />
 
           <Route path="/locations/new" page={LocationNewLocationPage} name="newLocation" />
