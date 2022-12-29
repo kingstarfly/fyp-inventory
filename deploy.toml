@@ -16,11 +16,10 @@
 [[production.servers]]
 host = "172.21.148.188"
 username = "VMadmin"
-privateKeyPath = "Users/xingxiang/.ssh/id_ed25519"
-agentForward = false
+agentForward = true
 sides = ["api","web"]
-packageManagerCommand = "yarn"
-monitorCommand = "pm2"
+packageManagerCommand = "export PATH='$PATH:/home/VMadmin/.nvm/versions/node/v14.21.2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin' && yarn"
+monitorCommand = "export PATH='$PATH:/home/VMadmin/.nvm/versions/node/v14.21.2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin' && pm2"
 path = "/var/www/fyp-inventory"
 processNames = ["serve"]
 repo = "git@github.com:kingstarfly/fyp-inventory.git"
