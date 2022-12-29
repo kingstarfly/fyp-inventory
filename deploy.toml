@@ -16,7 +16,7 @@
 [[production.servers]]
 host = "172.21.148.188"
 username = "VMadmin"
-password = "SCSE[0346]"
+privateKeyPath = "C:\Users\kingstarfly\.ssh\id_ed25519"
 agentForward = false
 sides = ["api","web"]
 packageManagerCommand = "yarn"
