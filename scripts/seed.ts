@@ -44,7 +44,8 @@ const range = (len: number) => {
   }
   return arr
 }
-
+// On first create, to create the first admin user, run yarn rw c and "db.user.create({data : {id: 1, email: "temp@temp.com", roles: "L3", salt: "salt", hashedPassword: "834abd0e7b88d20f5cb2e39e07b6c0ab6607ff71ebd82641db7acf41af50f745"}})"
+// The password is "user1"
 const newUser = (): Prisma.UserCreateArgs['data'] => {
   return {
     id: 1,
