@@ -24,15 +24,13 @@ const authHandler = async (event: APIGatewayProxyEvent, context: Context) => {
     // address in a toast message so the user will know it worked and where
     // to look for the email.
     handler: async (user) => {
-      // logger.debug('user is requesting forgot password')
-      // const res = await sendEmail({
-      //   to: user.email,
-      //   subject: 'Reset Password',
-      //   text: `Copy the following link into your browser to reset your password: ${process.env.DOMAIN_URL}reset-password?resetToken=${user.resetToken}`,
-      //   html: `<div><h2>Reset Password</h2><p>Follow the link below to reset your password. </p><p><a href="${process.env.DOMAIN_URL}reset-password?resetToken=${user.resetToken}">${process.env.DOMAIN_URL}reset-password?resetToken=${user.resetToken}</a></p></div>`,
-      // })
-      // return res
-      return user
+      const res = await sendEmail({
+        to: user.email,
+        subject: 'Reset Password',
+        text: `Copy the following link into your browser to reset your password: ${process.env.DOMAIN_URL}reset-password?resetToken=${user.resetToken}`,
+        html: `<div><h2>Reset Password</h2><p>Follow the link below to reset your password. </p><p><a href="${process.env.DOMAIN_URL}reset-password?resetToken=${user.resetToken}">${process.env.DOMAIN_URL}reset-password?resetToken=${user.resetToken}</a></p></div>`,
+      })
+      return res
     },
 
     // How long the resetToken is valid for, in seconds (default is 24 hours)
@@ -118,25 +116,8 @@ const authHandler = async (event: APIGatewayProxyEvent, context: Context) => {
     // If this returns anything else, it will be returned by the
     // `signUp()` function in the form of: `{ message: 'String here' }`.
     handler: async ({ username, hashedPassword, salt, userAttributes }) => {
-      // if userAttributes.roles is not L2 or L3, throw an error
-      if (!hasRole(['L2', 'L3'])) {
-        throw new Error(
-          'Current user role must be L2 or L3 to create a new user'
-        )
-      }
-
-      await db.user.create({
-        data: {
-          email: username,
-          hashedPassword: hashedPassword,
-          salt: salt,
-          roles: 'L1',
-          // name: userAttributes.name
-        },
-      })
-
-      // We don't want the newly created user to be logged in.
-      return
+      // This endpoint is not in use. Creation of user happens in user service.
+      throw new Error('Sinup endpoint is not in use.')
     },
 
     // Include any format checks for password here. Return `true` if the
@@ -195,8 +176,5 @@ const authHandler = async (event: APIGatewayProxyEvent, context: Context) => {
   return await authHandler.invoke()
 }
 
-export const handler = useRequireAuth({
-  handlerFn: authHandler,
-  getCurrentUser,
-})
+export const handler = authHandler
 
