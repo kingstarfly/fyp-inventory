@@ -40,6 +40,8 @@ const Routes = () => {
 
           <Route path="/print-labels" page={PrintLabelsPage} name="printLabels" />
 
+          <Route path="/change-password" page={ChangePasswordPage} name="changePassword" />
+
           <Private unauthenticated="home" roles={['L2', 'L3']}>
             <Set wrap={ScaffoldLayout} title="Manage Users" titleTo="users" buttonLabel="New User" buttonTo="newUser">
               <Route path="/users/new" page={UserNewUserPage} name="newUser" />

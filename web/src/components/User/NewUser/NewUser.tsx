@@ -8,15 +8,27 @@ import {
   TextField,
 } from '@redwoodjs/forms'
 import { navigate, routes } from '@redwoodjs/router'
+import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
-
-import { useApolloClient } from '@apollo/client'
-import { QUERY as FIND_USERS_QUERY } from '../UsersCell'
+const CREATE_USER_MUTATION = gql`
+  mutation CreateUserMutation($input: CreateUserInput!) {
+    createUser(input: $input) {
+      id
+    }
+  }
+`
 
 const NewUser = () => {
-  const { signUp, currentUser } = useAuth()
-  const apolloClient = useApolloClient()
+  const [createUser] = useMutation(CREATE_USER_MUTATION, {
+    onCompleted: () => {
+      toast.success('User created')
+      navigate(routes.users())
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    },
+  })
 
   // focus on email box on page load
   const usernameRef = React.useRef<HTMLInputElement>()
@@ -25,18 +37,14 @@ const NewUser = () => {
   }, [])
 
   const onSubmit = async (data) => {
-    const response = await signUp({ ...data })
-
-    if (response.message) {
-      toast(response.message)
-    } else if (response.error) {
-      toast.error(response.error)
-    } else {
-      await apolloClient.refetchQueries({ include: [FIND_USERS_QUERY] })
-
-      toast.success('User created')
-      navigate(routes.users())
-    }
+    createUser({
+      variables: {
+        input: {
+          email: data.email,
+          password: data.password,
+        },
+      },
+    })
   }
 
   return (
@@ -47,25 +55,25 @@ const NewUser = () => {
       <div className="rw-segment-main">
         <Form onSubmit={onSubmit} className="rw-form-wrapper">
           <Label
-            name="username"
+            name="email"
             className="rw-label"
             errorClassName="rw-label rw-label-error"
           >
             Email Address
           </Label>
           <TextField
-            name="username"
+            name="email"
             className="rw-input"
             errorClassName="rw-input rw-input-error"
             ref={usernameRef}
             validation={{
               required: {
                 value: true,
-                message: 'Username is required',
+                message: 'email is required',
               },
             }}
           />
-          <FieldError name="username" className="rw-field-error" />
+          <FieldError name="email" className="rw-field-error" />
 
           <Label
             name="password"

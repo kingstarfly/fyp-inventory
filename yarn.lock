@@ -6666,6 +6666,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/nodemailer@npm:^6.4.7":
+  version: 6.4.7
+  resolution: "@types/nodemailer@npm:6.4.7"
+  dependencies:
+    "@types/node": "*"
+  checksum: 368ddc1faf9c393ae7192dd0f0c049e9aa38cc8214a6ec62a1ad93b8479a17c69b6f552b9ac34a57539a3070f52292d14795f0c2d066637eebd945976898cd7e
+  languageName: node
+  linkType: hard
+
 "@types/normalize-package-data@npm:^2.4.0":
   version: 2.4.1
   resolution: "@types/normalize-package-data@npm:2.4.1"
@@ -7972,6 +7981,8 @@ __metadata:
     "@redwoodjs/api": ^3.5.0
     "@redwoodjs/graphql-server": ^3.5.0
     "@simplewebauthn/server": ^6.2.2
+    "@types/nodemailer": ^6.4.7
+    nodemailer: ^6.8.0
   languageName: unknown
   linkType: soft
 
@@ -18277,6 +18288,13 @@ __metadata:
     shell-escape: ^0.2.0
     ssh2: ^1.5.0
   checksum: 926e248cbc6f544c01f454f2ac43ce7419528f4dfe2146cffedb0444443e6ede6a8997348732c3422bc1fa11dc162bf4a3284d26914d80bd12e1f80fa5e5189c
+  languageName: node
+  linkType: hard
+
+"nodemailer@npm:^6.8.0":
+  version: 6.8.0
+  resolution: "nodemailer@npm:6.8.0"
+  checksum: 6f8fd051ff33e1330903b0013f65a14a672731de8506a931a7012c582b1ea507257186244213108b966e30d41a297f8de9e295ace61a8f0a70222913255ad667
   languageName: node
   linkType: hard
 

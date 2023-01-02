@@ -50,6 +50,57 @@ export const modifyUserRole: MutationResolvers['modifyUserRole'] = async ({
   })
 }
 
+export const changePassword: MutationResolvers['changePassword'] = async ({
+  id,
+  input,
+}) => {
+  const targetUser = await db.user.findUnique({ where: { id } })
+  const currentUser = await db.user.findUnique({
+    where: { id: context.currentUser.id },
+  })
+
+  validateWith(() => {
+    if (targetUser.id !== currentUser.id) {
+      throw new Error('You cannot change the password of another user')
+    }
+  })
+
+  const CryptoJS = require('crypto-js')
+  const salt = CryptoJS.lib.WordArray.random(128 / 8).toString() as string
+  const hashedPassword = CryptoJS.PBKDF2(input.password, salt, {
+    keySize: 256 / 32,
+  }).toString()
+
+  return db.user.update({
+    data: {
+      hashedPassword,
+      salt,
+    },
+    where: { id },
+  })
+}
+
+export const createUser: MutationResolvers['createUser'] = async ({
+  input,
+}) => {
+  requireAuth({ roles: ['L2', 'L3'] })
+
+  const CryptoJS = require('crypto-js')
+  const salt = CryptoJS.lib.WordArray.random(128 / 8).toString() as string
+  const hashedPassword = CryptoJS.PBKDF2(input.password, salt, {
+    keySize: 256 / 32,
+  }).toString()
+
+  return db.user.create({
+    data: {
+      email: input.email,
+      hashedPassword,
+      salt,
+      roles: 'L1',
+    },
+  })
+}
+
 export const deleteUser: MutationResolvers['deleteUser'] = async ({ id }) => {
   requireAuth({ roles: ['L3'] })
   const targetUser = await db.user.findUnique({ where: { id } })

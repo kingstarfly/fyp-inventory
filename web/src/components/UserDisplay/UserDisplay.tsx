@@ -1,7 +1,7 @@
 import { Avatar, createStyles, Menu, Text } from '@mantine/core'
 import { useAuth } from '@redwoodjs/auth'
-import { Link, routes } from '@redwoodjs/router'
-import { TbLogout, TbUsers } from 'react-icons/tb'
+import { Link, navigate, routes } from '@redwoodjs/router'
+import { TbEdit, TbLogout, TbUsers } from 'react-icons/tb'
 
 const useStyles = createStyles((theme) => ({
   item: {
@@ -40,7 +40,7 @@ const UserDisplay = () => {
         </Menu.Target>
 
         <Menu.Dropdown>
-          <div className="flex flex-col items-center justify-center mb-4">
+          <div className="mb-4 flex flex-col items-center justify-center">
             <Avatar
               radius="xl"
               size="lg"
@@ -66,6 +66,15 @@ const UserDisplay = () => {
               </Link>
             </Menu.Item>
           ) : null}
+
+          <Menu.Item
+            icon={<TbEdit size={14} />}
+            onClick={() => {
+              navigate(routes.changePassword())
+            }}
+          >
+            <Text size="xs">Change Password</Text>
+          </Menu.Item>
 
           <Menu.Item
             icon={<TbLogout size={14} />}

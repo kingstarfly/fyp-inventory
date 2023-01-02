@@ -6,6 +6,8 @@ import { getCurrentUser, hasRole } from 'src/lib/auth'
 import { useRequireAuth } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
+import { sendEmail } from 'src/lib/email'
+import { logger } from 'src/lib/logger'
 
 const authHandler = async (event: APIGatewayProxyEvent, context: Context) => {
   const forgotPasswordOptions: DbAuthHandlerOptions['forgotPassword'] = {
@@ -21,7 +23,15 @@ const authHandler = async (event: APIGatewayProxyEvent, context: Context) => {
     // You could use this return value to, for example, show the email
     // address in a toast message so the user will know it worked and where
     // to look for the email.
-    handler: (user) => {
+    handler: async (user) => {
+      // logger.debug('user is requesting forgot password')
+      // const res = await sendEmail({
+      //   to: user.email,
+      //   subject: 'Reset Password',
+      //   text: `Copy the following link into your browser to reset your password: ${process.env.DOMAIN_URL}reset-password?resetToken=${user.resetToken}`,
+      //   html: `<div><h2>Reset Password</h2><p>Follow the link below to reset your password. </p><p><a href="${process.env.DOMAIN_URL}reset-password?resetToken=${user.resetToken}">${process.env.DOMAIN_URL}reset-password?resetToken=${user.resetToken}</a></p></div>`,
+      // })
+      // return res
       return user
     },
 

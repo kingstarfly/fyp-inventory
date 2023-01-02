@@ -106,7 +106,6 @@ const LoginPage = () => {
                     >
                       Forgot Password?
                     </Link>
-                    {/* TODO: Create forget-password service to email reset password to user's email */}
                   </div>
 
                   <FieldError name="password" className="rw-field-error" />
