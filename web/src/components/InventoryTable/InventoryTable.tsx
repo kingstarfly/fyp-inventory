@@ -260,7 +260,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
         </div>
       </div>
       <div className="h-2" />
-      <div className="my-6 overflow-hidden rounded-lg shadow-xl">
+      <div className="my-6 overflow-x-scroll rounded-lg shadow-xl">
         <table className="w-full min-w-max text-xs md:text-base">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
