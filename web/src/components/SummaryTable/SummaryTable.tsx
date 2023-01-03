@@ -166,12 +166,12 @@ const SummaryTable = ({
         <DebouncedInput
           value={globalFilter ?? ''}
           onChange={(value) => setGlobalFilter(String(value))}
-          className="font-lg w-1/3 rounded-sm border bg-white p-2 shadow-md"
+          className="font-lg w-5/6 rounded-sm border bg-white p-2 shadow-md sm:w-1/3"
           placeholder="Search item name..."
           icon={<TbSearch size={16} />}
         />
       </div>
-      <div className="h-2" />
+      <div className="h-1" />
       <div className="my-6 overflow-x-scroll rounded-lg shadow-xl">
         <table className="w-full min-w-max text-xs md:text-base">
           <thead>

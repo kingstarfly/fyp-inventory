@@ -1,4 +1,5 @@
 import {
+  Anchor,
   Burger,
   Button,
   clsx,
@@ -98,8 +99,10 @@ const NavLayout = ({ children }: NavLayoutProps) => {
     <div className="min-w-screen min-h-screen bg-slate-100">
       <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
       <header className="border-b-2 bg-blue-300 px-4 py-2">
-        <div className="flex h-full items-center justify-between">
-          <IconWithWords height={30} />
+        <div className="flex h-full flex-row items-center justify-between">
+          <Anchor href="/">
+            <IconWithWords height={40} />
+          </Anchor>
 
           <div className="hidden items-center justify-between sm:flex">
             <div className="flex flex-1 gap-4">

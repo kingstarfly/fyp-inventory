@@ -259,7 +259,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
           </Menu>
         </div>
       </div>
-      <div className="h-2" />
+      <div className="h-1" />
       <div className="my-6 overflow-x-scroll rounded-lg shadow-xl">
         <table className="w-full min-w-max text-xs md:text-base">
           <thead>
