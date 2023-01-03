@@ -3,9 +3,11 @@ import { RiAddBoxFill, RiQrScanLine } from 'react-icons/ri'
 import { TbSearch } from 'react-icons/tb'
 import { capitalize } from 'src/library/display-names'
 import { FindItems } from 'types/graphql'
+import { CSVLink } from 'react-csv'
 
 import {
   ActionIcon,
+  Anchor,
   Badge,
   BadgeProps,
   Button,
@@ -44,6 +46,7 @@ import { ItemRow } from '../Item/ItemsCell'
 import QrScanModal from '../QrScanModal/QrScanModal'
 import { getLocationString } from './helper'
 import IndeterminateCheckbox from './IndeterminateCheckbox'
+import dayjs from 'dayjs'
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -220,11 +223,11 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
     <div className="p-2">
       <QrScanModal opened={modalOpened} onClose={() => setModalOpened(false)} />
 
-      <div className="flex flex-row items-center w-full gap-4 my-4">
+      <div className="my-4 flex w-full flex-row items-center gap-4">
         <DebouncedInput
           value={globalFilter ?? ''}
           onChange={(value) => setGlobalFilter(String(value))}
-          className="w-5/6 p-2 bg-white border rounded-sm shadow-md font-lg sm:w-1/3"
+          className="font-lg w-5/6 rounded-sm border bg-white p-2 shadow-md sm:w-1/3"
           placeholder="Search all columns..."
           icon={<TbSearch size={16} />}
         />
@@ -232,7 +235,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
           <ActionIcon size={40} onClick={() => setModalOpened(true)}>
             <div className="flex flex-col items-center justify-center text-slate-800">
               <RiQrScanLine size={24} />
-              <label className="text-xs cursor-pointer">Scan</label>
+              <label className="cursor-pointer text-xs">Scan</label>
             </div>
           </ActionIcon>
           <Menu shadow="md">
@@ -240,7 +243,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
               <ActionIcon size={40}>
                 <div className="flex flex-col items-center justify-center text-slate-800">
                   <RiAddBoxFill size={24} />
-                  <label className="text-xs cursor-pointer">New</label>
+                  <label className="cursor-pointer text-xs">New</label>
                 </div>
               </ActionIcon>
             </Menu.Target>
@@ -258,19 +261,19 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
       </div>
       <div className="h-2" />
       <div className="my-6 overflow-hidden rounded-lg shadow-xl">
-        <table className="w-full text-xs min-w-max md:text-base">
+        <table className="w-full min-w-max text-xs md:text-base">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr
                 key={headerGroup.id}
-                className="uppercase bg-slate-200 text-slate-700 md:text-sm"
+                className="bg-slate-200 uppercase text-slate-700 md:text-sm"
               >
                 {headerGroup.headers.map((header) => {
                   return (
                     <th
                       key={header.id}
                       colSpan={header.colSpan}
-                      className="px-4 py-5 tracking-wider text-left"
+                      className="px-4 py-5 text-left tracking-wider"
                     >
                       {header.isPlaceholder ? null : (
                         <>
@@ -338,17 +341,17 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
 
       <div className="h-2" />
 
-      <div className="flex flex-wrap items-center justify-between text-xs md:text-md">
+      <div className="md:text-md flex flex-wrap items-center justify-between text-xs">
         <div className="flex items-center gap-2">
           <button
-            className="p-1 border rounded"
+            className="rounded border p-1"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
             {'<'}
           </button>
           <button
-            className="p-1 border rounded"
+            className="rounded border p-1"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
@@ -370,7 +373,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
                 const page = e.target.value ? Number(e.target.value) - 1 : 0
                 table.setPageIndex(page)
               }}
-              className="w-16 p-1 border rounded"
+              className="w-16 rounded border p-1"
             />
           </span>
           <select
@@ -390,29 +393,39 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
 
       <div className="h-4" />
 
-      <div className="flex flex-row gap-3">
-        <Button
-          color="dark.7"
-          onClick={() => {
-            table.getColumn('select').toggleVisibility()
-          }}
-        >
-          {table.getColumn('select').getIsVisible() ? 'Done' : 'Manage'}
-        </Button>
+      <div className="flex flex-row justify-between">
+        <div className="flex flex-row gap-3">
+          <Button
+            color="dark.7"
+            onClick={() => {
+              table.getColumn('select').toggleVisibility()
+            }}
+          >
+            {table.getColumn('select').getIsVisible() ? 'Done' : 'Manage'}
+          </Button>
 
-        {
-          // Get number of selected rows
-          Object.keys(table.getState().rowSelection).length > 0 && (
-            <Button
-              color="red.8"
-              onClick={() => {
-                onDeleteItemsClick()
-              }}
-            >
-              Delete
-            </Button>
-          )
-        }
+          {
+            // Get number of selected rows
+            Object.keys(table.getState().rowSelection).length > 0 && (
+              <Button
+                color="red.8"
+                onClick={() => {
+                  onDeleteItemsClick()
+                }}
+              >
+                Delete
+              </Button>
+            )
+          }
+        </div>
+        <Anchor
+          component={CSVLink}
+          underline
+          data={items}
+          filename={dayjs().toISOString() + '.csv'}
+        >
+          Export to CSV
+        </Anchor>
       </div>
 
       {/* To remove outside of debugging */}

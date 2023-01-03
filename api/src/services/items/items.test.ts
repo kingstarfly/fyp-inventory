@@ -1,4 +1,11 @@
-import { items, item, createItem, updateItem, deleteItem } from './items'
+import {
+  items,
+  item,
+  createManyItems,
+  deleteItems,
+  updateItem,
+  deleteItem,
+} from './items'
 import type { StandardScenario } from './items.scenarios'
 
 // Generated boilerplate tests do not account for all circumstances

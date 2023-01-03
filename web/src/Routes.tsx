@@ -26,7 +26,6 @@ const Routes = () => {
         <Set wrap={NavLayout}>
           <Route path="/" page={HomePage} name="home" />
           <Route path="/inventory" page={InventoryPage} name="inventory" />
-          <Route path="/export" page={ExportPage} name="export" />
 
           <Route path="/items/new" page={ItemNewItemPage} name="newItem" />
           <Route path="/items/{id:String}/edit" page={ItemEditItemPage} name="editItem" />

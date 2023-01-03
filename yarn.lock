@@ -6738,12 +6738,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-csv@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "@types/react-csv@npm:1.1.3"
+  dependencies:
+    "@types/react": "*"
+  checksum: 747900032b96c404cd542bd7536590e2ac4872a895720bc85601fafe5f51c5b4b24ac615e5e26a08e3d9d01f55057c7a4ecd5f55d1e0ccc91dce43b03a5f6e6e
+  languageName: node
+  linkType: hard
+
 "@types/react-dom@npm:17.0.17, @types/react-dom@npm:<18.0.0":
   version: 17.0.17
   resolution: "@types/react-dom@npm:17.0.17"
   dependencies:
     "@types/react": ^17
   checksum: 1e330f6e1c0794562a8d3459357b5b401b6f23185991bdaf9e5025cad7ccace502662b071db765b07b0d79f313be1a7584c5ef775b1062d76585b6b9aec0693c
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:*":
+  version: 18.0.26
+  resolution: "@types/react@npm:18.0.26"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: 25d59c3d5522ef9e48d5bda4657fa0ba19c50952a18780110c928896897d3136a77c5bc26cbfb08137c9bf6ec0c1f37f4c26dcfb0678fedeb6956fdf9140fd0c
   languageName: node
   linkType: hard
 
@@ -16544,13 +16564,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json-to-csv-export@npm:2.1.0":
-  version: 2.1.0
-  resolution: "json-to-csv-export@npm:2.1.0"
-  checksum: a1ecb806385964b9305c6e899d410fff28fbc72060d9f31793a740639545896df2edc3ff309302130a9e6b72d5619cc8185e03afa13e8769462b7178fa7deda4
-  languageName: node
-  linkType: hard
-
 "json-to-pretty-yaml@npm:^1.2.2":
   version: 1.2.2
   resolution: "json-to-pretty-yaml@npm:1.2.2"
@@ -20530,6 +20543,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-csv@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "react-csv@npm:2.2.2"
+  checksum: 287e7ba2085a32a0e65d7a19b9e063e43f06f75ab6ebc18bb52b518007a1d6ec5f5ce33fc7c4e290e3ea41cfb251657b6e62aadadc8d7ffcef7e53d43bf3eb69
+  languageName: node
+  linkType: hard
+
 "react-docgen-typescript@npm:^2.1.1":
   version: 2.2.2
   resolution: "react-docgen-typescript@npm:2.2.2"
@@ -20681,15 +20701,6 @@ __metadata:
   version: 18.2.0
   resolution: "react-is@npm:18.2.0"
   checksum: 6eb5e4b28028c23e2bfcf73371e72cd4162e4ac7ab445ddae2afe24e347a37d6dc22fae6e1748632cd43c6d4f9b8f86dcf26bf9275e1874f436d129952528ae0
-  languageName: node
-  linkType: hard
-
-"react-json-to-csv@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "react-json-to-csv@npm:1.1.0"
-  dependencies:
-    json-to-csv-export: 2.1.0
-  checksum: 20dbb3c1546ff1404d744bc6bec998c66e10380d0d53a794904299371e3fb17168f311e400e9fde0c0dacf76319da9a1c24a5453af9cb38a6211e140919405cb
   languageName: node
   linkType: hard
 
@@ -24626,6 +24637,7 @@ __metadata:
     "@simplewebauthn/browser": ^6.2.2
     "@tanstack/match-sorter-utils": ^8.1.1
     "@tanstack/react-table": ^8.5.13
+    "@types/react-csv": ^1.1.3
     autoprefixer: ^10.4.8
     dayjs: ^1.11.5
     humanize-string: 2.1.0
@@ -24634,9 +24646,9 @@ __metadata:
     prop-types: 15.8.1
     qrcode.react: ^3.1.0
     react: 17.0.2
+    react-csv: ^2.2.2
     react-dom: 17.0.2
     react-icons: ^4.4.0
-    react-json-to-csv: ^1.1.0
     react-qr-reader: ^3.0.0-beta-1
     tailwindcss: ^3.1.8
   languageName: unknown
