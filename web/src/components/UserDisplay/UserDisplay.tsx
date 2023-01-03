@@ -10,7 +10,6 @@ const useStyles = createStyles((theme) => ({
     },
   },
 }))
-// TODO: Add Account page to allow users to change their password.
 
 const UserDisplay = () => {
   const { isAuthenticated, currentUser, logOut, hasRole } = useAuth()

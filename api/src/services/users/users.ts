@@ -42,6 +42,12 @@ export const modifyUserRole: MutationResolvers['modifyUserRole'] = async ({
         'You cannot change the role of a user with equal or higher role'
       )
     }
+
+    if (getRoleLevel(input.roles) >= getRoleLevel(currentUser.roles)) {
+      throw new Error(
+        'You cannot change the role of a user to be an equal or higher role'
+      )
+    }
   })
 
   return db.user.update({

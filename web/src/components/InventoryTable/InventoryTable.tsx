@@ -500,7 +500,7 @@ function Filter({
   )
 }
 
-function StatusBadge({ status }: { status: string }) {
+export function StatusBadge({ status }: { status: string }) {
   // Depending on the status, we can return a different badge
   // Status can be: 'available', 'loaned', 'reserved', 'faulty', 'write-off',
   // Define a type where the key is the status and the value is the gradient
