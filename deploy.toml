@@ -21,7 +21,7 @@ sides = ["api","web"]
 packageManagerCommand = "export PATH='$PATH:/home/VMadmin/.nvm/versions/node/v14.21.2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin' && yarn"
 monitorCommand = "export PATH='$PATH:/home/VMadmin/.nvm/versions/node/v14.21.2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin' && pm2"
 path = "/var/www/fyp-inventory"
-processNames = ["serve"]
+processNames = ["api"]
 repo = "git@github.com:kingstarfly/fyp-inventory.git"
 branch = "master"
 keepReleases = 5
