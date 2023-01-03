@@ -9,12 +9,7 @@ import {
   Title,
 } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import {
-  TbLayoutDashboard,
-  TbPrinter,
-  TbTable,
-  TbTableExport,
-} from 'react-icons/tb'
+import { TbLayoutDashboard, TbPrinter, TbTable } from 'react-icons/tb'
 
 import { useAuth } from '@redwoodjs/auth'
 import { Link, routes, useLocation } from '@redwoodjs/router'
@@ -89,12 +84,6 @@ const links: NavBarButtonProps[] = [
     label: 'Print Labels',
     href: '/print-labels',
     icon: <TbPrinter size={24} />,
-  },
-  {
-    label: 'Export to CSV',
-    href: '/export',
-    target: '_blank',
-    icon: <TbTableExport size={24} />,
   },
 ]
 
