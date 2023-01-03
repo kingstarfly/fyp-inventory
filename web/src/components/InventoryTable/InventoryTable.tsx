@@ -393,7 +393,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
 
       <div className="h-4" />
 
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row items-end justify-between">
         <div className="flex flex-row gap-3">
           <Button
             color="dark.7"
