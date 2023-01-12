@@ -96,15 +96,15 @@ const NavLayout = ({ children }: NavLayoutProps) => {
   const { classes } = useStyles()
   const { pathname } = useLocation()
   return (
-    <div className="min-w-screen min-h-screen bg-slate-100">
+    <div className="min-h-screen min-w-screen bg-slate-100">
       <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
-      <header className="border-b-2 bg-blue-300 px-4 py-2">
-        <div className="flex h-full flex-row items-center justify-between">
+      <header className="px-4 py-2 bg-blue-300 border-b-2">
+        <div className="flex flex-row items-center justify-between h-full">
           <Anchor href="/">
             <IconWithWords height={40} />
           </Anchor>
 
-          <div className="hidden items-center justify-between sm:flex">
+          <div className="items-center justify-between hidden sm:flex">
             <div className="flex flex-1 gap-4">
               {links.map((link) => (
                 <a
@@ -120,7 +120,7 @@ const NavLayout = ({ children }: NavLayoutProps) => {
             </div>
           </div>
 
-          <div className="hidden items-center justify-between sm:flex">
+          <div className="items-center justify-between hidden sm:flex">
             <UserDisplay />
           </div>
           <Burger
@@ -136,9 +136,10 @@ const NavLayout = ({ children }: NavLayoutProps) => {
         title={<Title order={3}>Menu</Title>}
         padding="md"
         size="md"
+        classNames={{ body: 'flex flex-col h-full' }}
       >
-        <div className="flex h-[95%] flex-1 flex-col">
-          <div className="flex flex-1 flex-col">
+        <div className="flex h-[95%] flex-col">
+          <div className="flex flex-col flex-1">
             {links.map((link) => (
               <NavBarButton {...link} key={link.label} />
             ))}
@@ -146,25 +147,12 @@ const NavLayout = ({ children }: NavLayoutProps) => {
 
           <Divider my="sm" />
 
-          {isAuthenticated ? (
-            <div className="flex flex-col items-center justify-center text-xs">
-              <Text size="md">{currentUser?.email}</Text>{' '}
-              <Button
-                size="sm"
-                variant="outline"
-                color="dark.5"
-                mt="md"
-                onClick={logOut}
-              >
-                Logout
-              </Button>
-            </div>
-          ) : (
-            <Link to={routes.login()}>Login</Link>
-          )}
+          <div className="flex flex-col items-center justify-center text-xs">
+            <UserDisplay />
+          </div>
         </div>
       </Drawer>
-      <div className="mx-4 py-2">{children}</div>
+      <div className="py-2 mx-4">{children}</div>
     </div>
   )
 }
