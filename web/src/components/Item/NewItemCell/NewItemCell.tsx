@@ -50,7 +50,7 @@ export const Success = ({ locations }: CellSuccessProps<NewItemLocations>) => {
   )
 
   const onSave = (input) => {
-    const { image, quantity, assetType, ...modifiedInput } = input
+    const { image, quantity, ...modifiedInput } = input
 
     if (!image || image.length == 0) {
       createManyItems({

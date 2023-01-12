@@ -56,6 +56,7 @@ const ItemForm = (props: ItemFormProps) => {
             floor,
             room,
             quantity,
+            assetType,
             itemStatus,
           }
 
@@ -86,12 +87,19 @@ const ItemForm = (props: ItemFormProps) => {
 
         {addMode === 'bulk' && (
           <>
+            <Label
+              name="quantity"
+              className="rw-label"
+              errorClassName="rw-label rw-label-error"
+            >
+              Quantity
+            </Label>
             <NumberInput
               name="quantity"
               value={quantity}
-              label="Quantity"
+              id="quantity"
               onChange={(value) => setQuantity(value)}
-              labelProps={{ className: 'rw-label mb-2' }}
+              classNames={{ input: 'rw-input' }}
               max={1000}
               min={1}
             />

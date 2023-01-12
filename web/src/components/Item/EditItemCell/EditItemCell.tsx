@@ -66,7 +66,7 @@ export const Success = ({
   const [updateItem, { loading, error }] = useMutation(UPDATE_ITEM_MUTATION, {
     onCompleted: () => {
       toast.success('Item updated')
-      navigate(routes.items())
+      navigate(routes.item({ id: item.id.toString() }))
     },
     onError: (error) => {
       toast.error(error.message)

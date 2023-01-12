@@ -87,7 +87,7 @@ const Item = ({ item, locations }: CellSuccessProps<FindItemById>) => {
             </tr>
             <tr>
               <th>Legacy ID</th>
-              <td>{item.legacyId}</td>
+              <td>{item.legacyId ?? '-'}</td>
             </tr>
             <tr>
               <th>Name</th>
