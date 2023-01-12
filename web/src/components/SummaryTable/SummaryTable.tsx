@@ -162,30 +162,30 @@ const SummaryTable = ({
 
   return (
     <div className="p-2">
-      <div className="my-4 flex w-full flex-row items-center justify-between">
+      <div className="flex flex-row items-center justify-between w-full my-4">
         <DebouncedInput
           value={globalFilter ?? ''}
           onChange={(value) => setGlobalFilter(String(value))}
-          className="font-lg w-5/6 rounded-sm border bg-white p-2 shadow-md sm:w-1/3"
+          className="w-5/6 p-2 bg-white border rounded-sm shadow-md font-lg sm:w-1/3"
           placeholder="Search item name..."
           icon={<TbSearch size={16} />}
         />
       </div>
       <div className="h-1" />
-      <div className="my-6 overflow-x-scroll rounded-lg shadow-xl">
-        <table className="w-full min-w-max text-xs md:text-base">
+      <div className="my-6 overflow-x-auto rounded-lg shadow-xl">
+        <table className="w-full text-xs min-w-max md:text-base">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr
                 key={headerGroup.id}
-                className="bg-slate-200 uppercase text-slate-700 md:text-sm"
+                className="uppercase bg-slate-200 text-slate-700 md:text-sm"
               >
                 {headerGroup.headers.map((header) => {
                   return (
                     <th
                       key={header.id}
                       colSpan={header.colSpan}
-                      className="px-4 py-5 text-left tracking-wider"
+                      className="px-4 py-5 tracking-wider text-left"
                     >
                       {header.isPlaceholder ? null : (
                         <>
@@ -222,7 +222,7 @@ const SummaryTable = ({
           <tbody>
             {table.getRowModel().rows.map((row) => {
               return (
-                <tr key={row.id} className="border-b border-slate-200 bg-white">
+                <tr key={row.id} className="bg-white border-b border-slate-200">
                   {row.getVisibleCells().map((cell) => {
                     return (
                       <td key={cell.id} className="px-4 py-3 ">
@@ -242,17 +242,17 @@ const SummaryTable = ({
 
       <div className="h-2" />
 
-      <div className="md:text-md flex flex-wrap items-center justify-between text-xs">
+      <div className="flex flex-wrap items-center justify-between text-xs md:text-md">
         <div className="flex items-center gap-2">
           <button
-            className="rounded border p-1"
+            className="p-1 border rounded"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
             {'<'}
           </button>
           <button
-            className="rounded border p-1"
+            className="p-1 border rounded"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
@@ -274,7 +274,7 @@ const SummaryTable = ({
                 const page = e.target.value ? Number(e.target.value) - 1 : 0
                 table.setPageIndex(page)
               }}
-              className="w-16 rounded border p-1"
+              className="w-16 p-1 border rounded"
             />
           </span>
           <select
