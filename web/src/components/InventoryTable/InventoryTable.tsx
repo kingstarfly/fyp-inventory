@@ -1,9 +1,10 @@
+import dayjs from 'dayjs'
 import React from 'react'
+import { CSVLink } from 'react-csv'
 import { RiAddBoxFill, RiQrScanLine } from 'react-icons/ri'
 import { TbSearch } from 'react-icons/tb'
 import { capitalize } from 'src/library/display-names'
 import { FindItems } from 'types/graphql'
-import { CSVLink } from 'react-csv'
 
 import {
   ActionIcon,
@@ -14,6 +15,7 @@ import {
   clsx,
   Menu,
 } from '@mantine/core'
+import { useAuth } from '@redwoodjs/auth'
 import { navigate, routes } from '@redwoodjs/router'
 import { CellSuccessProps, useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
@@ -46,7 +48,6 @@ import { ItemRow } from '../Item/ItemsCell'
 import QrScanModal from '../QrScanModal/QrScanModal'
 import { getLocationString } from './helper'
 import IndeterminateCheckbox from './IndeterminateCheckbox'
-import dayjs from 'dayjs'
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -91,6 +92,8 @@ const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
 }
 
 const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
+  const { hasRole } = useAuth()
+
   const [modalOpened, setModalOpened] = React.useState(false)
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -393,36 +396,46 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
 
       <div className="h-4" />
 
-      <div className="flex flex-row items-end justify-between">
-        <div className="flex flex-row gap-3">
-          <Button
-            color="dark.7"
-            onClick={() => {
-              table.getColumn('select').toggleVisibility()
-            }}
-          >
-            {table.getColumn('select').getIsVisible() ? 'Done' : 'Manage'}
-          </Button>
+      <div
+        className={clsx(
+          'flex flex-row items-end',
+          hasRole(['L2', 'L3']) ? 'justify-between' : 'justify-end'
+        )}
+      >
+        {hasRole(['L2', 'L3']) && (
+          <div className="flex flex-row gap-3">
+            <Button
+              color="dark.7"
+              onClick={() => {
+                table.getColumn('select').toggleVisibility()
+                table.resetRowSelection()
+              }}
+            >
+              {table.getColumn('select').getIsVisible() ? 'Done' : 'Manage'}
+            </Button>
 
-          {
-            // Get number of selected rows
-            Object.keys(table.getState().rowSelection).length > 0 && (
-              <Button
-                color="red.8"
-                onClick={() => {
-                  onDeleteItemsClick()
-                }}
-              >
-                Delete
-              </Button>
-            )
-          }
-        </div>
+            {
+              // Get number of selected rows
+              Object.keys(table.getState().rowSelection).length > 0 && (
+                <Button
+                  color="red.8"
+                  onClick={() => {
+                    onDeleteItemsClick()
+                  }}
+                >
+                  Delete
+                </Button>
+              )
+            }
+          </div>
+        )}
+
         <Anchor
           component={CSVLink}
           underline
           data={items}
           filename={dayjs().toISOString() + '.csv'}
+          className="justify-self-end"
         >
           Export to CSV
         </Anchor>

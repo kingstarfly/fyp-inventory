@@ -1,10 +1,7 @@
-import type {
-  QueryResolvers,
-  MutationResolvers,
-  ItemRelationResolvers,
-} from 'types/graphql'
+import type { QueryResolvers, MutationResolvers } from 'types/graphql'
 
 import { db } from 'src/lib/db'
+import { requireAuth } from 'src/lib/auth'
 
 export const items: QueryResolvers['items'] = () => {
   return db.item.findMany()
@@ -106,12 +103,16 @@ export const updateItem: MutationResolvers['updateItem'] = ({ id, input }) => {
 }
 
 export const deleteItem: MutationResolvers['deleteItem'] = ({ id }) => {
+  requireAuth({ roles: ['L2', 'L3'] })
+
   return db.item.delete({
     where: { id },
   })
 }
 
 export const deleteItems: MutationResolvers['deleteItems'] = ({ ids }) => {
+  requireAuth({ roles: ['L2', 'L3'] })
+
   return db.item
     .deleteMany({
       where: { id: { in: ids } },
