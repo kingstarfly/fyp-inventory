@@ -38,7 +38,7 @@ export default async () => {
 }
 
 const range = (len: number) => {
-  const arr = []
+  const arr: number[] = []
   for (let i = 0; i < len; i++) {
     arr.push(i)
   }
@@ -56,11 +56,11 @@ const newUser = (): Prisma.UserCreateArgs['data'] => {
   }
 }
 
-const newItem = (): Prisma.ItemCreateArgs['data'] => {
+const newItem = (idIfZeroIndexed: number): Prisma.ItemCreateArgs['data'] => {
   const updatedAt = faker.date.recent()
   const createdAt = faker.date.past(1, updatedAt)
   return {
-    id: faker.datatype.number({ min: 100000, max: 51231322 }),
+    id: idIfZeroIndexed + 1, // since prisma ID starts from 1 instead of 0
     legacyId: `*${faker.datatype.number({
       min: 1000000000,
       max: 9999999999,
@@ -103,7 +103,7 @@ const newItem = (): Prisma.ItemCreateArgs['data'] => {
 export function makeData(...lens: number[]) {
   const makeDataLevel = (depth = 0): ItemRow[] => {
     const len = lens[depth]!
-    return range(len).map((d): ItemRow => newItem())
+    return range(len).map((d): ItemRow => newItem(d))
   }
 
   return makeDataLevel()
