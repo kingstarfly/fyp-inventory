@@ -107,23 +107,26 @@ const ItemForm = (props: ItemFormProps) => {
             <FieldError name="quantity" className="rw-field-error" />
           </>
         )}
+        {addMode === 'single' && (
+          <>
+            <Label
+              name="legacyId"
+              className="rw-label"
+              errorClassName="rw-label rw-label-error"
+            >
+              Legacy ID
+            </Label>
 
-        <Label
-          name="legacyId"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Legacy ID
-        </Label>
+            <TextField
+              name="legacyId"
+              defaultValue={props.item?.legacyId}
+              className="rw-input"
+              errorClassName="rw-input rw-input-error"
+            />
 
-        <TextField
-          name="legacyId"
-          defaultValue={props.item?.legacyId}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-        />
-
-        <FieldError name="name" className="rw-field-error" />
+            <FieldError name="legacyId" className="rw-field-error" />
+          </>
+        )}
 
         <Label
           name="name"

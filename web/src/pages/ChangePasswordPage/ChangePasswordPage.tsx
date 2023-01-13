@@ -11,9 +11,11 @@ import {
 import { navigate, routes } from '@redwoodjs/router'
 import { MetaTags, useMutation } from '@redwoodjs/web'
 import { toast, Toaster } from '@redwoodjs/web/toast'
+import { PasswordInput } from '@mantine/core'
 
 const ChangePasswordPage = () => {
   const { currentUser, reauthenticate } = useAuth()
+  const [value, setValue] = useState('')
 
   const CHANGE_PASSWORD_MUTATION = gql`
     mutation ChangePassword($id: Int!, $input: ChangePasswordInput!) {
@@ -38,12 +40,12 @@ const ChangePasswordPage = () => {
     passwordRef.current.focus()
   }, [])
 
-  const onSubmit = async (data) => {
+  const onSubmit = async () => {
     changePassword({
       variables: {
         id: currentUser.id,
         input: {
-          password: data.password,
+          password: value,
         },
       },
     })
@@ -55,7 +57,7 @@ const ChangePasswordPage = () => {
 
       <main className="rw-main">
         <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
-        <div className="rw-scaffold rw-login-container">
+        <div className="bg-transparent rw-scaffold rw-login-container">
           <div className="rw-segment">
             <header className="rw-segment-header">
               <h2 className="rw-heading rw-heading-secondary">
@@ -74,18 +76,12 @@ const ChangePasswordPage = () => {
                     >
                       New Password
                     </Label>
-                    <PasswordField
+                    <PasswordInput
                       name="password"
-                      autoComplete="new-password"
-                      className="rw-input"
-                      errorClassName="rw-input rw-input-error"
                       ref={passwordRef}
-                      validation={{
-                        required: {
-                          value: true,
-                          message: 'Password is required',
-                        },
-                      }}
+                      required
+                      value={value}
+                      onChange={(event) => setValue(event.currentTarget.value)}
                     />
 
                     <FieldError name="password" className="rw-field-error" />

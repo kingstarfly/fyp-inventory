@@ -11,11 +11,13 @@ import {
 import { navigate, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 import { toast, Toaster } from '@redwoodjs/web/toast'
+import { PasswordInput } from '@mantine/core'
 
 const ResetPasswordPage = ({ resetToken }) => {
   const { isAuthenticated, reauthenticate, validateResetToken, resetPassword } =
     useAuth()
   const [enabled, setEnabled] = useState(true)
+  const [value, setValue] = useState('')
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -41,10 +43,10 @@ const ResetPasswordPage = ({ resetToken }) => {
     passwordRef.current.focus()
   }, [])
 
-  const onSubmit = async (data) => {
+  const onSubmit = async () => {
     const response = await resetPassword({
       resetToken,
-      password: data.password,
+      password: value,
     })
 
     if (response.error) {
@@ -81,19 +83,12 @@ const ResetPasswordPage = ({ resetToken }) => {
                     >
                       New Password
                     </Label>
-                    <PasswordField
+                    <PasswordInput
                       name="password"
-                      autoComplete="new-password"
-                      className="rw-input"
-                      errorClassName="rw-input rw-input-error"
-                      disabled={!enabled}
                       ref={passwordRef}
-                      validation={{
-                        required: {
-                          value: true,
-                          message: 'Password is required',
-                        },
-                      }}
+                      required
+                      value={value}
+                      onChange={(event) => setValue(event.currentTarget.value)}
                     />
 
                     <FieldError name="password" className="rw-field-error" />
