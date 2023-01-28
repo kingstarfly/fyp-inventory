@@ -160,7 +160,7 @@ const authHandler = async (event: APIGatewayProxyEvent, context: Context) => {
       HttpOnly: true,
       Path: '/',
       SameSite: 'Strict',
-      Secure: false, // TODO: Once ssl is enabled, set this to true
+      Secure: false, // Note: Project supervisor has said that SSL is not necessary.
       // Secure: process.env.NODE_ENV !== 'development' ? true : false,
 
       // If you need to allow other domains (besides the api side) access to
