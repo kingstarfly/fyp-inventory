@@ -26,6 +26,9 @@ repo = "git@github.com:kingstarfly/fyp-inventory.git"
 branch = "master"
 keepReleases = 5
 
+[production.after]
+install = 'yarn rw exec seedProd'
+
 # If you have separate api and web servers:
 #
 # [[production.servers]]

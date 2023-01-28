@@ -5,6 +5,7 @@ import {
   Label,
   TextField,
   Submit,
+  SelectField,
 } from '@redwoodjs/forms'
 
 import type { EditUserRoleById, ModifyUserRoleInput } from 'types/graphql'
@@ -41,14 +42,15 @@ const EditUserRoleForm = (props: UserFormProps) => {
         >
           Roles
         </Label>
-
-        <TextField
+        <SelectField
           name="roles"
+          className="rounded p-2"
           defaultValue={props.user?.roles}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
+        >
+          <option value="L1">L1</option>
+          <option value="L2">L2</option>
+          <option value="L3">L3</option>
+        </SelectField>
 
         <FieldError name="roles" className="rw-field-error" />
 
