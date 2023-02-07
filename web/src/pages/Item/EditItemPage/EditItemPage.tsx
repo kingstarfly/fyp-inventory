@@ -5,7 +5,7 @@ type ItemPageProps = {
 }
 
 const EditItemPage = ({ id }: ItemPageProps) => {
-  return <EditItemCell id={id} />
+  return <EditItemCell id={id.toString()} />
 }
 
 export default EditItemPage

@@ -1,6 +1,6 @@
 import type { EditItemById } from 'types/graphql'
 
-import { navigate, routes } from '@redwoodjs/router'
+import { back } from '@redwoodjs/router'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
@@ -65,8 +65,8 @@ export const Success = ({
 }: CellSuccessProps<EditItemById>) => {
   const [updateItem, { loading, error }] = useMutation(UPDATE_ITEM_MUTATION, {
     onCompleted: () => {
-      toast.success('Item updated')
-      navigate(routes.item({ id: item.id.toString() }))
+      toast.success('Item updated', { duration: 1500 })
+      back()
     },
     onError: (error) => {
       toast.error(error.message)
