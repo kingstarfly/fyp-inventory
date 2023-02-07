@@ -57,7 +57,7 @@ const Item = ({ item, locations }: CellSuccessProps<FindItemById>) => {
   const [deleteItem] = useMutation(DELETE_ITEM_MUTATION, {
     onCompleted: () => {
       toast.success('Item deleted')
-      navigate(routes.items())
+      navigate(routes.inventory())
     },
     refetchQueries: [QUERY],
     onError: (error) => {

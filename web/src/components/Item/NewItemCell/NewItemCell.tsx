@@ -36,11 +36,13 @@ export const Success = ({ locations }: CellSuccessProps<NewItemLocations>) => {
       onCompleted: ({ createManyItems }: { createManyItems: number[] }) => {
         console.log(createManyItems)
         if (createManyItems.length === 1) {
-          toast.success('Item created')
+          toast.success('Item created', { duration: 1500 })
           navigate(routes.item({ id: `${createManyItems[0]}` }))
         } else {
-          toast.success(`${createManyItems.length} Items created`)
-          navigate(routes.items())
+          toast.success(`${createManyItems.length} Items created`, {
+            duration: 1500,
+          })
+          navigate(routes.inventory())
         }
       },
       onError: (error) => {

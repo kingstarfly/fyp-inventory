@@ -25,12 +25,11 @@ const Routes = () => {
       <Private unauthenticated="login">
         <Set wrap={NavLayout}>
           <Route path="/" page={HomePage} name="home" />
-          <Route path="/inventory" page={InventoryPage} name="inventory" />
 
           <Route path="/items/new" page={ItemNewItemPage} name="newItem" />
           <Route path="/items/{id:String}/edit" page={ItemEditItemPage} name="editItem" />
           <Route path="/items/{id:String}" page={ItemItemPage} name="item" />
-          <Route path="/items" page={HomePage} name="items" />
+          <Route path="/inventory" page={InventoryPage} name="inventory" />
 
           <Route path="/locations/new" page={LocationNewLocationPage} name="newLocation" />
           <Route path="/locations/{id:Int}/edit" page={LocationEditLocationPage} name="editLocation" />
