@@ -33,10 +33,11 @@ const ItemForm = (props: ItemFormProps) => {
     props.onSave(data, props?.item?.id)
   }
 
-  // Control value of block, floor and room
+  // Control value of block, floor, room and sub index
   const [block, setBlock] = React.useState(props?.item?.block || '')
   const [floor, setFloor] = React.useState(props?.item?.floor || '')
   const [room, setRoom] = React.useState(props?.item?.room || '')
+  const [subIndex, setSubIndex] = React.useState(props?.item?.subIndex || '')
 
   const [assetType, setAssetType] = React.useState(props?.item?.assetType || '')
   const [itemStatus, setItemStatus] = React.useState<ItemStatus>(
@@ -55,6 +56,7 @@ const ItemForm = (props: ItemFormProps) => {
             block,
             floor,
             room,
+            subIndex,
             quantity,
             assetType,
             itemStatus,
@@ -265,7 +267,6 @@ const ItemForm = (props: ItemFormProps) => {
         >
           Room
         </Label>
-
         <TextField
           name="room"
           className="rw-input"
@@ -275,6 +276,23 @@ const ItemForm = (props: ItemFormProps) => {
         />
 
         <FieldError name="room" className="rw-field-error" />
+
+        <Label
+          name="subIndex"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Sub Index
+        </Label>
+        <TextField
+          name="subIndex"
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+          value={subIndex}
+          onChange={(event) => setSubIndex(event.target.value)}
+        />
+
+        <FieldError name="subIndex" className="rw-field-error" />
 
         <Label
           name="image"
