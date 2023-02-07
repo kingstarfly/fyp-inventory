@@ -26,10 +26,6 @@ repo = "git@github.com:kingstarfly/fyp-inventory.git"
 branch = "master"
 keepReleases = 5
 
-[production.after]
-# install = 'yarn rw exec seedProd'
-install = "export PATH='$PATH:/home/VMadmin/.nvm/versions/node/v14.21.2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin' && yarn rw exec seedProd"
-
 # If you have separate api and web servers:
 #
 # [[production.servers]]

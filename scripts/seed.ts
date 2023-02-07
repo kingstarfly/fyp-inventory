@@ -45,6 +45,7 @@ const range = (len: number) => {
   return arr
 }
 
+// password is 'user1'
 const newUser = (): Prisma.UserCreateArgs['data'] => {
   return {
     id: 1,
