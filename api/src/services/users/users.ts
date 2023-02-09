@@ -6,7 +6,7 @@ import type {
 
 import { db } from 'src/lib/db'
 import { requireAuth } from 'src/lib/auth'
-import { validateWith } from '@redwoodjs/api'
+import { validateWith, hashPassword } from '@redwoodjs/api'
 
 export const users: QueryResolvers['users'] = () => {
   return db.user.findMany()
@@ -43,7 +43,11 @@ export const modifyUserRole: MutationResolvers['modifyUserRole'] = async ({
       )
     }
 
-    if (getRoleLevel(input.roles) >= getRoleLevel(currentUser.roles)) {
+    // Disallow changing to a role that is equal or higher than the current user, unless the current user is L3
+    if (
+      getRoleLevel(input.roles) !== 3 &&
+      getRoleLevel(input.roles) >= getRoleLevel(currentUser.roles)
+    ) {
       throw new Error(
         'You cannot change the role of a user to be an equal or higher role than yourself'
       )
@@ -71,11 +75,7 @@ export const changePassword: MutationResolvers['changePassword'] = async ({
     }
   })
 
-  const CryptoJS = require('crypto-js')
-  const salt = CryptoJS.lib.WordArray.random(128 / 8).toString() as string
-  const hashedPassword = CryptoJS.PBKDF2(input.password, salt, {
-    keySize: 256 / 32,
-  }).toString()
+  const [hashedPassword, salt] = hashPassword(input.password)
 
   return db.user.update({
     data: {
