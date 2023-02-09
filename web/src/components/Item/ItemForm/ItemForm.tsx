@@ -12,6 +12,7 @@ import {
   FileField,
 } from '@redwoodjs/forms'
 import { CellSuccessProps } from '@redwoodjs/web'
+import { TbCircle1, TbCircles } from 'react-icons/tb'
 
 interface ItemFormProps {
   locations: CellSuccessProps<NewItemLocations>['locations']
@@ -77,14 +78,30 @@ const ItemForm = (props: ItemFormProps) => {
 
         {!props.item && (
           <SegmentedControl
-            radius={0}
             value={addMode}
             onChange={setAddMode}
             className="mt-4"
-            color="blue"
+            color="blue.6"
             data={[
-              { label: 'Add Single Item', value: 'single' },
-              { label: 'Bulk Add Items', value: 'bulk' },
+              {
+                label: (
+                  <div className="flex aspect-square flex-col items-center justify-center gap-2">
+                    <TbCircle1 size={24} />
+                    <p className="text-xs tracking-wide">SINGLE ITEM</p>
+                  </div>
+                ),
+
+                value: 'single',
+              },
+              {
+                label: (
+                  <div className="flex aspect-square flex-col items-center justify-center gap-2">
+                    <TbCircles size={24} />
+                    <p className="text-xs tracking-wide">MANY ITEMS</p>
+                  </div>
+                ),
+                value: 'bulk',
+              },
             ]}
           />
         )}
@@ -121,7 +138,7 @@ const ItemForm = (props: ItemFormProps) => {
             >
               Legacy ID (optional)
             </Label>
-            <p className="text-xs italic text-gray-600">e.g *6201012839-0*</p>
+            <p className="text-xs italic text-gray-600">e.g. *6201012839-0*</p>
 
             <TextField
               name="legacyId"
@@ -287,8 +304,9 @@ const ItemForm = (props: ItemFormProps) => {
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          Sub Index
+          Sub Index (Optional)
         </Label>
+        <p className="text-xs italic text-gray-600">e.g. Cabinet number</p>
         <TextField
           name="subIndex"
           className="rw-input"
@@ -304,7 +322,7 @@ const ItemForm = (props: ItemFormProps) => {
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          Image
+          Image (Optional)
         </Label>
 
         {props.item?.imageBlobBase64 ? (
@@ -326,7 +344,7 @@ const ItemForm = (props: ItemFormProps) => {
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          Remarks
+          Remarks (Optional)
         </Label>
 
         <TextField
