@@ -105,7 +105,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
         id: 'select',
         enableHiding: true,
         header: ({ table }) => (
-          <div className="flex justify-left">
+          <div className="justify-left flex">
             <IndeterminateCheckbox
               {...{
                 checked: table.getIsAllRowsSelected(),
@@ -116,7 +116,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
           </div>
         ),
         cell: ({ row }) => (
-          <div className="flex justify-left">
+          <div className="justify-left flex">
             <IndeterminateCheckbox
               {...{
                 checked: row.getIsSelected(),
@@ -132,6 +132,7 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
         id: 'id',
         header: () => 'ID',
         size: 50,
+        sortDescFirst: false,
       },
 
       {
@@ -174,11 +175,12 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
       globalFilter,
     },
 
-    // Select column is initially hidden
+    // Select column is initially hidden and sorted in ascending id order
     initialState: {
       columnVisibility: {
         select: false,
       },
+      sorting: [{ id: 'id', desc: false }],
     },
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
