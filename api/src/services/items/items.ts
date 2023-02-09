@@ -4,7 +4,11 @@ import { db } from 'src/lib/db'
 import { requireAuth } from 'src/lib/auth'
 
 export const items: QueryResolvers['items'] = () => {
-  return db.item.findMany()
+  return db.item.findMany({
+    orderBy: {
+      id: 'asc',
+    },
+  })
 }
 
 export const itemSummaries: QueryResolvers['itemSummaries'] = async () => {
@@ -13,6 +17,9 @@ export const itemSummaries: QueryResolvers['itemSummaries'] = async () => {
     by: ['name', 'itemStatus', 'imageBlobBase64'],
     _count: {
       _all: true,
+    },
+    orderBy: {
+      name: 'asc',
     },
   })
 
