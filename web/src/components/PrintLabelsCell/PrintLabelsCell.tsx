@@ -40,8 +40,8 @@ export const Success = ({ items }: CellSuccessProps<FindItems>) => {
   const [maxId, setMaxId] = useState(2)
 
   const [MIN_POSSIBLE_ID, MAX_POSSIBLE_ID] = React.useMemo(() => {
-    let min = 0
-    let max = 0
+    let min = Number.MAX_SAFE_INTEGER
+    let max = Number.MIN_SAFE_INTEGER
     for (const item of items) {
       if (item.id < min) {
         min = item.id
@@ -101,14 +101,9 @@ export const Success = ({ items }: CellSuccessProps<FindItems>) => {
         </Button>
       </div>
 
-      <Modal
-        opened={opened}
-        onClose={() => setOpened(false)}
-        withCloseButton={false}
-        centered
-      >
+      <Modal opened={opened} onClose={() => setOpened(false)} centered>
         <div className="flex flex-col items-center">
-          <h3 className="mb-4 text-lg font-semibold text-center">
+          <h3 className="mb-4 text-center text-lg font-semibold">
             Your Generated PDF File
           </h3>
 
