@@ -39,7 +39,9 @@ const ItemForm = (props: ItemFormProps) => {
   const [room, setRoom] = React.useState(props?.item?.room || '')
   const [subIndex, setSubIndex] = React.useState(props?.item?.subIndex || '')
 
-  const [assetType, setAssetType] = React.useState(props?.item?.assetType || '')
+  const [assetType, setAssetType] = React.useState(
+    props?.item?.assetType || 'inventorised'
+  )
   const [itemStatus, setItemStatus] = React.useState<ItemStatus>(
     (props.item?.itemStatus as ItemStatus) || 'available'
   )
@@ -104,6 +106,7 @@ const ItemForm = (props: ItemFormProps) => {
               classNames={{ input: 'rw-input' }}
               max={1000}
               min={1}
+              required={true}
             />
 
             <FieldError name="quantity" className="rw-field-error" />
@@ -116,8 +119,9 @@ const ItemForm = (props: ItemFormProps) => {
               className="rw-label"
               errorClassName="rw-label rw-label-error"
             >
-              Legacy ID
+              Legacy ID (optional)
             </Label>
+            <p className="text-xs italic text-gray-600">e.g *6201012839-0*</p>
 
             <TextField
               name="legacyId"
@@ -143,6 +147,7 @@ const ItemForm = (props: ItemFormProps) => {
           defaultValue={props.item?.name}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
+          required={true}
         />
 
         <FieldError name="name" className="rw-field-error" />
@@ -163,7 +168,7 @@ const ItemForm = (props: ItemFormProps) => {
             { label: 'Non-Inventorised', value: 'non-inventorised' },
             { label: 'SAP', value: 'SAP' },
           ]}
-          color="blue"
+          color="dark"
         />
 
         <FieldError name="assetType" className="rw-field-error" />
@@ -186,7 +191,7 @@ const ItemForm = (props: ItemFormProps) => {
             { label: 'Faulty', value: 'faulty' },
             { label: 'Write-off', value: 'write-off' },
           ]}
-          color="blue"
+          color="dark"
         />
 
         <FieldError name="itemStatus" className="rw-field-error" />
