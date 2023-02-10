@@ -1,4 +1,10 @@
-import { Image, NumberInput, SegmentedControl, Select } from '@mantine/core'
+import {
+  FileInput,
+  Image,
+  NumberInput,
+  SegmentedControl,
+  Select,
+} from '@mantine/core'
 import { RiSearchLine } from 'react-icons/ri'
 import { EditItemById, Item, NewItemLocations } from 'types/graphql'
 
@@ -9,10 +15,9 @@ import {
   Label,
   TextField,
   Submit,
-  FileField,
 } from '@redwoodjs/forms'
 import { CellSuccessProps } from '@redwoodjs/web'
-import { TbCircle1, TbCircles } from 'react-icons/tb'
+import { TbCircle1, TbCircles, TbUpload } from 'react-icons/tb'
 
 interface ItemFormProps {
   locations: CellSuccessProps<NewItemLocations>['locations']
@@ -46,9 +51,15 @@ const ItemForm = (props: ItemFormProps) => {
   const [itemStatus, setItemStatus] = React.useState<ItemStatus>(
     (props.item?.itemStatus as ItemStatus) || 'available'
   )
+  const [uploadedFile, setUploadedFile] = React.useState<File>(null)
 
+  const [hasClearedImage, setHasClearedImage] = React.useState(false)
   const [addMode, setAddMode] = React.useState('single')
   const [quantity, setQuantity] = React.useState(1)
+
+  function onClearImage() {
+    setHasClearedImage(true)
+  }
 
   return (
     <div className="rw-form-wrapper">
@@ -63,6 +74,7 @@ const ItemForm = (props: ItemFormProps) => {
             quantity,
             assetType,
             itemStatus,
+            image: uploadedFile,
           }
 
           onSubmit(dataToSubmit)
@@ -325,14 +337,28 @@ const ItemForm = (props: ItemFormProps) => {
           Image (Optional)
         </Label>
 
-        {props.item?.imageBlobBase64 ? (
-          <Image src={props.item?.imageBlobBase64} width={150} />
+        {props.item?.imageBlobBase64 && !hasClearedImage ? (
+          <>
+            <Image src={props.item?.imageBlobBase64} width={150} />
+            <button
+              type="button"
+              className="mt-2 text-sm text-red-400"
+              onClick={onClearImage}
+            >
+              Clear
+            </button>
+          </>
         ) : (
           <>
-            <FileField
-              name="image"
-              className="rw-input"
-              errorClassName="rw-input rw-input-error"
+            <FileInput
+              placeholder="Pick image"
+              accept="image/png, image/jpeg"
+              icon={<TbUpload size={14} />}
+              value={uploadedFile}
+              onChange={(payload) => {
+                setUploadedFile(payload)
+                console.log(payload)
+              }}
             />
           </>
         )}

@@ -80,7 +80,7 @@ export const Success = ({
       updateItem({ variables: { id, input: modifiedInput } })
     } else {
       const reader = new FileReader()
-      reader.readAsDataURL(image[0])
+      reader.readAsDataURL(image)
       reader.onload = function () {
         const base64data = reader.result
 
