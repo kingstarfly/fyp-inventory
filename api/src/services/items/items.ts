@@ -78,32 +78,31 @@ export const item: QueryResolvers['item'] = ({ id }) => {
   })
 }
 
-export const createManyItems: MutationResolvers['createManyItems'] = ({
+export const createManyItems: MutationResolvers['createManyItems'] = async ({
   input,
   quantity,
 }) => {
   const createdItemIds = []
-  return Promise.all(
-    Array(quantity)
-      .fill(null)
-      .map((_, i) => {
-        return db.item
-          .create({
-            data: input,
-          })
-          .then((createdItem) => {
-            createdItemIds.push(createdItem.id)
-          })
-      })
-  )
-    .then(() => {
-      console.log('createdItemIds', createdItemIds)
-      return createdItemIds
-    })
-    .catch((error) => {
-      console.log('error', error)
-      return []
-    })
+  try {
+    await Promise.all(
+      Array(quantity)
+        .fill(null)
+        .map((_, i) => {
+          return db.item
+            .create({
+              data: input,
+            })
+            .then((createdItem) => {
+              createdItemIds.push(createdItem.id)
+            })
+        })
+    )
+    console.log('createdItemIds', createdItemIds)
+    return createdItemIds
+  } catch (error) {
+    console.log('error', error)
+    return []
+  }
 }
 
 export const updateItem: MutationResolvers['updateItem'] = ({ id, input }) => {
