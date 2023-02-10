@@ -20,14 +20,12 @@ export const QUERY = gql`
 
       remarks
       imageBlobBase64
-    }
 
-    locations: locations {
-      id
-      locationName
-      block
-      floor
-      room
+      itemLogs {
+        id
+        content
+        createdAt
+      }
     }
   }
 `
@@ -40,9 +38,6 @@ export const Failure = ({ error }: CellFailureProps) => (
   <div className="rw-cell-error">{error.message}</div>
 )
 
-export const Success = ({
-  item,
-  locations,
-}: CellSuccessProps<FindItemById>) => {
-  return <Item item={item} locations={locations} />
+export const Success = ({ item }: CellSuccessProps<FindItemById>) => {
+  return <Item item={item} />
 }

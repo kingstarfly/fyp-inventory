@@ -1,6 +1,9 @@
-import { Image, ScrollArea } from '@mantine/core'
-import humanize from 'humanize-string'
-import { FindItemById } from 'types/graphql'
+import { Button, Image, Modal, TextInput } from '@mantine/core'
+import {
+  CreateItemLogInput,
+  DeleteItemLogMutationVariables,
+  FindItemById,
+} from 'types/graphql'
 
 import { Link, routes, navigate } from '@redwoodjs/router'
 import { CellSuccessProps, useMutation } from '@redwoodjs/web'
@@ -8,10 +11,11 @@ import { toast } from '@redwoodjs/web/toast'
 
 import { getLocationString } from 'src/components/InventoryTable/helper'
 
-import { QUERY } from '../ItemsCell'
-import { capitalize } from 'src/library/display-names'
+import { QUERY } from '../../ItemLog/ItemLogsCell/ItemLogsCell'
+import { capitalize } from 'src/lib/display-names'
 import PDFGeneratorWithQR from 'src/components/PDFGeneratorWithQR/PDFGeneratorWithQR'
-import ItemLog from './ItemLog'
+import ItemLogsCell from 'src/components/ItemLog/ItemLogsCell'
+import { useState } from 'react'
 
 const DELETE_ITEM_MUTATION = gql`
   mutation DeleteItemMutation($id: Int!) {
@@ -21,40 +25,18 @@ const DELETE_ITEM_MUTATION = gql`
   }
 `
 
-const formatEnum = (values: string | string[] | null | undefined) => {
-  if (values) {
-    if (Array.isArray(values)) {
-      const humanizedValues = values.map((value) => humanize(value))
-      return humanizedValues.join(', ')
-    } else {
-      return humanize(values as string)
+const CREATE_ITEM_LOG_MUTATION = gql`
+  mutation CreateItemLogMutation($input: CreateItemLogInput!) {
+    createItemLog(input: $input) {
+      id
     }
   }
-}
+`
 
-const jsonDisplay = (obj) => {
-  return (
-    <pre>
-      <code>{JSON.stringify(obj, null, 2)}</code>
-    </pre>
-  )
-}
+const Item = ({ item }: CellSuccessProps<FindItemById>) => {
+  const [modalOpened, setModalOpened] = useState(false)
+  const [logContent, setLogContent] = useState('')
 
-const timeTag = (datetime) => {
-  return (
-    datetime && (
-      <time dateTime={datetime} title={datetime}>
-        {new Date(datetime).toUTCString()}
-      </time>
-    )
-  )
-}
-
-const checkboxInputTag = (checked) => {
-  return <input type="checkbox" checked={checked} disabled />
-}
-
-const Item = ({ item, locations }: CellSuccessProps<FindItemById>) => {
   const [deleteItem] = useMutation(DELETE_ITEM_MUTATION, {
     onCompleted: () => {
       toast.success('Item deleted')
@@ -66,10 +48,41 @@ const Item = ({ item, locations }: CellSuccessProps<FindItemById>) => {
     },
   })
 
-  const onDeleteClick = (id) => {
+  const [createItemLog, { loading, error }] = useMutation(
+    CREATE_ITEM_LOG_MUTATION,
+    {
+      onCompleted: () => {
+        toast.success('Item Log created')
+        setLogContent('')
+        setModalOpened(false)
+      },
+      onError: (error) => {
+        toast.error(error.message)
+      },
+      refetchQueries: [{ query: QUERY, variables: { itemId: item.id } }],
+      awaitRefetchQueries: true,
+    }
+  )
+
+  const onDeleteItemClick = (id) => {
     if (confirm('Are you sure you want to delete item ' + id + '?')) {
       deleteItem({ variables: { id } })
     }
+  }
+  const handleAddNewLog = () => {
+    setModalOpened(false)
+    console.log({
+      itemId: item.id,
+      content: logContent,
+    })
+    createItemLog({
+      variables: {
+        input: {
+          itemId: item.id,
+          content: logContent,
+        } as CreateItemLogInput,
+      },
+    })
   }
 
   return (
@@ -81,7 +94,7 @@ const Item = ({ item, locations }: CellSuccessProps<FindItemById>) => {
           </h2>
         </header>
         <div className="flex flex-col justify-between md:flex-row">
-          <table className="rw-table flex-1">
+          <table className="flex-1 rw-table">
             <tbody>
               <tr>
                 <th>ID</th>
@@ -135,33 +148,42 @@ const Item = ({ item, locations }: CellSuccessProps<FindItemById>) => {
             </tbody>
           </table>
 
-          <div className="flex flex-1 flex-col items-center justify-start gap-4">
-            <div className="flex w-full flex-row justify-between px-8 pt-4">
+          <div className="flex flex-col items-center justify-start flex-1 gap-4">
+            <div className="flex flex-row justify-between w-full px-8 pt-4">
               <h3 className="text-lg font-semibold">Item Logs</h3>
-              <button className="rounded bg-[#48bb78] px-4 py-2 text-center text-sm tracking-wide text-white">
+              <button
+                type="button"
+                onClick={() => {
+                  setModalOpened(true)
+                }}
+                className="rounded bg-[#48bb78] px-4 py-2 text-center text-sm tracking-wide text-white"
+              >
                 + ADD NEW LOG
               </button>
+              <Modal
+                opened={modalOpened}
+                withCloseButton
+                onClose={() => setModalOpened(false)}
+                size="lg"
+                radius="md"
+                title={<h3 className="text-lg font-semibold">New Item Log</h3>}
+              >
+                <div className="flex flex-row justify-between gap-2">
+                  <TextInput
+                    className="flex-1"
+                    value={logContent}
+                    onChange={(event) =>
+                      setLogContent(event.currentTarget.value)
+                    }
+                  />
+                  <Button onClick={handleAddNewLog} loading={loading}>
+                    Save
+                  </Button>
+                </div>
+              </Modal>
             </div>
 
-            <ScrollArea
-              className="h-80 rounded-lg bg-white p-4 shadow-md"
-              offsetScrollbars
-            >
-              <div className="flex flex-col items-center justify-start gap-4">
-                <ItemLog
-                  logContent="this is randomly generated contentthis is randomly generated content this is randomly generated content this is randomly generated content this is randomly generated content this is randomly generated content "
-                  timestamp="2021-08-01T00:00:00.000Z"
-                />
-                <ItemLog
-                  logContent="this is randomly generated contentthis is randomly generated content this is randomly generated content this is randomly generated content this is randomly generated content this is randomly generated content "
-                  timestamp="2021-08-01T00:00:00.000Z"
-                />
-                <ItemLog
-                  logContent="this is randomly generated contentthis is randomly generated content this is randomly generated content this is randomly generated content this is randomly generated content this is randomly generated content "
-                  timestamp="2021-08-01T00:00:00.000Z"
-                />
-              </div>
-            </ScrollArea>
+            <ItemLogsCell itemId={item.id} />
           </div>
         </div>
       </div>
@@ -175,7 +197,7 @@ const Item = ({ item, locations }: CellSuccessProps<FindItemById>) => {
         <button
           type="button"
           className="rw-button rw-button-red"
-          onClick={() => onDeleteClick(item.id)}
+          onClick={() => onDeleteItemClick(item.id)}
         >
           Delete
         </button>

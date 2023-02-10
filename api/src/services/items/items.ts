@@ -61,17 +61,21 @@ export const itemSummaries: QueryResolvers['itemSummaries'] = async () => {
 }
 
 export const item: QueryResolvers['item'] = ({ id }) => {
-  // Legacy ID looks like "*6201012839-0*".
-  // Normal ID looks like "123456789"
+  let whereSpecifier = {}
   if (id.includes('*') || id.includes('-')) {
-    return db.item.findUnique({
-      where: { legacyId: id },
-    })
+    // Legacy ID looks like "*6201012839-0*".
+    whereSpecifier = { legacyId: id }
   } else {
-    return db.item.findUnique({
-      where: { id: parseInt(id) },
-    })
+    // Normal ID looks like "123456789"
+    whereSpecifier = { id: parseInt(id) }
   }
+
+  return db.item.findUnique({
+    where: whereSpecifier,
+    include: {
+      itemLogs: true,
+    },
+  })
 }
 
 export const createManyItems: MutationResolvers['createManyItems'] = ({

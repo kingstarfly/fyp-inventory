@@ -15,6 +15,8 @@ export const schema = gql`
     imageBlobBase64: String
     createdAt: DateTime!
     updatedAt: DateTime!
+
+    itemLogs: [ItemLog]!
   }
 
   type ItemSummary {

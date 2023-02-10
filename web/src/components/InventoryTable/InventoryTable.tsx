@@ -3,7 +3,7 @@ import React from 'react'
 import { CSVLink } from 'react-csv'
 import { RiAddBoxFill, RiQrScanLine } from 'react-icons/ri'
 import { TbSearch } from 'react-icons/tb'
-import { capitalize } from 'src/library/display-names'
+import { capitalize } from 'src/lib/display-names'
 import { FindItems } from 'types/graphql'
 
 import {
