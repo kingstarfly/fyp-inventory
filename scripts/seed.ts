@@ -19,17 +19,12 @@ export default async () => {
 
     // Note: if using PostgreSQL, using `createMany` to insert multiple records is much faster
     // @see: https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#createmany
+
     Promise.all(
       //
       // Change to match your data model and seeding needs
       //
-      [
-        items.map(async (item) => {
-          const record = await db.item.create({ data: item })
-          console.log(record)
-        }),
-        db.user.create({ data: newUser() }),
-      ]
+      [db.item.createMany({ data: items }), db.user.create({ data: newUser() })]
     )
   } catch (error) {
     console.warn('Please define your seed data.')
@@ -57,11 +52,10 @@ const newUser = (): Prisma.UserCreateArgs['data'] => {
   }
 }
 
-const newItem = (idIfZeroIndexed: number): Prisma.ItemCreateArgs['data'] => {
+const newItem = (): Prisma.ItemCreateArgs['data'] => {
   const updatedAt = faker.date.recent()
   const createdAt = faker.date.past(1, updatedAt)
   return {
-    id: idIfZeroIndexed + 1, // since prisma ID starts from 1 instead of 0
     legacyId: `*${faker.datatype.number({
       min: 1000000000,
       max: 9999999999,
@@ -104,7 +98,7 @@ const newItem = (idIfZeroIndexed: number): Prisma.ItemCreateArgs['data'] => {
 export function makeData(...lens: number[]) {
   const makeDataLevel = (depth = 0): ItemRow[] => {
     const len = lens[depth]!
-    return range(len).map((d): ItemRow => newItem(d))
+    return range(len).map(() => newItem())
   }
 
   return makeDataLevel()
