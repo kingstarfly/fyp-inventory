@@ -13,15 +13,11 @@ const QrScanModal = ({ opened, onClose }: Props) => {
         onResult={(result, error) => {
           if (result) {
             const text = result.getText()
-            if (isLegacyId) {
-              navigate(routes.itemViaLegacyId({ id: text }))
-            } else {
-              navigate(routes.itemViaId({ id: text }))
-            }
+            navigate(routes.item({ id: result.getText() }))
           }
 
           if (error) {
-            console.info(error)
+            console.info('Unable to read QR code:', error)
           }
         }}
         constraints={{ facingMode: ['environment', 'user'] }}
