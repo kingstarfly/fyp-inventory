@@ -12,6 +12,9 @@
     "node-ssh": "^13.0.0",
     "prettier-plugin-tailwindcss": "^0.1.13"
   },
+  "resolutions": {
+    "@types/react": "17.0.50"
+  },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",
     "root": true
