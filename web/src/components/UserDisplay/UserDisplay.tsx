@@ -59,18 +59,19 @@ const UserDisplay = () => {
           </div>
 
           {hasRole(['L2', 'L3']) ? (
-            <Menu.Item icon={<TbUsers size={14} />}>
-              <Link to={routes.users()}>
-                <Text size="xs">Manage Users</Text>
-              </Link>
+            <Menu.Item
+              icon={<TbUsers size={14} />}
+              component={Link}
+              to={routes.users()}
+            >
+              <Text size="xs">Manage Users</Text>
             </Menu.Item>
           ) : null}
 
           <Menu.Item
             icon={<TbEdit size={14} />}
-            onClick={() => {
-              navigate(routes.changePassword())
-            }}
+            component={Link}
+            to={routes.changePassword()}
           >
             <Text size="xs">Change Password</Text>
           </Menu.Item>
@@ -78,6 +79,7 @@ const UserDisplay = () => {
           <Menu.Item
             icon={<TbLogout size={14} />}
             color="red.7"
+            component="button"
             onClick={logOut}
           >
             <Text size="xs">Log Out</Text>
