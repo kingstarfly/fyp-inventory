@@ -8,6 +8,19 @@ export const items: QueryResolvers['items'] = () => {
     orderBy: {
       id: 'asc',
     },
+    include: {
+      itemLogs: {
+        select: {
+          id: true,
+          content: true,
+          createdAt: true,
+          itemId: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      },
+    },
   })
 }
 

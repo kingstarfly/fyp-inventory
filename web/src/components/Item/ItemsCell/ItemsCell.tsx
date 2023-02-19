@@ -4,7 +4,7 @@ import { Link, routes } from '@redwoodjs/router'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
 import InventoryTable from 'src/components/InventoryTable/InventoryTable'
-import { ArrayElement } from 'src/library/ts-helpers'
+import { ArrayElement } from 'src/lib/ts-helpers'
 
 export type ItemRow = ArrayElement<CellSuccessProps<FindItems>['items']>
 
@@ -20,6 +20,11 @@ export const QUERY = gql`
       itemStatus
       assetType
       remarks
+      itemLogs {
+        id
+        content
+        createdAt
+      }
     }
   }
 `

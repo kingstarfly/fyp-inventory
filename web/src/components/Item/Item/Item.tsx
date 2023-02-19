@@ -94,7 +94,7 @@ const Item = ({ item }: CellSuccessProps<FindItemById>) => {
           </h2>
         </header>
         <div className="flex flex-col justify-between md:flex-row">
-          <table className="flex-1 rw-table">
+          <table className="rw-table flex-1">
             <tbody>
               <tr>
                 <th>ID</th>
@@ -148,8 +148,8 @@ const Item = ({ item }: CellSuccessProps<FindItemById>) => {
             </tbody>
           </table>
 
-          <div className="flex flex-col items-center justify-start flex-1 gap-4">
-            <div className="flex flex-row justify-between w-full px-8 pt-4">
+          <div className="flex flex-1 flex-col items-center justify-start gap-4">
+            <div className="flex w-full flex-row justify-between px-8 pt-4">
               <h3 className="text-lg font-semibold">Item Logs</h3>
               <button
                 type="button"
@@ -175,6 +175,7 @@ const Item = ({ item }: CellSuccessProps<FindItemById>) => {
                     onChange={(event) =>
                       setLogContent(event.currentTarget.value)
                     }
+                    data-autoFocus
                   />
                   <Button onClick={handleAddNewLog} loading={loading}>
                     Save
