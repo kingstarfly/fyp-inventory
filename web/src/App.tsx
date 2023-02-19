@@ -1,15 +1,15 @@
-import { AuthProvider } from '@redwoodjs/auth'
-import WebAuthnClient from '@redwoodjs/auth/webAuthn'
-import { createEmotionCache, Global, MantineProvider } from '@mantine/core'
-
-import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
-import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
+import './scaffold.css'
+import './index.css'
 
 import FatalErrorPage from 'src/pages/FatalErrorPage'
 import Routes from 'src/Routes'
 
-import './scaffold.css'
-import './index.css'
+import { createEmotionCache, Global, MantineProvider } from '@mantine/core'
+import { AuthProvider } from '@redwoodjs/auth'
+import WebAuthnClient from '@redwoodjs/auth/webAuthn'
+import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
+import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
+import { Toaster } from '@redwoodjs/web/dist/toast'
 
 const myCache = createEmotionCache({ key: 'mantine', prepend: false })
 
@@ -39,6 +39,23 @@ const App = () => (
             emotionCache={myCache}
           >
             <Routes />
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              gutter={8}
+              containerClassName=""
+              containerStyle={{}}
+              toastOptions={{
+                // Define default options
+                className: '',
+                duration: 2000,
+
+                // Default options for specific types
+                success: {
+                  duration: 2000,
+                },
+              }}
+            />
           </MantineProvider>
         </RedwoodApolloProvider>
       </AuthProvider>
