@@ -16,7 +16,7 @@ yarn install
 Then change into that directory and start the development server:
 
 ```
-cd my-redwood-project
+cd fyp-inventory
 yarn redwood dev
 ```
 

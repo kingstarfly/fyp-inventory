@@ -342,8 +342,8 @@ const InventoryTable = ({ items, refetch }: CellSuccessProps<FindItems>) => {
             })}
           </tbody>
           <tfoot>
-            <tr className="bg-slate-200   uppercase text-slate-700 md:text-sm">
-              <td colSpan={5} className="px-4 py-2">
+            <tr className="bg-slate-200 uppercase text-slate-700 md:text-sm">
+              <td colSpan={6} className="px-4 py-2">
                 {table.getFilteredRowModel().rows.length} items{' '}
               </td>
             </tr>

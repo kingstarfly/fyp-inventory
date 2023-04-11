@@ -9,7 +9,11 @@ import { requireAuth } from 'src/lib/auth'
 import { validateWith, hashPassword } from '@redwoodjs/api'
 
 export const users: QueryResolvers['users'] = () => {
-  return db.user.findMany()
+  return db.user.findMany({
+    orderBy: {
+      id: 'asc',
+    },
+  })
 }
 
 export const user: QueryResolvers['user'] = ({ id }) => {
