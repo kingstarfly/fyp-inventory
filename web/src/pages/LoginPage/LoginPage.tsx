@@ -13,6 +13,8 @@ import {
 import { Link, navigate, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 import { toast, Toaster } from '@redwoodjs/web/toast'
+import Icon from 'src/components/SVGLogos/Icon'
+import IconWithWords from 'src/components/SVGLogos/IconWithWords'
 
 const LoginPage = () => {
   const { isAuthenticated, logIn } = useAuth()
@@ -48,7 +50,11 @@ const LoginPage = () => {
 
       <main className="rw-main">
         <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
-        <div className="rw-scaffold rw-login-container">
+        <div className="rw-login-container">
+          <div className="translate-x-5 pb-4">
+            <IconWithWords height={70} />
+          </div>
+
           <div className="rw-segment">
             <header className="rw-segment-header">
               <h2 className="rw-heading rw-heading-secondary">Login</h2>
