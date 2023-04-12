@@ -15,6 +15,8 @@
 /** @type {import('fastify').FastifyServerOptions} */
 const config = {
   requestTimeout: 15_000,
+  // Accept payload up to 10MiB (default was 10MB)
+  bodyLimit: 10 * 1024 * 1024,
   logger: {
     level: process.env.NODE_ENV === 'development' ? 'debug' : 'warn',
   },

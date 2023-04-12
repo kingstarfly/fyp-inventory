@@ -18,6 +18,7 @@ import {
 } from '@redwoodjs/forms'
 import { CellSuccessProps } from '@redwoodjs/web'
 import { TbCircle1, TbCircles, TbUpload } from 'react-icons/tb'
+import { toast } from '@redwoodjs/web/toast'
 
 interface ItemFormProps {
   locations: CellSuccessProps<NewItemLocations>['locations']
@@ -356,8 +357,11 @@ const ItemForm = (props: ItemFormProps) => {
               icon={<TbUpload size={14} />}
               value={uploadedFile}
               onChange={(payload) => {
+                if (payload.size > 10_000_000) {
+                  toast.error('File size too large. Max 10MB')
+                  return
+                }
                 setUploadedFile(payload)
-                console.log(payload)
               }}
             />
           </>

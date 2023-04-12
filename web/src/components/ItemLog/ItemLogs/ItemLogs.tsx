@@ -50,6 +50,7 @@ const ItemLogsList = ({ itemLogs }: FindItemLogs) => {
       <div className="flex flex-col items-center justify-start gap-4">
         {itemLogs.map((itemLog) => (
           <ItemLog
+            key={itemLog.id}
             logContent={itemLog.content}
             timestamp={itemLog.createdAt}
             onDelete={() => onDeleteClick(itemLog.id)}
