@@ -357,8 +357,8 @@ const ItemForm = (props: ItemFormProps) => {
               icon={<TbUpload size={14} />}
               value={uploadedFile}
               onChange={(payload) => {
-                if (payload.size > 10_000_000) {
-                  toast.error('File size too large. Max 10MB')
+                if (payload.size > 1_000_000) {
+                  toast.error('File size too large. Max 1MB')
                   return
                 }
                 setUploadedFile(payload)
